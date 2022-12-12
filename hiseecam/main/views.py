@@ -15,6 +15,10 @@ def home(request):
     return render(request, 'main/index.html')
 
 
+def ordering(request):
+    return render(request, 'main/ordering.html')
+
+
 def search(request):
     q = request.GET.get('q')
     if q is not None and q != '':

@@ -1,18 +1,72 @@
 {% extends 'main/base.html' %}
-{% load static %}
 
 {% block body %}
 
-<h1>Your data</h1>
+<!-- Three columns of text below the carousel -->
+<div class="row">
+    <div class="col-lg-4">
+        <svg class="bd-placeholder-img rounded-circle" width="140" height="140" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 140x140" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#777"/><text x="50%" y="50%" fill="#777" dy=".3em">140x140</text></svg>
 
-<form method="post">
-    {% csrf_token %}
-    <input placeholder="your name" id="name" name="name" type="text"><br><br>
-    <input placeholder="your surname" id="surname" name="surname" type="text"><br>
-    <div id="errors" class="errors"></div><br>
-    <button id="formIsOk" type="submit" hidden>save</button>
-</form>
+        <h2 class="fw-normal">Cam 1</h2>
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Commodi doloremque facere iusto quidem, reprehenderit vero?</p>
+        <p><a class="btn btn-secondary" href="#">read</a></p>
+    </div><!-- /.col-lg-4 -->
+    <div class="col-lg-4">
+        <svg class="bd-placeholder-img rounded-circle" width="140" height="140" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 140x140" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#777"/><text x="50%" y="50%" fill="#777" dy=".3em">140x140</text></svg>
 
-<button class="btn btn-success" onclick="CheckForm()">save</button>
+        <h2 class="fw-normal">Cam 2</h2>
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid dolore doloremque earum eligendi est exercitationem fuga minus odio sed, tempora.</p>
+        <p><a class="btn btn-secondary" href="#">read</a></p>
+    </div><!-- /.col-lg-4 -->
+    <div class="col-lg-4">
+        <svg class="bd-placeholder-img rounded-circle" width="140" height="140" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 140x140" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#777"/><text x="50%" y="50%" fill="#777" dy=".3em">140x140</text></svg>
+
+        <h2 class="fw-normal">Cam 3</h2>
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Commodi earum fugit labore neque quae, quis sequi tenetur?</p>
+        <p><a class="btn btn-secondary" href="#">read</a></p>
+    </div><!-- /.col-lg-4 -->
+</div><!-- /.row -->
+
+
+<!-- START THE FEATURETTES -->
+
+<hr class="featurette-divider">
+
+<div class="row featurette">
+    <div class="col-md-7">
+        <h2 class="featurette-heading fw-normal lh-1">Lorem ipsum dolor <span class="text-muted">Lorem ipsum.</span></h2>
+        <p class="lead">Lorem ipsum dolor sit amet, consectetur adipisicing elit. A consequatur fuga incidunt ipsam iste, natus numquam pariatur placeat quam quia quibusdam recusandae sit velit? Alias facere nisi non praesentium sequi!</p>
+    </div>
+    <div class="col-md-5">
+        <svg class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="500" height="500" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 500x500" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#eee"/><text x="50%" y="50%" fill="#aaa" dy=".3em">500x500</text></svg>
+    </div>
+</div>
+
+<hr class="featurette-divider">
+
+<div class="row featurette">
+    <div class="col-md-7 order-md-2">
+        <h2 class="featurette-heading fw-normal lh-1">Lorem ipsum dolor <span class="text-muted">Lorem ipsum.</span></h2>
+        <p class="lead">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium aspernatur commodi deleniti dicta enim illum magnam nostrum ullam veritatis? Animi assumenda error ex ipsam laborum modi mollitia ratione repellat voluptatibus.</p>
+    </div>
+    <div class="col-md-5 order-md-1">
+        <svg class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="500" height="500" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 500x500" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#eee"/><text x="50%" y="50%" fill="#aaa" dy=".3em">500x500</text></svg>
+    </div>
+</div>
+
+<hr class="featurette-divider">
+    <div class="row featurette">
+        <div class="col-md-7">
+            <h2 class="featurette-heading fw-normal lh-1">Lorem ipsum dolor <span class="text-muted">Lorem ipsum.</span></h2>
+            <p class="lead">Lorem ipsum dolor sit amet, consectetur adipisicing elit. A accusamus aperiam aspernatur blanditiis corporis debitis doloribus ducimus eum eveniet fugiat impedit, libero molestiae natus quam quas quidem quos repellendus reprehenderit sequi ut, vitae, voluptas voluptates.</p>
+        </div>
+        <div class="col-md-5">
+            <svg class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="500" height="500" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 500x500" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#eee"/><text x="50%" y="50%" fill="#aaa" dy=".3em">500x500</text></svg>
+        </div>
+    </div>
+
+<hr class="featurette-divider">
+
+<!-- /END THE FEATURETTES -->
 
 {% endblock %}

@@ -1,0 +1,19 @@
+{% extends 'main/base.html' %}
+
+{% block body %}
+
+<div class="content">
+    <h1>Your data</h1>
+
+    <form method="post">
+        {% csrf_token %}
+        <input placeholder="your name" id="name" name="name" type="text"><br><br>
+        <input placeholder="your surname" id="surname" name="surname" type="text"><br>
+        <div id="errors" class="errors"></div><br>
+        <button id="formIsOk" type="submit" hidden>save</button>
+    </form>
+
+    <button class="btn btn-success" onclick="CheckForm()">save</button>
+</div>
+
+{% endblock %}
