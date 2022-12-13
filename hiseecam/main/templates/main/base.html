@@ -30,6 +30,12 @@
     <!-- for htmx search -->
     <script src="https://unpkg.com/htmx.org@1.8.4" integrity="sha384-wg5Y/JwF7VxGk4zLsJEcAojRtlVp1FKKdGy1qN+OMtdq72WRvX/EdRdqg/LOhYeV" crossorigin="anonymous"></script>
 
+    <!--подключение скриптов и стилей bootstrap для уведомления-->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha2/css/bootstrap.min.css" integrity="sha384-DhY6onE6f3zzKbjUPRc2hOzGAdEf4/Dz+WJwBvEYL/lkkIsI3ihufq9hk9K4lVoK" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+
+
     <!-- Custom styles and js for this template -->
     <link rel="stylesheet" href="{% static 'main/css/carousel.rtl.css' %}">
     <script src="{% static 'main/js/CheckForm.js' %}" defer></script>
@@ -51,7 +57,7 @@
                         <a class="nav-link active" aria-current="page" href="#">О нас</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Товары и услуги</a>
+                        <a class="nav-link" href="{% url 'camera_list' %}">Товары и услуги</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#">Галерея</a>
@@ -129,11 +135,9 @@
         </div>
         <button class="carousel-control-prev" type="button" data-bs-target="#myCarousel" data-bs-slide="prev">
             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-<!--            <span class="visually-hidden">السابق</span>-->
         </button>
         <button class="carousel-control-next" type="button" data-bs-target="#myCarousel" data-bs-slide="next">
             <span class="carousel-control-next-icon" aria-hidden="true"></span>
-<!--            <span class="visually-hidden">التالي</span>-->
         </button>
     </div>
 

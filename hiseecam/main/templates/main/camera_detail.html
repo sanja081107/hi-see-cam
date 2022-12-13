@@ -1,0 +1,34 @@
+{% extends 'main/base.html' %}
+
+{% block body %}
+
+<style>
+    .col-sm .cam-title, .cam-photo {
+        text-align: center;
+    }
+</style>
+
+    <div class="row">
+        <div class="col-sm"></div>
+        <div class="col-sm"><h3>Подробнее о камере</h3><br></div>
+        <div class="col-sm"></div>
+    </div>
+    <div class="row">
+        <div class="col-sm">
+            <h4 class="cam-title">Название: {{ el.title }}</h4>
+            <p class="cam-photo"><img src="{{ el.photo.url }}"></p>
+        </div>
+        <div class="col-sm">
+            <h4>Описание:</h4>
+            <p>{{ el.description|linebreaks }}</p>
+        </div>
+    </div>
+
+<div class="row">
+    <div class="col-sm"></div>
+    <div class="col-sm">
+        <p><strong>Цена:</strong> {{ el.price }} byn</p>
+    </div>
+</div>
+
+{% endblock %}
