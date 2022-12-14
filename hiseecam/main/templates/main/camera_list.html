@@ -1,61 +1,94 @@
 {% extends 'main/base.html' %}
 
 {% block body %}
+    <div class="camera-list-mobile">
+        <h4>{{ title }}:</h4><br>
+        <div class="row">
+            {% for el in cams|slice:"::3" %}
+                <div class="col-sm">
+                    <div class="card" style="width: 18rem;">
+                        <img class="card-img-top" src="{{ el.photo.url }}" alt="Card image cap">
+                        <div class="card-body">
+                            <h5 class="card-title">Название карточки</h5>
+                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                            <a href="{{ el.get_absolute_url }}" class="btn btn-primary">{{ el.title }}</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+            {% for el in cams|slice:"1::3" %}
+                <div class="col-sm">
+                    <div class="card" style="width: 18rem;">
+                        <img class="card-img-top" src="{{ el.photo.url }}" alt="Card image cap">
+                        <div class="card-body">
+                            <h5 class="card-title">Название карточки</h5>
+                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                            <a href="{{ el.get_absolute_url }}" class="btn btn-primary">{{ el.title }}</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+            {% for el in cams|slice:"2::3" %}
+                <div class="col-sm">
+                    <div class="card" style="width: 18rem;">
+                        <img class="card-img-top" src="{{ el.photo.url }}" alt="Card image cap">
+                        <div class="card-body">
+                            <h5 class="card-title">Название карточки</h5>
+                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                            <a href="{{ el.get_absolute_url }}" class="btn btn-primary">{{ el.title }}</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div><br>
 
-    <h4>{{ title }}:</h4><br>
-    <ol>
-    {% for el in cams %}
-        <li><a href="{{ el.get_absolute_url }}">{{ el.title }}</a></li>
-        <br>
-    {% endfor %}
-    </ol><br>
-
-    <!--Пагинация-->
-    <nav aria-label="...">
-        <ul class="pagination">
-            {% if page_obj.has_previous %}
-                <li class="page-item">
-                    <a class="page-link" href="?page=1">Первая</a>
-                </li>
-                <li class="page-item">
-                    <a class="page-link" href="?page={{ page_obj.previous_page_number }}">&laquo;&laquo;</a>
-                </li>
-            {% else %}
-                <li class="page-item disabled">
-                    <span class="page-link">&laquo;&laquo;</span>
-                </li>
-            {% endif %}
-            {% if page_obj.has_other_pages %}
-                {% for p in paginator.page_range %}
-                    {% if page_obj.number == p %}
-                        <li class="page-item active">
-                            <a class="page-link" href="?page={{ p }}">
-                                {{ p }} <span class="sr-only">(current)</span>
-                            </a>
-                        </li>
-                    {% elif p >= page_obj.number|add:-2 and p <= page_obj.number|add:2 %}
-                        <li class="page-item"><a class="page-link" href="?page={{ p }}">{{ p }}</a></li>
-                    {% endif %}
-                {% endfor %}
-            {% else %}
-                <li class="page-item disabled">
-                    <span class="page-link">1</span>
-                </li>
-            {% endif %}
-            {% if page_obj.has_next %}
-                <li class="page-item">
-                    <a class="page-link" href="?page={{ page_obj.next_page_number }}">&raquo;&raquo;</a>
-                </li>
-                <li class="page-item">
-                    <a class="page-link" href="?page={{ paginator.num_pages }}">Последняя</a>
-                </li>
-            {% else %}
-                <li class="page-item disabled">
-                    <span class="page-link">&raquo;&raquo;</span>
-                </li>
-            {% endif %}
-        </ul>
-    </nav>
-    <!--Конец пагинации-->
-
+        <!--Пагинация-->
+        <nav aria-label="...">
+            <ul class="pagination">
+                {% if page_obj.has_previous %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page=1">Первая</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.previous_page_number }}">&laquo;&laquo;</a>
+                    </li>
+                {% else %}
+                    <li class="page-item disabled">
+                        <span class="page-link">&laquo;&laquo;</span>
+                    </li>
+                {% endif %}
+                {% if page_obj.has_other_pages %}
+                    {% for p in paginator.page_range %}
+                        {% if page_obj.number == p %}
+                            <li class="page-item active">
+                                <a class="page-link" href="?page={{ p }}">
+                                    {{ p }} <span class="sr-only">(current)</span>
+                                </a>
+                            </li>
+                        {% elif p >= page_obj.number|add:-2 and p <= page_obj.number|add:2 %}
+                            <li class="page-item"><a class="page-link" href="?page={{ p }}">{{ p }}</a></li>
+                        {% endif %}
+                    {% endfor %}
+                {% else %}
+                    <li class="page-item disabled">
+                        <span class="page-link">1</span>
+                    </li>
+                {% endif %}
+                {% if page_obj.has_next %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.next_page_number }}">&raquo;&raquo;</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ paginator.num_pages }}">Последняя</a>
+                    </li>
+                {% else %}
+                    <li class="page-item disabled">
+                        <span class="page-link">&raquo;&raquo;</span>
+                    </li>
+                {% endif %}
+            </ul>
+        </nav>
+        <!--Конец пагинации-->
+    <br>
+    </div>
 {% endblock %}

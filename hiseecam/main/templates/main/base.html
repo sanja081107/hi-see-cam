@@ -83,7 +83,20 @@
                         {% include 'main/search-results.html' %}
                     </div>
 
+                    <div class="cart">
+                        {% with total_items=cart|length %}
+                            {% if cart|length > 0 %}
+                                <a href="{% url 'cart:cart_detail' %}">
+                                    {{ total_items }} шт, byn{{ cart.get_total_price }}
+                                </a>
+                            {% else %}
+                                Корзина пустая
+                            {% endif %}
+                        {% endwith %}
+                    </div>
+
                     <a class="btn btn-outline-success" href="{% url 'ordering' %}">Оформить заказ</a>
+
                 </form>
             </div>
         </div>
@@ -101,7 +114,8 @@
         <div class="carousel-inner">
             <div class="carousel-item active">
 <!--            <svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#777"/></svg>-->
-                <p class="carousel-photo"><img src="{% static 'main/img/1.jpg' %}"></p>
+                <div class="main-carusel-photo"><p class="carousel-photo"><img src="{% static 'main/img/1.jpg' %}"></p></div>
+                <div class="mobile-carusel-photo"><p class="carousel-photo"><img src="{% static 'main/img/1-mob.jpg' %}"></p></div>
                 <div class="container">
                     <div class="carousel-caption text-start">
                         <h1>Lorem ipsum dolor sit amet.</h1>
@@ -112,7 +126,8 @@
             </div>
             <div class="carousel-item">
 <!--            <svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#777"/></svg>-->
-                <p class="carousel-photo"><img src="{% static 'main/img/2.jpg' %}"></p>
+                <div class="main-carusel-photo"><p class="carousel-photo"><img src="{% static 'main/img/2.jpg' %}"></p></div>
+                <div class="mobile-carusel-photo"><p class="carousel-photo"><img src="{% static 'main/img/2-mob.jpg' %}"></p></div>
                 <div class="container">
                     <div class="carousel-caption">
                         <h1>Lorem ipsum dolor sit amet.</h1>
@@ -123,7 +138,8 @@
             </div>
             <div class="carousel-item">
 <!--            <svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#777"/></svg>-->
-                <p class="carousel-photo"><img src="{% static 'main/img/3.jpg' %}"></p>
+                <div class="main-carusel-photo"><p class="carousel-photo"><img src="{% static 'main/img/3.jpg' %}"></p></div>
+                <div class="mobile-carusel-photo"><p class="carousel-photo"><img src="{% static 'main/img/3-mob.jpg' %}"></p></div>
                 <div class="container">
                     <div class="carousel-caption text-end">
                         <h1>Lorem ipsum dolor sit amet.</h1>

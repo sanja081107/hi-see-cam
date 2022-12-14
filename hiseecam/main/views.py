@@ -1,6 +1,7 @@
 from django.http import HttpResponseNotFound
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from .utils import DataMixin
+from cart.forms import CartAddProductForm
 from django.views.generic import DetailView, TemplateView, ListView
 
 from .models import *
@@ -38,6 +39,11 @@ class CameraDetailView(DetailView):
     slug_url_kwarg = 'slug'
     context_object_name = 'el'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data()
+        context['cart_product_form'] = CartAddProductForm()
+        return context
+
 
 class CameraListView(DataMixin, ListView):
     model = Cameras
@@ -49,4 +55,3 @@ class CameraListView(DataMixin, ListView):
         c_def = self.get_user_context(title='Список видеокамер')
         context = dict(list(context.items()) + list(c_def.items()))
         return context
-

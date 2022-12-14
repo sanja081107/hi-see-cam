@@ -78,9 +78,20 @@ body {
 }
 
 @media (max-width: 900px) {
-  .carousel-item {
-  height: 25rem;
-  }
+    .carousel-item {
+    height: 25rem;
+    }
+    .main-carusel-photo {
+        display: none;
+    }
+    .camera-list-mobile {
+        margin-left: 10%;
+    }
+}
+@media (min-width: 900px) {
+    .mobile-carusel-photo {
+        display: none;
+    }
 }
 
 /*-------------------------------------------------- */
@@ -149,4 +160,13 @@ white-space: nowrap;
     width: 20%;
     position: fixed;
     margin-top: 4%;
+}
+
+.card-img-top {
+    width: 286px;
+    height: 180px;
+}
+
+.col-sm {
+    margin-bottom: 20px;
 }
