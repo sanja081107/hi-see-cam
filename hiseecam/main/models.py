@@ -21,5 +21,5 @@ class Cameras(models.Model):
     class Meta:
         verbose_name = 'Камера'
         verbose_name_plural = 'Камеры'
-        ordering = ['-date_published']
+        ordering = ['-date_published', 'title']
 

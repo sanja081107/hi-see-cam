@@ -77,23 +77,39 @@
                            name="q"
                            hx-get="{% url 'search' %}"
                            hx-trigger="keyup changed delay:300ms"
-                           hx-target="#search-results"
-                    >
+                           hx-target="#search-results">
+
                     <div id="search-results">
                         {% include 'main/search-results.html' %}
                     </div>
 
-                    <div class="cart">
-                        {% with total_items=cart|length %}
-                            {% if cart|length > 0 %}
-                                <a href="{% url 'cart:cart_detail' %}">
-                                    {{ total_items }} шт, byn{{ cart.get_total_price }}
-                                </a>
-                            {% else %}
-                                Корзина пустая
-                            {% endif %}
-                        {% endwith %}
+                    <div class="navbar-pc__item j-item-basket">
+                        <a class="navbar-pc__link j-wba-header-item" data-wba-header-name="Cart" href="{% url 'cart:cart_detail' %}">
+                            <span class="navbar-pc__icon navbar-pc__icon--basket">
+                                {% with total_items=cart|length %}
+                                    {% if cart|length > 0 %}
+                                        <span class="navbar-pc__notify">{{ total_items }}</span>
+                                    {% else %}
+                                        <span class="navbar-pc__notify">0</span>
+                                    {% endif %}
+                                {% endwith %}
+                            </span>
+                        </a>
                     </div>
+
+                    <div class="cart">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+
+<!--                    <div class="cart">-->
+<!--                        {% with total_items=cart|length %}-->
+<!--                            {% if cart|length > 0 %}-->
+<!--                                <a href="{% url 'cart:cart_detail' %}">-->
+<!--                                    {{ total_items }} шт, byn{{ cart.get_total_price }}-->
+<!--                                </a>-->
+<!--                            {% else %}-->
+<!--                                Корзина пустая-->
+<!--                            {% endif %}-->
+<!--                        {% endwith %}-->
+<!--                    </div>-->
 
                     <a class="btn btn-outline-success" href="{% url 'ordering' %}">Оформить заказ</a>
 
