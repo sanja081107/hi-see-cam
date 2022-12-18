@@ -104,10 +104,19 @@ body {
     }
 }
 
+.select-quantity {
+    width: 50px;
+    position: absolute;
+}
+
 /*-------------------------------------------------- */
 
 .btn-outline-success {
 width: 100%;
+}
+
+.btn-outline-success-2 {
+width: 30%;
 }
 
 .bd-placeholder-img {

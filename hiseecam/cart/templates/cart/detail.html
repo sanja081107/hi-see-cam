@@ -8,8 +8,8 @@
     {% if cart %}
       {% for item in cart %}
         {% with el=item.product %}
-          <div class="row border-bottom border-top border-left border-right">
-            <div class="col col-30 border-right">
+          <div class="row border-bottom border-top border-left border-right pb-3 pt-3 pl-3">
+            <div class="col border-right">
               <p align="center"><img src="{{ el.photo.url }}" alt=""></p>
               <p align="center">Название: <a href="{{ el.get_absolute_url }}">{{ el.title }}</a></p>
             </div>
@@ -21,7 +21,8 @@
                     Количество:<br><br>
                     {{ item.update_quantity_form.quantity }}
                     {{ item.update_quantity_form.update }}
-                    <input type="submit" value="Обновить">
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <button class="btn" type="submit"><i class="fa-sharp fa-solid fa-arrow-rotate-right"></i></button>
                   </form>
                 </div>
                 <div class="col"><br>
@@ -52,10 +53,10 @@
             <div class="col"></div>
             <div class="col"><br>{{ cart.get_total_price }} руб<br><br></div>
             <div class="col">
-              <p align="right"><br><a href="{% url 'camera_list' %}" class="button light">В магазин</a></p>
+              <p align="right"><br><a href="{% url 'camera_list' %}" class="btn btn-secondary  btn-sm">В магазин</a></p>
             </div>
             <div class="col">
-              <p align="right"><br><a href="{% url 'cart:print_cart' %}" class="button">Оформить заказ</a></p>
+              <p align="right"><br><a href="{% url 'cart:print_cart' %}" class="btn btn-primary btn-sm">Оформить заказ</a></p>
             </div>
           </div>
     {% else %}

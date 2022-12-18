@@ -18,6 +18,7 @@ class CamerasAdmin(admin.ModelAdmin):
     get_html_photo.short_description = 'Миниатюра'
 
 admin.site.register(Cameras, CamerasAdmin)
+admin.site.register(Order)
 
 admin.site.site_title = 'Видеонаблюдение'
 admin.site.site_header = 'Видеонаблюдение'
