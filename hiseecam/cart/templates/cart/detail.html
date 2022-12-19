@@ -39,7 +39,7 @@
                 </div>
                 <div class="col"><br>
                   Удалить:<br><br>
-                  <a class="btn btn-danger" href="{% url 'cart:cart_remove' el.id %}">Удалить {{ item.quantity }}шт</a>
+                  <a class="btn btn-outline-danger" href="{% url 'cart:cart_remove' el.id %}">Удалить {{ item.quantity }}шт</a>
                 </div>
               </div>
             </div>
@@ -53,11 +53,12 @@
             <div class="col"></div>
             <div class="col"><br>{{ cart.get_total_price }} руб<br><br></div>
             <div class="col">
-              <p align="right"><br><a href="{% url 'camera_list' %}" class="btn btn-secondary  btn-sm">В магазин</a></p>
+              <p align="right"><br><a href="{% url 'cart:clear' %}" class="btn btn-danger  btn-sm">Очистить все</a></p>
             </div>
             <div class="col">
-              <p align="right"><br><a href="{% url 'cart:print_cart' %}" class="btn btn-primary btn-sm">Оформить заказ</a></p>
+              <p align="right"><br><a href="{% url 'ordering' %}" class="btn btn-primary btn-sm">Оформить заказ</a></p>
             </div>
+            <a href="{% url 'cart:print_cart' %}">print_cart</a>
           </div>
     {% else %}
       <h4>Корзина пустая</h4>

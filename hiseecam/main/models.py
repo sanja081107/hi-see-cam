@@ -11,6 +11,7 @@ class Cameras(models.Model):
     date_published = models.DateField(auto_now_add=True, verbose_name='Дата публикации')
     date_edited = models.DateField(auto_now=True, verbose_name='Дата изменения')
     date_release = models.DateField(verbose_name='Дата выпуска')
+    quantity = models.IntegerField(verbose_name='Количество', default=0, null=True)
     price = models.PositiveIntegerField(verbose_name='Цена')
 
     def __str__(self):
@@ -27,7 +28,8 @@ class Cameras(models.Model):
 
 class Order(models.Model):
     user = models.ForeignKey(User, on_delete=models.SET_DEFAULT, default=None, blank=True, verbose_name='Пользователь')
-    products = models.ManyToManyField(Cameras)
+    products = models.ManyToManyField(Cameras, verbose_name='Товары')
+    quantity = models.TextField(verbose_name='Количество товара')
     username = models.CharField(max_length=50, verbose_name='Имя пользователя')
     phone = models.CharField(max_length=13, verbose_name='Мобильный телефон')
     email = models.EmailField(verbose_name='Почта')

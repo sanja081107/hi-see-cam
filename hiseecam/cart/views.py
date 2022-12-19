@@ -18,6 +18,20 @@ def cart_add(request, product_id):
                  update_quantity=cd['update'])
     return redirect(product.get_absolute_url())
 
+
+@require_POST
+def cart_add_one(request, product_id):
+    cart = Cart(request)
+    product = get_object_or_404(Cameras, id=product_id)
+    form = CartAddProductForm(request.POST)
+    if form.is_valid():
+        cd = form.cleaned_data
+        cart.add(product=product,
+                 quantity=cd['quantity'],
+                 update_quantity=cd['update'])
+    return redirect('camera_list')
+
+
 @require_POST
 def cart_update(request, product_id):
     cart = Cart(request)
@@ -46,9 +60,14 @@ def cart_detail(request):
     return render(request, 'cart/detail.html', {'cart': cart})
 
 
+def clear(request):
+    cart = Cart(request)
+    cart.clear()
+    return redirect('home')
+
+
 def print_cart(request):
     cart = Cart(request)
     for item in cart:
         print(item)
-    print(cart.get_total_price())
     return redirect('home')

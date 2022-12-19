@@ -21,6 +21,8 @@
         <div class="col-sm">
             <h4>Описание:</h4>
             <p>{{ el.description|linebreaks }}</p>
+            <p>На складе <strong id="quantity-product">{{ el.quantity }}</strong> шт.</p>
+            <p id="alert-quantity"></p>
         </div>
     </div>
 
@@ -32,7 +34,8 @@
             {% csrf_token %}
             {{ cart_product_form }}<br>
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <input class="btn btn-outline-success btn-outline-success-2" type="submit" value="В корзину">
+            <input id="add-in-basket" type="submit" hidden value="В корзину">
+            <input class="btn btn-outline-success btn-outline-success-2" onclick="checkAddInBasket()" type="button" value="В корзину">
         </form>
         <br><br>
     </div>

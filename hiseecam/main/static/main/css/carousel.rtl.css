@@ -109,6 +109,20 @@ body {
     position: absolute;
 }
 
+.basket-product-list {
+    color: grey;
+}
+
+.card-body-form {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+}
+
+#alert-quantity {
+    color: red;
+}
+
 /*-------------------------------------------------- */
 
 .btn-outline-success {
