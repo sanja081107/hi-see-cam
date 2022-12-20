@@ -11,7 +11,7 @@
           <div class="row border-bottom border-top border-left border-right pb-3 pt-3 pl-3">
             <div class="col border-right">
               <p align="center"><img src="{{ el.photo.url }}" alt=""></p>
-              <p align="center">Название: <a href="{{ el.get_absolute_url }}">{{ el.title }}</a></p>
+              <p align="center">Название: <a href="{{ el.get_absolute_url }}">{{ el.title }}</a> - <strong id="quantity-product">{{ el.quantity }}</strong> шт.</p>
             </div>
             <div class="col">
               <div class="row">
@@ -21,8 +21,11 @@
                     Количество:<br><br>
                     {{ item.update_quantity_form.quantity }}
                     {{ item.update_quantity_form.update }}
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    <button class="btn" type="submit"><i class="fa-sharp fa-solid fa-arrow-rotate-right"></i></button>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <input id="add-in-basket" type="submit" hidden value="В корзину">
+                    <button class="btn" type="button" onclick="checkAddInBasket()"><i class="fa-sharp fa-solid fa-arrow-rotate-right"></i></button>
+                    <br><br>
+                    <p id="alert-quantity"></p>
                   </form>
                 </div>
                 <div class="col"><br>

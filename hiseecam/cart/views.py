@@ -1,3 +1,4 @@
+from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
 from django.views.decorators.http import require_POST
@@ -29,8 +30,8 @@ def cart_add_one(request, product_id):
         cart.add(product=product,
                  quantity=cd['quantity'],
                  update_quantity=cd['update'])
-    return redirect('camera_list')
-
+    # return redirect('camera_list')
+    return HttpResponse('<i class="fa-solid fa-check card-body-form"></i>')
 
 @require_POST
 def cart_update(request, product_id):

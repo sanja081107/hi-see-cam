@@ -1,4 +1,4 @@
-from django.http import HttpResponseNotFound
+from django.http import HttpResponseNotFound, HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from .utils import DataMixin
 from cart.forms import CartAddProductForm, CartAddOneProductForm
@@ -7,6 +7,10 @@ from django.views.generic import DetailView, TemplateView, ListView
 from .models import *
 from .forms import *
 from cart.cart import Cart
+
+
+def home(request):
+    return render(request, 'main/index.html')
 
 
 def pageNotFound(request, exception):
@@ -23,23 +27,11 @@ def search(request):
     return render(request, 'main/search-results.html', context)
 
 
-def home(request):
-    return render(request, 'main/index.html')
-
-
-def validate_order(request):
+def validate_order(request):        # При нажатии на оформить заказ идет проверка на пустую корзину
     if len(Cart(request)) == 0:
         return redirect('cart:cart_detail')
     else:
         return redirect('ordering')
-
-
-def add_order(request):
-    cart = Cart(request)
-    for el in cart:
-        print(el)
-
-    return redirect('home')
 
 
 class OrderingView(TemplateView):
@@ -73,4 +65,12 @@ class CameraListView(DataMixin, ListView):
         c_def = self.get_user_context(title='Список видеокамер')
         context = dict(list(context.items()) + list(c_def.items()))
         context['cart_one_product_form'] = CartAddOneProductForm()
+        cart = Cart(self.request)
+        lst = []
+        for el in cart:
+            lst.append(el['product'])
+        context['cart'] = lst
         return context
+
+    def get_queryset(self):
+        return Cameras.objects.filter(quantity__gt=0)

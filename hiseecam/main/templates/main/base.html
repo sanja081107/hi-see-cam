@@ -91,9 +91,9 @@
                             <span class="navbar-pc__icon navbar-pc__icon--basket">
                                 {% with total_items=cart|length %}
                                     {% if cart|length > 0 %}
-                                        <span class="navbar-pc__notify">{{ total_items }}</span>
+                                        <span id="basket-quantity" class="navbar-pc__notify">{{ total_items }}</span>
                                     {% else %}
-                                        <span class="navbar-pc__notify">0</span>
+                                        <span id="basket-quantity" class="navbar-pc__notify">0</span>
                                     {% endif %}
                                 {% endwith %}
                             </span>

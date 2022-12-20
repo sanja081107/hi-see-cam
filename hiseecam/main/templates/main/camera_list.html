@@ -13,12 +13,19 @@
                             <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
                             <a href="{{ el.get_absolute_url }}" class="btn btn-primary">{{ el.title }}</a>
 
-                            <form class="card-body-form" action="{% url 'cart:cart_add_one' el.id %}" method="post">
-                                {% csrf_token %}
-                                {{ cart_one_product_form }}
-                                <button type="submit" class="btn btn-link basket-product-list"><i class="fa-solid fa-basket-shopping"></i></button>
-                            </form>
-
+                            {% if el not in cart %}
+                                <form id="add-to-basket" hx-post="{% url 'cart:cart_add_one' el.id %}"
+                                      hx-trigger="click"
+                                      hx-swap="outerHTML"
+                                      onclick="checkBasketQuantity()"
+                                      class="card-body-form">
+                                    {% csrf_token %}
+                                    {{ cart_one_product_form }}
+                                    <button type="submit" class="btn btn-link basket-product-list"><i class="fa-solid fa-basket-shopping"></i></button>
+                                </form>
+                            {% else %}
+                                <i class="fa-solid fa-check card-body-form"></i>
+                            {% endif %}
                         </div>
                     </div>
                 </div>
