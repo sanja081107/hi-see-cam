@@ -51,7 +51,12 @@ class CameraDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data()
-        context['cart_product_form'] = CartAddProductForm()
+        context['cart_one_product_form'] = CartAddOneProductForm()
+        cart = Cart(self.request)
+        lst = []
+        for el in cart:
+            lst.append(el['product'])
+        context['products'] = lst
         return context
 
 
@@ -69,7 +74,7 @@ class CameraListView(DataMixin, ListView):
         lst = []
         for el in cart:
             lst.append(el['product'])
-        context['cart'] = lst
+        context['products'] = lst
         return context
 
     def get_queryset(self):

@@ -11,26 +11,36 @@
           <div class="row border-bottom border-top border-left border-right pb-3 pt-3 pl-3">
             <div class="col border-right">
               <p align="center"><img src="{{ el.photo.url }}" alt=""></p>
-              <p align="center">Название: <a href="{{ el.get_absolute_url }}">{{ el.title }}</a> - <strong id="quantity-product">{{ el.quantity }}</strong> шт.</p>
+              <p align="center">Название: <a href="{{ el.get_absolute_url }}">{{ el.title }}</a>
+                - <strong id="quantity-product-{{ el.id }}">{{ el.quantity }}</strong> шт.</p>
             </div>
             <div class="col">
               <div class="row">
                 <div class="col"><br>
-                  <form action="{% url 'cart:cart_update' el.id %}" method="post">
+                  <form id="select-form-{{ el.id }}" class="product-form" method="post">
                     {% csrf_token %}
                     Количество:<br><br>
                     {{ item.update_quantity_form.quantity }}
                     {{ item.update_quantity_form.update }}
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    <input id="add-in-basket" type="submit" hidden value="В корзину">
-                    <button class="btn" type="button" onclick="checkAddInBasket()"><i class="fa-sharp fa-solid fa-arrow-rotate-right"></i></button>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <button
+                      class="btn"
+                      type="submit"
+                      hx-trigger="click"
+                      hx-post="{% url 'cart:check_add_in_basket' el.id %}"
+                      hx-target="#alert-quantity-{{ el.id }}">
+                      <i class="fa-sharp fa-solid fa-arrow-rotate-right" onclick="detailCheckBasket({{ el.id }})"></i>
+                    </button>
                     <br><br>
-                    <p id="alert-quantity"></p>
+                    <button type="button" id="minus-btn-{{ el.id }}" onclick="minusBtnInBasket({{ el.id }})"><i class="fa-solid fa-minus"></i></button>&nbsp;&nbsp;&nbsp;&nbsp;
+                    <button type="button" id="plus-btn-{{ el.id }}" onclick="plusBtnInBasket({{ el.id }})"><i class="fa-solid fa-plus"></i></button>
+                    <br><br>
+                    <p class="alert-quantity" id="alert-quantity-{{ el.id }}"></p>
                   </form>
                 </div>
                 <div class="col"><br>
                   Цена за штуку:<br><br>
-                  {{ item.price }} руб
+                  <strong id="price-{{ el.id }}">{{ item.price }}</strong> <strong>руб</strong>
                 </div>
               </div>
             </div>
@@ -38,11 +48,11 @@
               <div class="row">
                 <div class="col"><br>
                   Общая цена:<br><br>
-                  {{ item.total_price }} руб
+                  <strong class="total_price" id="total_price-{{ el.id }}">{{ item.total_price }}</strong> <strong>руб</strong>
                 </div>
                 <div class="col"><br>
                   Удалить:<br><br>
-                  <a class="btn btn-outline-danger" href="{% url 'cart:cart_remove' el.id %}">Удалить {{ item.quantity }}шт</a>
+                  <a class="btn btn-outline-danger" href="{% url 'cart:cart_remove' el.id %}">Удалить все</a>
                 </div>
               </div>
             </div>
@@ -50,11 +60,11 @@
         {% endwith %}
       {% endfor %}
           <div class="row border-bottom border-left border-right">
-            <div class="col"><br>Стоимость:<br><br></div>
+            <div class="col"><br><strong>Стоимость:</strong><br><br></div>
             <div class="col"></div>
             <div class="col"></div>
             <div class="col"></div>
-            <div class="col"><br>{{ cart.get_total_price }} руб<br><br></div>
+            <div class="col"><br><strong id="get_total_price">{{ cart.get_total_price }}</strong> <strong>руб</strong><br><br></div>
             <div class="col">
               <p align="right"><br><a href="{% url 'cart:clear' %}" class="btn btn-danger  btn-sm">Очистить все</a></p>
             </div>

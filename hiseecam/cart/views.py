@@ -4,11 +4,11 @@ from django.urls import reverse_lazy
 from django.views.decorators.http import require_POST
 from main.models import Cameras
 from .cart import Cart
-from .forms import CartAddProductForm
+from .forms import CartAddProductForm, CartAddForm
 
 
 @require_POST
-def cart_add(request, product_id):
+def cart_add_one_camera_detail(request, product_id):
     cart = Cart(request)
     product = get_object_or_404(Cameras, id=product_id)
     form = CartAddProductForm(request.POST)
@@ -17,11 +17,11 @@ def cart_add(request, product_id):
         cart.add(product=product,
                  quantity=cd['quantity'],
                  update_quantity=cd['update'])
-    return redirect(product.get_absolute_url())
+    return HttpResponse('В корзине <i class="fa-solid fa-check"></i>')
 
 
 @require_POST
-def cart_add_one(request, product_id):
+def cart_add_one_camera_list(request, product_id):
     cart = Cart(request)
     product = get_object_or_404(Cameras, id=product_id)
     form = CartAddProductForm(request.POST)
@@ -33,17 +33,24 @@ def cart_add_one(request, product_id):
     # return redirect('camera_list')
     return HttpResponse('<i class="fa-solid fa-check card-body-form"></i>')
 
+
 @require_POST
-def cart_update(request, product_id):
-    cart = Cart(request)
+def check_add_in_basket(request, product_id):
     product = get_object_or_404(Cameras, id=product_id)
-    form = CartAddProductForm(request.POST)
-    if form.is_valid():
-        cd = form.cleaned_data
-        cart.add(product=product,
-                 quantity=cd['quantity'],
-                 update_quantity=cd['update'])
-    return redirect('cart:cart_detail')
+    quantity = request.POST['quantity']
+    col_product = product.quantity
+    if int(quantity) > col_product:
+        return HttpResponse('Недостаточно товара! Снизьте количество товара!')
+    else:
+        cart = Cart(request)
+        product = get_object_or_404(Cameras, id=product_id)
+        form = CartAddProductForm(request.POST)
+        if form.is_valid():
+            cd = form.cleaned_data
+            cart.add(product=product,
+                     quantity=cd['quantity'],
+                     update_quantity=cd['update'])
+        return HttpResponse()
 
 
 def cart_remove(request, product_id):
@@ -56,8 +63,7 @@ def cart_remove(request, product_id):
 def cart_detail(request):
     cart = Cart(request)
     for item in cart:
-        item['update_quantity_form'] = CartAddProductForm(initial={'quantity': item['quantity'],
-                                                                   'update': True})
+        item['update_quantity_form'] = CartAddForm(initial={'quantity': item['quantity'], 'update': True})
     return render(request, 'cart/detail.html', {'cart': cart})
 
 

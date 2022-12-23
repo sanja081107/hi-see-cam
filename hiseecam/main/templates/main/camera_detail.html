@@ -22,7 +22,7 @@
             <h4>Описание:</h4>
             <p>{{ el.description|linebreaks }}</p>
             <p>На складе <strong id="quantity-product">{{ el.quantity }}</strong> шт.</p>
-            <p id="alert-quantity"></p>
+            <p class="alert-quantity"></p>
         </div>
     </div>
 
@@ -30,13 +30,21 @@
     <div class="col-sm"></div>
     <div class="col-sm">
         <p><strong>Цена:</strong> {{ el.price }} byn</p>
-        <form action="{% url 'cart:cart_add' el.id %}" method="post">
-            {% csrf_token %}
-            {{ cart_product_form }}<br>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <input id="add-in-basket" type="submit" hidden value="В корзину">
-            <input class="btn btn-outline-success btn-outline-success-2" onclick="checkAddInBasket()" type="button" value="В корзину">
-        </form>
+            <!-- Проверка есть ли данный товар в корзине -->
+            {% if el not in products %}
+                <form hx-post="{% url 'cart:cart_add_one_camera_detail' el.id %}"
+                      hx-trigger="click"
+                      hx-swap="outerHTML">
+                    {% csrf_token %}
+                    {{ cart_one_product_form }}
+                    <button type="submit" class="btn btn-primary btn-sm" onclick="checkBasketQuantity()">
+                        В корзину <i class="fa-solid fa-basket-shopping"></i>
+                    </button>
+                </form>
+            <!-- Если есть то выводится галочка -->
+            {% else %}
+                В корзине <i class="fa-solid fa-check"></i>
+            {% endif %}
         <br><br>
     </div>
 </div>
