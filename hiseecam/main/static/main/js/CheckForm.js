@@ -42,14 +42,14 @@ function checkAddInBasket() {
 };
 
 function checkBasketQuantity() {
-    var basket_quantity = Number(document.getElementById('basket-quantity').firstChild.nodeValue);
-    $("#basket-quantity").empty();
-    $("#basket-quantity").append(basket_quantity+1);
+    var basket_quantity = Number(document.querySelector('.basket-quantity').firstChild.nodeValue);
+    $(".basket-quantity").empty();
+    $(".basket-quantity").append(basket_quantity+1);
 };
 
 function detailCheckBasket(id) {
     var select_quantity_product = Number(document.getElementById("quantity-product-"+id+"").firstChild.nodeValue);      // кол-во выбранного товара на складе
-    var basket_quantity = Number(document.getElementById('basket-quantity').firstChild.nodeValue);                      // текущее значение корзины
+    var basket_quantity = Number(document.querySelector('.basket-quantity').firstChild.nodeValue);                      // текущее значение корзины
     var select_form = document.querySelector("#select-form-"+id+"");                                                    // находим форму с измененным товаром
     var select_quantity_form = Number(select_form.querySelector(".select-quantity").value);                             // находим значение измененного товара
 
@@ -63,9 +63,10 @@ function detailCheckBasket(id) {
     var price_for_piece = Number(document.querySelector("#price-"+id+"").firstChild.nodeValue);
     var total_price_for_piece = price_for_piece * select_quantity_form
 
+    // если выбранное количество меньше имеющегося то применить изменения
     if (select_quantity_form <= select_quantity_product) {
-        $("#basket-quantity").empty();
-        $("#basket-quantity").append(col);
+        $(".basket-quantity").empty();
+        $(".basket-quantity").append(col);
         $("#total_price-"+id+"").empty();
         $("#total_price-"+id+"").append(total_price_for_piece);
 
@@ -93,7 +94,7 @@ function plusBtnInBasket(id) {
     }
     else {
         select_quantity_form.value = max;
-        console.log(select_quantity_form.value);
+//        console.log(select_quantity_form.value);
     };
 };
 
@@ -105,5 +106,5 @@ function minusBtnInBasket(id) {
     if (min > 0) {
         select_quantity_form.value = min;
     };
-    console.log(select_quantity_form.value);
+//    console.log(select_quantity_form.value);
 };

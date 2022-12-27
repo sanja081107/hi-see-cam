@@ -2,15 +2,28 @@
 
 {% block body %}
 
-<div class="content">
-    <h1>Ваши данные</h1><br>
+<div class="row">
+    <div class="col-sm"></div>
+    <div class="col-sm">
+        <div class="contents">
+            <h1>Ваши данные</h1><br>
 
-    <form method="post" enctype="multipart/form-data" action="{% url 'home' %}">
-        {% csrf_token %}
-        {{ order_product_form.as_p }}
-        <button type="submit">create</button>
-    </form>
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
 
+                <div>{{ form.non_field_errors }}</div>  <!-- Выдается общая ошибка по всем полям если форма не связана с моделью -->
+
+                {% for el in form %}
+                    <p><label for="{{el.id_for_label}}">{{ el.label }}:</label>{{ el }}</p>
+                    <div class="form-error">{{ el.errors }}</div>   <!-- Выдается ошибка по отдельному полю формы -->
+                {% endfor %}
+
+                <button class="btm btn-success btn-sm" type="submit">Купить</button>
+            </form>
+
+        </div>
+    </div>
+    <div class="col-sm"></div>
 </div>
 
 {% endblock %}

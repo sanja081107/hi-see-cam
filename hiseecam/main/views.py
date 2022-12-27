@@ -1,8 +1,10 @@
 from django.http import HttpResponseNotFound, HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
+from django.urls import reverse_lazy
+
 from .utils import DataMixin
 from cart.forms import CartAddProductForm, CartAddOneProductForm
-from django.views.generic import DetailView, TemplateView, ListView
+from django.views.generic import DetailView, TemplateView, ListView, CreateView
 
 from .models import *
 from .forms import *
@@ -34,14 +36,13 @@ def validate_order(request):        # При нажатии на оформит�
         return redirect('ordering')
 
 
-class OrderingView(TemplateView):
+class OrderingView(CreateView):
+    form_class = OrderForm
     template_name = 'main/ordering.html'
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data()
-        context['order_product_form'] = OrderProductsForm()
-        context['order_form'] = OrderForm()
-        return context
+    def get_success_url(self):
+        return reverse_lazy('home')
+
 
 class CameraDetailView(DetailView):
     model = Cameras

@@ -50,10 +50,27 @@
 <header>
     <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
         <div class="container-fluid">
+
             <a class="navbar-brand" href="{% url 'home' %}">Главная</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="تبديل التنقل">
+
+            <div class="navbar-pc__item j-item-basket basket-mobile">
+                <a class="navbar-pc__link j-wba-header-item" data-wba-header-name="Cart" href="{% url 'cart:cart_detail' %}">
+                    <span class="navbar-pc__icon navbar-pc__icon--basket">
+                        {% with total_items=cart|length %}
+                            {% if cart|length > 0 %}
+                                <span id="basket-quantity 1" class="navbar-pc__notify basket-quantity">{{ total_items }}</span>
+                            {% else %}
+                                <span id="basket-quantity 2" class="navbar-pc__notify basket-quantity">0</span>
+                            {% endif %}
+                        {% endwith %}
+                    </span>
+                </a>
+            </div>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false">
                 <span class="navbar-toggler-icon"></span>
             </button>
+
             <div class="collapse navbar-collapse" id="navbarCollapse">
                 <ul class="navbar-nav me-auto mb-2 mb-md-0">
                     <li class="nav-item">
@@ -86,14 +103,14 @@
                         {% include 'main/search-results.html' %}
                     </div>
 
-                    <div class="navbar-pc__item j-item-basket">
+                    <div class="navbar-pc__item j-item-basket basket-main">
                         <a class="navbar-pc__link j-wba-header-item" data-wba-header-name="Cart" href="{% url 'cart:cart_detail' %}">
                             <span class="navbar-pc__icon navbar-pc__icon--basket">
                                 {% with total_items=cart|length %}
                                     {% if cart|length > 0 %}
-                                        <span id="basket-quantity" class="navbar-pc__notify">{{ total_items }}</span>
+                                        <span id="basket-quantity 3" class="navbar-pc__notify basket-quantity">{{ total_items }}</span>
                                     {% else %}
-                                        <span id="basket-quantity" class="navbar-pc__notify">0</span>
+                                        <span id="basket-quantity 4" class="navbar-pc__notify basket-quantity">0</span>
                                     {% endif %}
                                 {% endwith %}
                             </span>

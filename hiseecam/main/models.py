@@ -33,7 +33,7 @@ class Order(models.Model):
     username = models.CharField(max_length=50, verbose_name='Имя пользователя')
     phone = models.CharField(max_length=13, verbose_name='Мобильный телефон')
     email = models.EmailField(verbose_name='Почта')
-    created = models.DateTimeField('Date publication', auto_now_add=True)
+    created = models.DateTimeField(verbose_name='Date publication', auto_now_add=True, blank=True)
     prise = models.PositiveIntegerField(verbose_name='Цена')
 
     def __str__(self):

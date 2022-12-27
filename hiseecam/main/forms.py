@@ -24,3 +24,12 @@ class OrderForm(ModelForm):
     class Meta:
         model = Order
         fields = '__all__'
+        widgets = {
+            'user': forms.Select(attrs={'class': 'form-control'}),
+            # 'products': forms.Select(attrs={'class': 'form-control', 'multiple': ''}),
+            'quantity': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'количество'}),
+            'username': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'имя'}),
+            'phone': forms.TextInput(attrs={'type': 'number', 'class': 'form-control', 'placeholder': 'телефон'}),
+            'email': forms.TextInput(attrs={'type': 'email', 'class': 'form-control', 'placeholder': 'почта'}),
+            'prise': forms.TextInput(attrs={'type': 'number', 'class': 'form-control', 'placeholder': 'цена'}),
+        }
