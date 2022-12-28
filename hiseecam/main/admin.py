@@ -14,6 +14,8 @@ class CamerasAdmin(admin.ModelAdmin):
     def get_html_photo(self, object):
         if object.photo:
             return mark_safe(f"<img src='{object.photo.url}' width=100>")
+        # else:
+        #     return mark_safe("<img src='/static/main/img/no_image.jpg' width=100>")
 
     get_html_photo.short_description = 'Миниатюра'
 

@@ -10,7 +10,11 @@
         {% with el=item.product %}
           <div class="row border-bottom border-top border-left border-right pb-3 pt-3 pl-3">
             <div class="col border-right">
-              <p align="center"><img src="{{ el.photo.url }}" alt=""></p>
+              {% if el.photo %}
+                <p align="center"><img src="{{ el.photo.url }}" alt=""></p>
+              {% else %}
+                <p align="center"><img src="{% static 'main/img/no_image.jpg' %}" alt=""></p>
+              {% endif %}
               <p align="center">Название: <a href="{{ el.get_absolute_url }}">{{ el.title }}</a>
                 - <strong id="quantity-product-{{ el.id }}">{{ el.quantity }}</strong> шт.</p>
             </div>

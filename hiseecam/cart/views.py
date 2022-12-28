@@ -77,4 +77,5 @@ def print_cart(request):
     cart = Cart(request)
     for item in cart:
         print(item)
+    print(cart.get_total_price())
     return redirect('home')
