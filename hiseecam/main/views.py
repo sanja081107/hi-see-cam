@@ -36,6 +36,12 @@ def validate_order(request):        # При нажатии на оформит�
         return redirect('ordering')
 
 
+def checking_order(request):
+    form = OrderForm(request.POST)
+    if form.is_valid():
+        return HttpResponse("""<button id="check-ordering" type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Купить товар(ы)</button>""")
+
+
 class OrderingView(CreateView):
     form_class = OrderForm
     template_name = 'main/ordering.html'

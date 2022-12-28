@@ -8,4 +8,5 @@ urlpatterns = [
     path('ordering/', OrderingView.as_view(), name='ordering'),
     path('camera_list/', CameraListView.as_view(), name='camera_list'),
     path('camera_detail/<slug:slug>/', CameraDetailView.as_view(), name='camera_detail'),
+    path('checking_order/', checking_order, name='checking_order'),
 ]

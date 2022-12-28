@@ -8,7 +8,11 @@
         <div class="contents">
             <h1>Ваши данные</h1><br>
 
-            <form method="post" enctype="multipart/form-data">
+            <form method="post"
+                  enctype="multipart/form-data"
+                  hx-post="{% url 'checking_order' %}"
+                  hx-trigger="every 1s"
+                  hx-target="#check-result">
                 {% csrf_token %}
 
                 <div>{{ form.non_field_errors }}</div>  <!-- Выдается общая ошибка по всем полям если форма не связана с моделью -->
@@ -18,8 +22,9 @@
                     <div class="form-error">{{ el.errors }}</div>   <!-- Выдается ошибка по отдельному полю формы -->
                 {% endfor %}
 
-                <button class="btm btn-success btn-sm btn-ordering" type="submit" onclick="checkOrdering()">Купить</button>
-
+                <div id="check-result">
+                    <button class="btm btn-success btn-sm btn-ordering" type="submit">Купить</button>
+                </div>
 
                 <button hidden id="check-ordering" type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Купить товар(ы)</button>
                 <!-- Modal -->
