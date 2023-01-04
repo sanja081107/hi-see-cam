@@ -43,12 +43,12 @@ class Cameras(models.Model):
 
 class Order(models.Model):
     user = models.ForeignKey(User, on_delete=models.SET_DEFAULT, default=None, null=True, blank=True, verbose_name='Пользователь')
-    quantity = models.TextField(verbose_name='Количество товара')
-    username = models.CharField(max_length=50, verbose_name='Имя пользователя')
-    phone = models.CharField(max_length=13, verbose_name='Мобильный телефон')
-    email = models.EmailField(verbose_name='Почта')
-    created = models.DateTimeField(verbose_name='Date publication', auto_now_add=True, blank=True)
-    price = models.PositiveIntegerField(verbose_name='Цена')
+    quantity = models.TextField(verbose_name='Количество товара', blank=True)
+    username = models.CharField(max_length=50, verbose_name='Имя пользователя', blank=True)
+    phone = models.CharField(max_length=13, verbose_name='Мобильный телефон', blank=True)
+    email = models.EmailField(verbose_name='Почта', blank=True)
+    created = models.DateTimeField(verbose_name='Дата публикации', auto_now_add=True, blank=True)
+    price = models.PositiveIntegerField(verbose_name='Цена', blank=True)
 
     def __str__(self):
         return f'{self.username} - {self.price}'

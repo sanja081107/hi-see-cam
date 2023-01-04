@@ -8,13 +8,13 @@
         <div class="contents">
             <h1>Ваши данные</h1><br>
 
-            <form method="post"
-                  enctype="multipart/form-data"
-                  hx-post="{% url 'checking_order' %}"
-                  hx-trigger="every 1s"
+            <form
+                  method="post"
+                  hx-post="{% url 'checking_form' %}"
+                  hx-trigger="change delay:10ms"
                   hx-target="#check-result">
-                {% csrf_token %}
 
+                {% csrf_token %}
                 <div>{{ form.non_field_errors }}</div>  <!-- Выдается общая ошибка по всем полям если форма не связана с моделью -->
 
                 {% for el in form %}
@@ -23,10 +23,9 @@
                 {% endfor %}
 
                 <div id="check-result">
-                    <button class="btm btn-success btn-sm btn-ordering" type="submit">Купить</button>
+                    <button type="submit" class="btn btn-primary">Купить товар(ы)</button>
                 </div>
 
-                <button hidden id="check-ordering" type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Купить товар(ы)</button>
                 <!-- Modal -->
                 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog" role="document">

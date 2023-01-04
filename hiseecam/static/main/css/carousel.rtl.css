@@ -79,7 +79,7 @@ body {
 
 @media (max-width: 900px) {
     .carousel-item {
-    height: 25rem;
+    height: 23.5rem;
     }
     .main-carusel-photo {
         display: none;
@@ -92,6 +92,16 @@ body {
         position: fixed;
         margin-top: 8%;
     }
+    .basket-main {
+        display: none;
+    }
+    .navbar-pc__icon--basket {
+        width: 27px;
+        position: absolute;
+        top: 20px;
+        right: 100px;
+        background-image: url(cart.svg);
+    }
 }
 @media (min-width: 900px) {
     .mobile-carusel-photo {
@@ -101,6 +111,15 @@ body {
         width: 20%;
         position: fixed;
         margin-top: 4%;
+    }
+    .basket-mobile {
+        display: none;
+    }
+    .navbar-pc__icon--basket {
+        width: 27px;
+        position: absolute;
+        margin-top: 15px;
+        background-image: url(cart.svg);
     }
 }
 
@@ -198,12 +217,6 @@ white-space: nowrap;
     margin-bottom: 20px;
 }
 
-.navbar-pc__icon--basket {
-    width: 27px;
-    position: absolute;
-    margin-top: 15px;
-    background-image: url(cart.svg);
-}
 .navbar-pc__notify {
     position: relative;
     font-size: 10px;
