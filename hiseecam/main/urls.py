@@ -7,6 +7,7 @@ urlpatterns = [
     path('ordering/', OrderingView.as_view(), name='ordering'),
     path('camera_list/', CameraListView.as_view(), name='camera_list'),
     path('camera_detail/<slug:slug>/', CameraDetailView.as_view(), name='camera_detail'),
+    path('not_enough_product/', not_enough_product, name='not_enough_product')
 ]
 
 htmx = [

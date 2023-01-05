@@ -79,7 +79,31 @@ class OrderingView(CreateView):
             s += str(el)
         form.instance.quantity = s
         form.instance.price = Cart(self.request).get_total_price()
-        return super().form_valid(form)
+
+        errors = 0
+        for el in cart:
+            count = 0
+            cam = Cameras.objects.filter(id=el['product'].id, quantity__gt=0)
+            if cam:
+                count = cam[0].quantity
+            if el['quantity'] <= count:
+                cam[0].quantity -= el['quantity']
+                cam[0].save()
+            else:
+                errors += 1
+        if errors == 0:
+            cart.clear()
+            return super().form_valid(form)
+        else:
+            return redirect('not_enough_product')
+
+
+def not_enough_product(request):
+    context = {
+        'title': 'Ошибка заказа',
+        'error': 'Пожалуйста, проверьте наличие товара, возможно он закончился!'
+    }
+    return render(request, 'main/errors.html', context)
 
 
 # -----------------------------------htmx-------------------------------------
@@ -98,7 +122,6 @@ def checking_form(request):
 def check_form_username(request):
     if request.method == 'GET':
         u = request.GET.get('username')
-    print(u)
     if u == '' or u is None:
         return HttpResponse("""<button type="submit" class="btn btn-primary">Купить товар(ы)</button>""")
     else:
@@ -108,7 +131,6 @@ def check_form_username(request):
 def check_form_phone(request):
     if request.method == 'GET':
         p = request.GET.get('phone')
-    print(p)
     if p == '' or p is None:
         return HttpResponse("""<button type="submit" class="btn btn-primary">Купить товар(ы)</button>""")
     else:
@@ -118,7 +140,6 @@ def check_form_phone(request):
 def check_form_email(request):
     if request.method == 'GET':
         e = request.GET.get('email')
-    print(e)
     if e == '' or e is None:
         return HttpResponse("""<button type="submit" class="btn btn-primary">Купить товар(ы)</button>""")
     else:
