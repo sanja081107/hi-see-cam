@@ -75,12 +75,15 @@ class OrderingView(CreateView):
         form.instance.author = AbstractUser
         cart = Cart(self.request)
         s = ''
+        i = 0
         for el in cart:
-            s += str(el)
+            i += 1
+            s += f'{i}) ' + str(el['product']) + f" {el['price']} p. " + str(el['quantity']) + 'шт. \n'
         form.instance.quantity = s
         form.instance.price = Cart(self.request).get_total_price()
 
         errors = 0
+        cams = []
         for el in cart:
             count = 0
             cam = Cameras.objects.filter(id=el['product'].id, quantity__gt=0)
@@ -88,10 +91,12 @@ class OrderingView(CreateView):
                 count = cam[0].quantity
             if el['quantity'] <= count:
                 cam[0].quantity -= el['quantity']
-                cam[0].save()
+                cams.append(cam[0])
             else:
                 errors += 1
         if errors == 0:
+            for el in cams:
+                el.save()
             cart.clear()
             return super().form_valid(form)
         else:
@@ -112,19 +117,14 @@ def not_enough_product(request):
 def checking_form(request):
     if request.method == 'POST':
         form = OrderForm(request.POST)
-
     if form.is_valid():
         return HttpResponse("""<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Купить товар(ы)</button>""")
-    else:
-        return HttpResponse("""<button type="submit" class="btn btn-primary">Купить товар(ы)</button>""")
 
 
 def check_form_username(request):
     if request.method == 'GET':
         u = request.GET.get('username')
     if u == '' or u is None:
-        return HttpResponse("""<button type="submit" class="btn btn-primary">Купить товар(ы)</button>""")
-    else:
         return HttpResponse("""<button type="submit" class="btn btn-primary">Купить товар(ы)</button>""")
 
 
@@ -133,8 +133,6 @@ def check_form_phone(request):
         p = request.GET.get('phone')
     if p == '' or p is None:
         return HttpResponse("""<button type="submit" class="btn btn-primary">Купить товар(ы)</button>""")
-    else:
-        return HttpResponse("""<button type="submit" class="btn btn-primary">Купить товар(ы)</button>""")
 
 
 def check_form_email(request):
@@ -142,7 +140,19 @@ def check_form_email(request):
         e = request.GET.get('email')
     if e == '' or e is None:
         return HttpResponse("""<button type="submit" class="btn btn-primary">Купить товар(ы)</button>""")
-    else:
+
+
+def check_form_address(request):
+    if request.method == 'GET':
+        e = request.GET.get('address')
+    if e == '' or e is None:
+        return HttpResponse("""<button type="submit" class="btn btn-primary">Купить товар(ы)</button>""")
+
+
+def check_form_note(request):
+    if request.method == 'GET':
+        e = request.GET.get('note')
+    if e == '' or e is None:
         return HttpResponse("""<button type="submit" class="btn btn-primary">Купить товар(ы)</button>""")
 
 
@@ -154,3 +164,9 @@ def search(request):
         results = ''
     context = {'results': results}
     return render(request, 'main/search-results.html', context)
+
+
+# -----------------------------------user-------------------------------------
+
+def user_detail(request, slug):
+    return render(request, 'main/user_detail.html')

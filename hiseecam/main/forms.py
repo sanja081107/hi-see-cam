@@ -1,4 +1,5 @@
 from django.core.exceptions import ValidationError
+from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django.forms import ModelForm
 from django import forms
 from .models import *
@@ -12,32 +13,42 @@ class OrderForm(ModelForm):
     class Meta:
         model = Order
         # fields = '__all__'
-        exclude = ('created', 'user', 'quantity', 'price')
+        exclude = ('created', 'user', 'quantity', 'price', 'note')
         widgets = {
 
-            'username': forms.TextInput(attrs={'class': 'form-control f',
+            'username': forms.TextInput(attrs={'class': 'form-control',
                                                'placeholder': 'имя',
                                                'required': True,
                                                'hx-get': "/check_form_username/",
-                                               'hx-trigger': "change",
+                                               'hx-trigger': "keyup change delay:1ms",
                                                'hx-target': "#check-result"
                                                }),
-            'phone': forms.TextInput(attrs={'class': 'form-control f',
-                                            'type': 'number',
+            'phone': forms.TextInput(attrs={'class': 'form-control',
+                                            'type': 'tel',
+                                            'id': 'tel',
+                                            'maxlength': '18',
                                             'placeholder': 'телефон',
                                             'required': True,
                                             'hx-get': "/check_form_phone/",
-                                            'hx-trigger': "change",
+                                            'hx-trigger': "keyup change delay:1ms",
                                             'hx-target': "#check-result"
                                             }),
-            'email': forms.TextInput(attrs={'class': 'form-control f',
+            'email': forms.TextInput(attrs={'class': 'form-control',
                                             'type': 'email',
                                             'placeholder': 'почта',
                                             'required': True,
                                             'hx-get': "/check_form_email/",
-                                            'hx-trigger': "change",
+                                            'hx-trigger': "keyup change delay:1ms",
                                             'hx-target': "#check-result"
                                             }),
+            'address': forms.TextInput(attrs={'class': 'form-control',
+                                              'type': 'text',
+                                              'placeholder': 'адрес доставки',
+                                              'required': True,
+                                              'hx-get': "/check_form_address/",
+                                              'hx-trigger': "keyup change delay:1ms",
+                                              'hx-target': "#check-result"
+                                              })
         }
 
     def clean_username(self):
@@ -58,3 +69,16 @@ class OrderForm(ModelForm):
             raise ValidationError('Введите почту')
         return email
 
+
+class CustomUserCreationForm(UserCreationForm):
+
+    class Meta(UserCreationForm):
+        model = CustomUser
+        fields = ('username', 'email')
+
+
+class CustomUserChangeForm(UserChangeForm):
+
+    class Meta:
+        model = CustomUser
+        fields = '__all__'

@@ -95,12 +95,22 @@ body {
     .basket-main {
         display: none;
     }
+    .user-photo {
+        display: none;
+    }
     .navbar-pc__icon--basket {
         width: 27px;
         position: absolute;
         top: 20px;
         right: 100px;
         background-image: url(cart.svg);
+    }
+    #user-photo {
+        width: 27px;
+        position: absolute;
+        top: 18px;
+        right: 140px;
+        color: white;
     }
 }
 @media (min-width: 900px) {
@@ -115,11 +125,21 @@ body {
     .basket-mobile {
         display: none;
     }
+    .user-photo-mobile {
+        display: none;
+    }
     .navbar-pc__icon--basket {
         width: 27px;
         position: absolute;
         margin-top: 15px;
         background-image: url(cart.svg);
+    }
+    #user-photo {
+        width: 27px;
+        position: absolute;
+        margin-top: 8px;
+        right: 200px;
+        color: white;
     }
 }
 
