@@ -4,10 +4,10 @@ from django.urls import reverse
 
 
 class CustomUser(AbstractUser):
-    slug = models.SlugField(verbose_name='URL', max_length=50, unique=True, db_index=True, null=True)
+    slug = models.SlugField(verbose_name='Ваш ID', max_length=50, unique=True, db_index=True, null=True)
     photo = models.ImageField(upload_to='photos/%Y/%m/%d/', verbose_name='Фото', null=True, blank=True)
     mobile = models.CharField(max_length=20, verbose_name='Телефон', null=True, blank=True)
-    address = models.TextField(verbose_name='Адрес доставки', null=True, blank=True)
+    address = models.CharField(max_length=255, verbose_name='Адрес доставки', null=True, blank=True)
 
     class Meta:
         verbose_name = 'Пользователь'

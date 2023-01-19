@@ -1,5 +1,5 @@
 from django.core.exceptions import ValidationError
-from django.contrib.auth.forms import UserCreationForm, UserChangeForm
+from django.contrib.auth.forms import UserCreationForm, UserChangeForm, AuthenticationForm
 from django.forms import ModelForm
 from django import forms
 from .models import *
@@ -71,10 +71,20 @@ class OrderForm(ModelForm):
 
 
 class CustomUserCreationForm(UserCreationForm):
+    username = forms.CharField(label='Логин', widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Логин'}))
+    slug = forms.SlugField(label='Ваш ID', widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Ваш ID', 'readonly': True}))
+    first_name = forms.CharField(label='Имя', required=False, widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Имя'}))
+    last_name = forms.CharField(label='Фамилия', required=False, widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Фамилия'}))
+    email = forms.CharField(label='Почта', required=True, widget=forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'Почта'}))
+    mobile = forms.CharField(label='Мобильный телефон', widget=forms.TextInput(attrs={'class': 'form-control', 'type': 'tel', 'id': 'tel', 'maxlength': '18', 'placeholder': 'Телефон'}))
+    photo = forms.ImageField(label='Фото', required=False, widget=forms.FileInput(attrs={'class': 'form-control', 'type': 'file', 'accept': 'image/*'}))
+    address = forms.CharField(label='Адрес', widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Фамилия'}))
+    password1 = forms.CharField(label='Пароль', widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Пароль'}))
+    password2 = forms.CharField(label='Повтор пароля', widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Повтор пароля'}))
 
     class Meta(UserCreationForm):
         model = CustomUser
-        fields = ('username', 'email')
+        fields = ('username', 'slug', 'first_name', 'last_name', 'email', 'mobile', 'photo', 'address', 'password1', 'password2')
 
 
 class CustomUserChangeForm(UserChangeForm):
@@ -82,3 +92,11 @@ class CustomUserChangeForm(UserChangeForm):
     class Meta:
         model = CustomUser
         fields = '__all__'
+
+
+class LoginUserForm(AuthenticationForm):
+    username = forms.CharField(label='Логин', widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Логин'}))
+    password = forms.CharField(label='Пароль', widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Пароль'}))
+
+    class Meta:
+        model = User

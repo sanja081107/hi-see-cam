@@ -1,3 +1,6 @@
+from django.contrib.auth import login, logout
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.views import LoginView
 from django.http import HttpResponseNotFound, HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy
@@ -12,7 +15,7 @@ from cart.cart import Cart
 
 
 def home(request):
-    return render(request, 'main/index.html')
+    return render(request, 'main/index.html', context={'title': 'Главная страница'})
 
 
 def pageNotFound(request, exception):
@@ -40,6 +43,8 @@ class CameraDetailView(DetailView):
         for el in cart:
             lst.append(el['product'])
         context['products'] = lst
+        context['title'] = 'Подробнее о камере'
+        context['block_title'] = 'Подробнее о камере'
         return context
 
 
@@ -50,7 +55,7 @@ class CameraListView(DataMixin, ListView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        c_def = self.get_user_context(title='Список видеокамер')
+        c_def = self.get_user_context(title='Видеокамеры', block_title='Список видеокамер')
         context = dict(list(context.items()) + list(c_def.items()))
         context['cart_one_product_form'] = CartAddOneProductForm()
         cart = Cart(self.request)
@@ -106,7 +111,7 @@ class OrderingView(CreateView):
 def not_enough_product(request):
     context = {
         'title': 'Ошибка заказа',
-        'error': 'Пожалуйста, проверьте наличие товара, возможно он закончился!'
+        'error': 'Пожалуйста, проверьте наличие товара!'
     }
     return render(request, 'main/errors.html', context)
 
@@ -168,5 +173,50 @@ def search(request):
 
 # -----------------------------------user-------------------------------------
 
-def user_detail(request, slug):
-    return render(request, 'main/user_detail.html')
+class UserDetail(LoginRequiredMixin, DataMixin, DetailView):
+    model = CustomUser
+    slug_url_kwarg = 'slug'
+    context_object_name = 'el'
+    template_name = 'main/user_detail.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        c_def = self.get_user_context(title='Пользователь', block_title='Мои данные')
+        context = dict(list(context.items()) + list(c_def.items()))
+        return context
+
+
+class UserLogin(DataMixin, LoginView):
+    form_class = LoginUserForm
+    template_name = 'main/user_register.html'
+
+    def get_success_url(self):
+        return reverse_lazy('home')
+
+
+class UserRegister(DataMixin, CreateView):
+    form_class = CustomUserCreationForm
+    template_name = 'main/user_register.html'
+
+    def get_success_url(self):
+        return reverse_lazy('home')
+
+    def get_context_data(self, **kwargs):
+        if self.request.user.is_authenticated:
+            return redirect('home')
+        else:
+            context = super().get_context_data()
+            c_def = self.get_user_context(title='Вход', block_title='Регистрация')
+            context = dict(list(context.items()) + list(c_def.items()))
+            return context
+
+    def form_valid(self, form):
+        user = form.save()
+        login(self.request, user)
+        return redirect('home')
+
+
+def user_logout(request):
+    logout(request)             # стандартная ф-ия джанго для выхода пользователя
+    return redirect('home')
+

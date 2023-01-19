@@ -142,7 +142,13 @@ body {
         color: white;
     }
 }
+#myCarousel {
+    margin-bottom: 30px;
+}
 
+.delete-order {
+    color: red;
+}
 .select-quantity {
     width: 60px;
     position: absolute;

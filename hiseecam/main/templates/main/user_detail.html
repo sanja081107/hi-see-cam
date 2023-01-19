@@ -2,5 +2,65 @@
 {% load static %}
 
 {% block body %}
-    <h1>Hello world</h1>
+
+<div class="row">
+    <div class="col-sm"></div>
+    <div class="col-sm">
+        {% if el.photo %}
+            <img id="photo" src="{{ el.photo.url }}" width="70%">
+        {% else %}
+            <img src="{% static 'main/img/no-photo.png' %}" width="70%">
+        {% endif %}
+    </div>
+    <div class="col-sm">
+        {% if el.first_name %}
+            <p><h4>Имя:</h4> {{ el.first_name }}</p>
+        {% else %}
+            <p><h4>Имя:</h4> Не заполнено</p>
+        {% endif %}
+
+
+        {% if el.last_name %}
+            <p><h4>Фамилия:</h4> {{ el.last_name }}</p>
+        {% else %}
+            <p><h4>Фамилия:</h4> Не заполнено</p>
+        {% endif %}
+
+
+        {% if el.email %}
+            <p><h4>Почта:</h4> {{ el.email }}</p>
+        {% else %}
+            <p><h4>Почта:</h4> Не заполнено</p>
+        {% endif %}
+
+
+        {% if el.mobile %}
+            <p><h4>Телефон:</h4> {{ el.mobile }}</p>
+        {% else %}
+            <p><h4>Телефон:</h4> Не заполнено</p>
+        {% endif %}
+
+
+        {% if el.address %}
+            <p><h4>Адрес:</h4> {{ el.address }}</p>
+        {% else %}
+            <p><h4>Адрес:</h4> Не заполнено</p>
+        {% endif %}
+
+
+        {% if request.user == el %}
+            <a class="btn mb-2 btn-outline-primary" href="#">Изменить данные</a>
+        {% endif %}
+
+        {% if request.user == el %}
+            <a class="btn mb-2 btn-outline-primary" href="#">Изменить пароль</a>
+        {% endif %}
+
+        {% if request.user == el %}
+            <a class="btn mb-2 btn-outline-primary" href="{% url 'user_logout' %}">Выйти из профиля</a>
+        {% endif %}
+    </div>
+    <div class="col-sm"></div>
+</div>
+
 {% endblock %}
