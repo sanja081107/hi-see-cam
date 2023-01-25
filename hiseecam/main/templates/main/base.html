@@ -77,11 +77,20 @@
             </div>
 
             <div class="user-photo-mobile">
-                {% if request.user.is_authenticated %}
-                    <a href="{% url 'user_detail' request.user.slug %}"><svg id="user-photo" fill="currentColor" class="ali-icons_SvgIcon__icon__75ocax ali-icons_SvgIcon__size_M__75ocax SnowHeaderProfileItem_SnowHeaderProfileItem__icon__1vsjg" viewBox="0 0 32 32" data-spm-anchor-id="a2g2w.home.0.i1.75df5931LfFMgw"><path fill-rule="evenodd" d="M20 8a4 4 0 11-8 0 4 4 0 018 0zm2 0a6 6 0 11-12 0 6 6 0 0112 0zM6 26a8 8 0 018-8h4a8 8 0 018 8v2H6v-2zm-2 0c0-5.523 4.477-10 10-10h4c5.523 0 10 4.477 10 10v3a1 1 0 01-1 1H5a1 1 0 01-1-1v-3z" clip-rule="evenodd"></path></svg></a>
-                {% else %}
-                    <a href="{% url 'user_login' %}"><svg id="user-photo" fill="currentColor" class="ali-icons_SvgIcon__icon__75ocax ali-icons_SvgIcon__size_M__75ocax SnowHeaderProfileItem_SnowHeaderProfileItem__icon__1vsjg" viewBox="0 0 32 32" data-spm-anchor-id="a2g2w.home.0.i1.75df5931LfFMgw"><path fill-rule="evenodd" d="M20 8a4 4 0 11-8 0 4 4 0 018 0zm2 0a6 6 0 11-12 0 6 6 0 0112 0zM6 26a8 8 0 018-8h4a8 8 0 018 8v2H6v-2zm-2 0c0-5.523 4.477-10 10-10h4c5.523 0 10 4.477 10 10v3a1 1 0 01-1 1H5a1 1 0 01-1-1v-3z" clip-rule="evenodd"></path></svg></a>
-                {% endif %}
+                <div class="btn-group">
+                    {% if not request.user.is_authenticated %}
+                        <svg data-toggle="dropdown" aria-expanded="false" id="user-photo" fill="currentColor" class="ali-icons_SvgIcon__icon__75ocax ali-icons_SvgIcon__size_M__75ocax SnowHeaderProfileItem_SnowHeaderProfileItem__icon__1vsjg" viewBox="0 0 32 32" data-spm-anchor-id="a2g2w.home.0.i1.75df5931LfFMgw"><path fill-rule="evenodd" d="M20 8a4 4 0 11-8 0 4 4 0 018 0zm2 0a6 6 0 11-12 0 6 6 0 0112 0zM6 26a8 8 0 018-8h4a8 8 0 018 8v2H6v-2zm-2 0c0-5.523 4.477-10 10-10h4c5.523 0 10 4.477 10 10v3a1 1 0 01-1 1H5a1 1 0 01-1-1v-3z" clip-rule="evenodd"></path></svg>
+
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="{% url 'user_login' %}">Войти</a>
+                            <a class="dropdown-item" href="{% url 'user_register' %}">Регистрация</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="btn btn-danger dropdown-item">Закрыть</a>
+                        </div>
+                    {% else %}
+                        <a href="{% url 'user_detail' request.user.slug %}"><svg id="user-photo" fill="currentColor" class="ali-icons_SvgIcon__icon__75ocax ali-icons_SvgIcon__size_M__75ocax SnowHeaderProfileItem_SnowHeaderProfileItem__icon__1vsjg" viewBox="0 0 32 32" data-spm-anchor-id="a2g2w.home.0.i1.75df5931LfFMgw"><path fill-rule="evenodd" d="M20 8a4 4 0 11-8 0 4 4 0 018 0zm2 0a6 6 0 11-12 0 6 6 0 0112 0zM6 26a8 8 0 018-8h4a8 8 0 018 8v2H6v-2zm-2 0c0-5.523 4.477-10 10-10h4c5.523 0 10 4.477 10 10v3a1 1 0 01-1 1H5a1 1 0 01-1-1v-3z" clip-rule="evenodd"></path></svg></a>
+                    {% endif %}
+                </div>
             </div>
 
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false">
@@ -135,11 +144,20 @@
                     </div>
 
                     <div class="user-photo">
-                        {% if request.user.is_authenticated %}
-                            <a href="{% url 'user_detail' request.user.slug %}"><svg id="user-photo" fill="currentColor" class="ali-icons_SvgIcon__icon__75ocax ali-icons_SvgIcon__size_M__75ocax SnowHeaderProfileItem_SnowHeaderProfileItem__icon__1vsjg" viewBox="0 0 32 32" data-spm-anchor-id="a2g2w.home.0.i1.75df5931LfFMgw"><path fill-rule="evenodd" d="M20 8a4 4 0 11-8 0 4 4 0 018 0zm2 0a6 6 0 11-12 0 6 6 0 0112 0zM6 26a8 8 0 018-8h4a8 8 0 018 8v2H6v-2zm-2 0c0-5.523 4.477-10 10-10h4c5.523 0 10 4.477 10 10v3a1 1 0 01-1 1H5a1 1 0 01-1-1v-3z" clip-rule="evenodd"></path></svg></a>
-                        {% else %}
-                            <a href="{% url 'user_login' %}"><svg id="user-photo" fill="currentColor" class="ali-icons_SvgIcon__icon__75ocax ali-icons_SvgIcon__size_M__75ocax SnowHeaderProfileItem_SnowHeaderProfileItem__icon__1vsjg" viewBox="0 0 32 32" data-spm-anchor-id="a2g2w.home.0.i1.75df5931LfFMgw"><path fill-rule="evenodd" d="M20 8a4 4 0 11-8 0 4 4 0 018 0zm2 0a6 6 0 11-12 0 6 6 0 0112 0zM6 26a8 8 0 018-8h4a8 8 0 018 8v2H6v-2zm-2 0c0-5.523 4.477-10 10-10h4c5.523 0 10 4.477 10 10v3a1 1 0 01-1 1H5a1 1 0 01-1-1v-3z" clip-rule="evenodd"></path></svg></a>
-                        {% endif %}
+                        <div class="btn-group">
+                            {% if not request.user.is_authenticated %}
+                                <svg data-toggle="dropdown" aria-expanded="false" id="user-photo" fill="currentColor" class="ali-icons_SvgIcon__icon__75ocax ali-icons_SvgIcon__size_M__75ocax SnowHeaderProfileItem_SnowHeaderProfileItem__icon__1vsjg" viewBox="0 0 32 32" data-spm-anchor-id="a2g2w.home.0.i1.75df5931LfFMgw"><path fill-rule="evenodd" d="M20 8a4 4 0 11-8 0 4 4 0 018 0zm2 0a6 6 0 11-12 0 6 6 0 0112 0zM6 26a8 8 0 018-8h4a8 8 0 018 8v2H6v-2zm-2 0c0-5.523 4.477-10 10-10h4c5.523 0 10 4.477 10 10v3a1 1 0 01-1 1H5a1 1 0 01-1-1v-3z" clip-rule="evenodd"></path></svg>
+
+                                <div class="dropdown-menu">
+                                    <a class="dropdown-item" href="{% url 'user_login' %}">Войти</a>
+                                    <a class="dropdown-item" href="{% url 'user_register' %}">Регистрация</a>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="btn btn-danger dropdown-item">Закрыть</a>
+                                </div>
+                            {% else %}
+                                <a href="{% url 'user_detail' request.user.slug %}"><svg id="user-photo" fill="currentColor" class="ali-icons_SvgIcon__icon__75ocax ali-icons_SvgIcon__size_M__75ocax SnowHeaderProfileItem_SnowHeaderProfileItem__icon__1vsjg" viewBox="0 0 32 32" data-spm-anchor-id="a2g2w.home.0.i1.75df5931LfFMgw"><path fill-rule="evenodd" d="M20 8a4 4 0 11-8 0 4 4 0 018 0zm2 0a6 6 0 11-12 0 6 6 0 0112 0zM6 26a8 8 0 018-8h4a8 8 0 018 8v2H6v-2zm-2 0c0-5.523 4.477-10 10-10h4c5.523 0 10 4.477 10 10v3a1 1 0 01-1 1H5a1 1 0 01-1-1v-3z" clip-rule="evenodd"></path></svg></a>
+                            {% endif %}
+                        </div>
                     </div>
 
                     <div class="cart">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
@@ -211,7 +229,7 @@
     <!-- Wrap the rest of the page in another container to center all the content. -->
     <div class="row">
         <div class="col-sm"></div>
-        <div class="col-sm"><h3>&nbsp;&nbsp;{{ block_title }}</h3><br></div>
+        <div class="col-sm block_title"><h3>&nbsp;&nbsp;{{ block_title }}</h3><br></div>
         <div class="col-sm"></div>
     </div>
     <div class="container marketing">

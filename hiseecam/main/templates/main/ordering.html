@@ -6,7 +6,6 @@
     <div class="col-sm"></div>
     <div class="col-sm">
         <div class="contents">
-            <h1>Ваши данные</h1><br>
             {% if not request.user.is_authenticated %}
                 <form
                       method="post"
@@ -58,7 +57,55 @@
                 </form>
                 <br>
             {% else %}
-                <h1> is_authenticated </h1><br>
+                <form
+                      method="post"
+                      hx-post="{% url 'checking_form' %}"
+                      hx-trigger="keyup change"
+                      hx-target="#check-result2">
+
+                    {% csrf_token %}
+                    <div>{{ form_for_user.non_field_errors }}</div>  <!-- Выдается общая ошибка по всем полям если форма не связана с моделью -->
+
+                    {% for el in form_for_user %}
+                        <p><label for="{{el.id_for_label}}">{{ el.label }}:</label>{{ el }}</p>
+                        <div class="form-error">{{ el.errors }}</div>   <!-- Выдается ошибка по отдельному полю формы -->
+                    {% endfor %}
+
+                    <script type="text/javascript">
+
+                        $("#tel").mask("+375 (99) 999-99-99",{placeholder:"x"});
+
+                    </script>
+
+                    <br>
+
+                    <div id="check-result2">
+                        <button type="submit" class="btn btn-primary">Купить товар(ы)</button>
+                    </div>
+
+                    <!-- Modal -->
+                    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Подтверждение</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                ...
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Отменить</button>
+                                    <button type="submit" class="btn btn-primary">Купить</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </form>
+                <br>
             {% endif %}
         </div>
     </div>

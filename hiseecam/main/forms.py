@@ -71,20 +71,20 @@ class OrderForm(ModelForm):
 
 
 class CustomUserCreationForm(UserCreationForm):
-    username = forms.CharField(label='Логин', widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Логин'}))
+    username = forms.CharField(label='Имя пользователя', widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Логин'}))
     slug = forms.SlugField(label='Ваш ID', widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Ваш ID', 'readonly': True}))
-    first_name = forms.CharField(label='Имя', required=False, widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Имя'}))
-    last_name = forms.CharField(label='Фамилия', required=False, widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Фамилия'}))
-    email = forms.CharField(label='Почта', required=True, widget=forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'Почта'}))
+    first_name = forms.CharField(label='Имя', widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Имя'}))
+    last_name = forms.CharField(label='Фамилия (не обязательно)', required=False, widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Фамилия'}))
+    photo = forms.ImageField(label='Фото (не обязательно)', required=False, widget=forms.FileInput(attrs={'class': 'form-control', 'type': 'file', 'accept': 'image/*'}))
+    email = forms.CharField(label='Электронная почта', widget=forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'Почта'}))
     mobile = forms.CharField(label='Мобильный телефон', widget=forms.TextInput(attrs={'class': 'form-control', 'type': 'tel', 'id': 'tel', 'maxlength': '18', 'placeholder': 'Телефон'}))
-    photo = forms.ImageField(label='Фото', required=False, widget=forms.FileInput(attrs={'class': 'form-control', 'type': 'file', 'accept': 'image/*'}))
-    address = forms.CharField(label='Адрес', widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Фамилия'}))
+    address = forms.CharField(label='Адрес доставки', widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Адрес'}))
     password1 = forms.CharField(label='Пароль', widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Пароль'}))
     password2 = forms.CharField(label='Повтор пароля', widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Повтор пароля'}))
 
     class Meta(UserCreationForm):
         model = CustomUser
-        fields = ('username', 'slug', 'first_name', 'last_name', 'email', 'mobile', 'photo', 'address', 'password1', 'password2')
+        fields = ('username', 'slug', 'first_name', 'last_name', 'photo', 'email', 'mobile', 'photo', 'address', 'password1', 'password2')
 
 
 class CustomUserChangeForm(UserChangeForm):

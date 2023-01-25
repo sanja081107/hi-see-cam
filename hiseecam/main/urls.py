@@ -8,10 +8,18 @@ urlpatterns = [
     path('camera_list/', CameraListView.as_view(), name='camera_list'),
     path('camera_detail/<slug:slug>/', CameraDetailView.as_view(), name='camera_detail'),
     path('not_enough_product/', not_enough_product, name='not_enough_product'),
+
     path('user_detail/<slug:slug>', UserDetail.as_view(), name='user_detail'),
     path('user_register/', UserRegister.as_view(), name='user_register'),
     path('user_login/', UserLogin.as_view(), name='user_login'),
     path('user_logout/', user_logout, name='user_logout'),
+
+    path('change_password/', ChangePassword.as_view(), name='change_password'),
+    path('password_change_done/', PasswordChangeDone.as_view(), name='password_change_done'),
+    path('password_reset/', PasswordReset.as_view(), name='password_reset'),
+    path('password_reset_done/', PasswordResetDone.as_view(), name='password_reset_done'),
+    path('password_reset_confirm/<slug:uidb64>/<slug:token>/', PasswordResetConfirm.as_view(), name='password_reset_confirm'),
+    path('password_reset_complete/', PasswordResetComplete.as_view(), name='password_reset_complete'),
 ]
 
 htmx = [

@@ -49,15 +49,15 @@
 
 
         {% if request.user == el %}
-            <a class="btn mb-2 btn-outline-primary" href="#">Изменить данные</a>
+            <a class="btn mb-2 btn-outline-primary" href="#">Изменить данные</a><br>
         {% endif %}
 
         {% if request.user == el %}
-            <a class="btn mb-2 btn-outline-primary" href="#">Изменить пароль</a>
+            <a class="btn mb-2 btn-outline-primary" href="{% url 'change_password' %}">Изменить пароль</a><br>
         {% endif %}
 
         {% if request.user == el %}
-            <a class="btn mb-2 btn-outline-primary" href="{% url 'user_logout' %}">Выйти из профиля</a>
+            <a class="btn mb-2 btn-outline-primary" href="{% url 'user_logout' %}">Выйти из профиля</a><br><br><br>
         {% endif %}
     </div>
     <div class="col-sm"></div>

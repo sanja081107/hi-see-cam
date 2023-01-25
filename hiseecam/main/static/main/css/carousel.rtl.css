@@ -108,8 +108,8 @@ body {
     #user-photo {
         width: 27px;
         position: absolute;
-        top: 18px;
-        right: 140px;
+        top: -13px;
+        right: -5px;
         color: white;
     }
 }
@@ -137,13 +137,17 @@ body {
     #user-photo {
         width: 27px;
         position: absolute;
-        margin-top: 8px;
-        right: 200px;
+        margin-top: -5px;
+        right: -70px;
         color: white;
     }
 }
 #myCarousel {
     margin-bottom: 30px;
+}
+
+.block_title {
+    text-align: center;
 }
 
 .delete-order {
@@ -239,9 +243,6 @@ white-space: nowrap;
     height: 180px;
 }
 
-.col-sm {
-    margin-bottom: 20px;
-}
 
 .navbar-pc__notify {
     position: relative;

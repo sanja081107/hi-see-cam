@@ -2,7 +2,6 @@
 {% load static %}
 
 {% block body %}
-  <h1>Корзина покупок</h1><br>
 
   <div class="row pb-5">
     {% if cart %}
@@ -75,7 +74,7 @@
             <div class="col">
               <p align="right"><br><a href="{% url 'ordering' %}" class="btn btn-primary btn-sm">Оформить заказ</a></p>
             </div>
-            <a href="{% url 'cart:print_cart' %}">print_cart</a>
+<!--            <a href="{% url 'cart:print_cart' %}">print_cart</a>-->
           </div>
     {% else %}
       <h4>Корзина пустая</h4>
