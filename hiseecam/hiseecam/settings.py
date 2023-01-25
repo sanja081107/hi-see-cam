@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 import os
 from pathlib import Path
-from password import password, login
+from main.p import l, p
 import django_heroku
 import dj_database_url
 
@@ -26,7 +26,7 @@ CART_SESSION_ID = 'cart'
 SECRET_KEY = 'django-insecure-6@(1n^+&jt%l%_@x5sfdet(lsn(qtv33yp(zd74&fr6n+ig9&5'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['*', 'www.hii-see.herokuapp.com', 'hii-see.herokuapp.com']
 
@@ -144,9 +144,9 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
 EMAIL_HOST = "smtp.gmail.com"
-EMAIL_HOST_USER = login
-EMAIL_HOST_PASSWORD = password
+EMAIL_HOST_USER = l
+EMAIL_HOST_PASSWORD = p
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-DEFAULT_FROM_EMAIL = login
+DEFAULT_FROM_EMAIL = l
 
