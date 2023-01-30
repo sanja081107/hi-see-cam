@@ -9,7 +9,8 @@ urlpatterns = [
     path('camera_detail/<slug:slug>/', CameraDetailView.as_view(), name='camera_detail'),
     path('not_enough_product/', not_enough_product, name='not_enough_product'),
 
-    path('user_detail/<slug:slug>', UserDetail.as_view(), name='user_detail'),
+    path('user_detail/<slug:slug>/', UserDetail.as_view(), name='user_detail'),
+    path('user_update/<slug:slug>/', UserUpdate.as_view(), name='user_update'),
     path('user_register/', UserRegister.as_view(), name='user_register'),
     path('user_login/', UserLogin.as_view(), name='user_login'),
     path('user_logout/', user_logout, name='user_logout'),

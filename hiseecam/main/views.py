@@ -8,7 +8,7 @@ from django.urls import reverse_lazy
 
 from .utils import DataMixin
 from cart.forms import CartAddOneProductForm
-from django.views.generic import DetailView, ListView, CreateView
+from django.views.generic import DetailView, ListView, CreateView, UpdateView
 
 from .models import *
 from .forms import *
@@ -81,12 +81,16 @@ class OrderingView(DataMixin, CreateView):
         context = super().get_context_data(**kwargs)
         c_def = self.get_user_context(title='Оформление заказа', block_title='Оформление заказа')
         if self.request.user.is_authenticated:
-            context['form_for_user'] = OrderForm(initial={'address': self.request.user.address})
+            user = self.request.user
+            context['form'] = OrderForm(initial={'address': user.address, 'username': user.first_name, 'phone': user.mobile, 'email': user.email})
         context = dict(list(context.items()) + list(c_def.items()))
         return context
 
     def form_valid(self, form):
-        form.instance.author = AbstractUser
+        if self.request.user.is_authenticated:
+            form.instance.user = self.request.user
+        else:
+            form.instance.user = None
         cart = Cart(self.request)
         s = ''
         i = 0
@@ -199,6 +203,22 @@ class UserDetail(LoginRequiredMixin, DataMixin, DetailView):
         return context
 
 
+class UserUpdate(DataMixin, UpdateView):
+    model = CustomUser
+    form_class = CustomUserChangeForm
+    template_name = 'main/user_register.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        c_def = self.get_user_context(title='Изменение данных', block_title='Изменение данных')
+        context = dict(list(context.items()) + list(c_def.items()))
+        return context
+
+    def get_success_url(self):
+        user = CustomUser.objects.get(slug=self.kwargs['slug'])
+        return user.get_absolute_url()
+
+
 class UserLogin(DataMixin, LoginView):
     form_class = LoginUserForm
     template_name = 'main/user_login.html'
@@ -247,6 +267,8 @@ class ChangePassword(DataMixin, PasswordChangeView):
 class PasswordChangeDone(PasswordChangeDoneView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data()
+        c_def = self.get_user_context(block_title='Пароль изменен успешно')
+        context = dict(list(context.items()) + list(c_def.items()))
         return context
 
 class PasswordReset(DataMixin, PasswordResetView):
@@ -263,12 +285,16 @@ class PasswordResetDone(DataMixin, PasswordResetDoneView):
         context = dict(list(context.items()) + list(c_def.items()))
         return context
 
-class PasswordResetConfirm(PasswordResetConfirmView):
+class PasswordResetConfirm(DataMixin, PasswordResetConfirmView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data()
+        c_def = self.get_user_context(block_title='Сброс пароля')
+        context = dict(list(context.items()) + list(c_def.items()))
         return context
 
-class PasswordResetComplete(PasswordResetCompleteView):
+class PasswordResetComplete(DataMixin, PasswordResetCompleteView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data()
+        c_def = self.get_user_context(block_title='Сброс пароля выполнен')
+        context = dict(list(context.items()) + list(c_def.items()))
         return context

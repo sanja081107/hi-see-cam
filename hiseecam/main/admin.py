@@ -27,6 +27,7 @@ class OrderAdmin(admin.ModelAdmin):
     list_per_page = 50
     list_display = ('username', 'quantity', 'phone', 'created', 'price')
     readonly_fields = ('quantity', 'created',)
+    list_filter = ('user', 'created')
 
 
 class CustomUserAdmin(UserAdmin):

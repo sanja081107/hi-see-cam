@@ -49,8 +49,8 @@ class Order(models.Model):
     username = models.CharField(max_length=50, verbose_name='Ваше имя', blank=True)
     phone = models.CharField(max_length=20, verbose_name='Мобильный телефон', blank=True)
     email = models.EmailField(verbose_name='Почта', blank=True)
-    note = models.TextField(verbose_name='Примечание', blank=True, null=True)
     address = models.TextField(verbose_name='Адрес доставки', blank=True, null=True)
+    note = models.TextField(verbose_name='Примечание', blank=True, null=True)
     created = models.DateTimeField(verbose_name='Дата публикации', auto_now_add=True, blank=True)
     price = models.PositiveIntegerField(verbose_name='Цена', blank=True)
 

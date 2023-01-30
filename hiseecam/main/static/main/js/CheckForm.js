@@ -104,6 +104,7 @@ function minusBtnInBasket(id) {
 
     var min = Number(select_quantity_form.value) - 1;
     if (min > 0) {
+        $("#alert-quantity-"+id+"").empty();
         select_quantity_form.value = min;
     };
 //    console.log(select_quantity_form.value);

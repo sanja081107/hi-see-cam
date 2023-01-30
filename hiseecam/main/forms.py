@@ -1,7 +1,9 @@
 from django.core.exceptions import ValidationError
-from django.contrib.auth.forms import UserCreationForm, UserChangeForm, AuthenticationForm
+from django.contrib.auth.forms import UserCreationForm, UserChangeForm, AuthenticationForm, ReadOnlyPasswordHashField
 from django.forms import ModelForm
 from django import forms
+from django.urls import reverse_lazy
+
 from .models import *
 
 
@@ -13,7 +15,7 @@ class OrderForm(ModelForm):
     class Meta:
         model = Order
         # fields = '__all__'
-        exclude = ('created', 'user', 'quantity', 'price', 'note')
+        exclude = ('created', 'user', 'quantity', 'price')
         widgets = {
 
             'username': forms.TextInput(attrs={'class': 'form-control',
@@ -48,7 +50,11 @@ class OrderForm(ModelForm):
                                               'hx-get': "/check_form_address/",
                                               'hx-trigger': "keyup change delay:1ms",
                                               'hx-target': "#check-result"
-                                              })
+                                              }),
+            'note': forms.TextInput(attrs={'class': 'form-control',
+                                           'placeholder': 'Ваши пожелания',
+                                           'required': False
+                                           })
         }
 
     def clean_username(self):
@@ -88,11 +94,19 @@ class CustomUserCreationForm(UserCreationForm):
 
 
 class CustomUserChangeForm(UserChangeForm):
+    username = forms.CharField(label='Имя пользователя', widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Логин'}))
+    slug = forms.SlugField(label='Ваш ID', widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Ваш ID', 'readonly': False}))
+    first_name = forms.CharField(label='Имя', widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Имя'}))
+    last_name = forms.CharField(label='Фамилия', required=False, widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Фамилия'}))
+    photo = forms.ImageField(label='Фото', required=False, widget=forms.ClearableFileInput(attrs={'class': 'form-control', 'type': 'file', 'accept': 'image/*'}))
+    email = forms.CharField(label='Электронная почта', widget=forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'Почта'}))
+    mobile = forms.CharField(label='Мобильный телефон', widget=forms.TextInput(attrs={'class': 'form-control', 'type': 'tel', 'id': 'tel', 'maxlength': '18', 'placeholder': 'Телефон'}))
+    address = forms.CharField(label='Адрес доставки', widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Адрес'}))
+    password = None
 
     class Meta:
         model = CustomUser
-        fields = '__all__'
-
+        fields = ('username', 'slug', 'first_name', 'last_name', 'photo', 'email', 'mobile', 'photo', 'address')
 
 class LoginUserForm(AuthenticationForm):
     username = forms.CharField(label='Логин', widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Логин'}))

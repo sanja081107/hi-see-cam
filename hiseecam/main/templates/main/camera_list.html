@@ -5,7 +5,7 @@
     <div class="camera-list-mobile">
         <div class="row">
             {% for el in cams %}
-                <div class="col-sm">
+                <div class="col-sm card-cam">
                     <div class="card" style="width: 18rem;">
                         {% if el.photo %}
                             <img class="card-img-top" src="{{ el.photo.url }}" alt="Card image cap">
@@ -15,7 +15,7 @@
                         <div class="card-body">
                             <h5 class="card-title">Название карточки</h5>
                             <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                            <a href="{{ el.get_absolute_url }}" class="btn btn-primary">{{ el.title }}</a>
+                            <a href="{{ el.get_absolute_url }}" class="btn btn-primary">{{ el.title|truncatechars_html:20 }}</a>
 
                             <!-- Проверка есть ли данный товар в корзине onclick="checkBasketQuantity()" -->
                             {% if el not in products %}

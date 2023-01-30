@@ -26,7 +26,7 @@ CART_SESSION_ID = 'cart'
 SECRET_KEY = 'django-insecure-6@(1n^+&jt%l%_@x5sfdet(lsn(qtv33yp(zd74&fr6n+ig9&5'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['*', 'www.hii-see.herokuapp.com', 'hii-see.herokuapp.com']
 
