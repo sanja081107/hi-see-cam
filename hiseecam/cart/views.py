@@ -8,33 +8,33 @@ from .forms import CartAddProductForm, CartAddForm
 
 
 @require_POST
-def cart_add_one_camera_detail(request, product_id):
+def cart_add_one_camera_detail(request, product_id):                    # вызывается для одного товара на странице о товаре
     cart = Cart(request)
     product = get_object_or_404(Cameras, id=product_id)
-    form = CartAddProductForm(request.POST)
+    form = CartAddForm(request.POST)
     if form.is_valid():
         cd = form.cleaned_data
         cart.add(product=product,
-                 quantity=cd['quantity'],
+                 quantity=int(cd['quantity']),
                  update_quantity=cd['update'])
     return HttpResponse('В корзине <i class="fa-solid fa-check"></i>')
 
 
-@require_POST
+@require_POST                                                            # вызывается для каждого товара на странице всех товаров
 def cart_add_one_camera_list(request, product_id):
     cart = Cart(request)
     product = get_object_or_404(Cameras, id=product_id)
-    form = CartAddProductForm(request.POST)
+    form = CartAddForm(request.POST)
     if form.is_valid():
         cd = form.cleaned_data
         cart.add(product=product,
-                 quantity=cd['quantity'],
+                 quantity=int(cd['quantity']),
                  update_quantity=cd['update'])
     # return redirect('camera_list')
     return HttpResponse('<i class="fa-solid fa-check card-body-form"></i>')
 
 
-@require_POST
+@require_POST                                                           # вызывается в самой корзине при нажатии на "+" или "-"
 def check_add_in_basket(request, product_id):
     product = get_object_or_404(Cameras, id=product_id)
     quantity = request.POST['quantity']
@@ -44,38 +44,38 @@ def check_add_in_basket(request, product_id):
     else:
         cart = Cart(request)
         product = get_object_or_404(Cameras, id=product_id)
-        form = CartAddProductForm(request.POST)
+        form = CartAddForm(request.POST)
         if form.is_valid():
             cd = form.cleaned_data
             cart.add(product=product,
-                     quantity=cd['quantity'],
+                     quantity=int(cd['quantity']),
                      update_quantity=cd['update'])
         return HttpResponse()
 
 
-def cart_remove(request, product_id):
+def cart_remove(request, product_id):                                   # функция удаления определенного товара
     cart = Cart(request)
     product = get_object_or_404(Cameras, id=product_id)
     cart.remove(product)
     return redirect('cart:cart_detail')
 
 
-def cart_detail(request):
-    cart = Cart(request)
-    for item in cart:
-        item['update_quantity_form'] = CartAddForm(initial={'quantity': item['quantity'], 'update': True})
-    return render(request, 'cart/detail.html', {'cart': cart, 'title': 'Корзина', 'block_title': 'Корзина покупок'})
-
-
-def clear(request):
+def clear(request):                                                     # функция удаления всех товаров
     cart = Cart(request)
     cart.clear()
     return redirect('home')
 
 
-def print_cart(request):
+def print_cart(request):                                                # функция вывода на консоль всей корзины
     cart = Cart(request)
     for item in cart:
         print(item)
     print(cart.get_total_price())
     return redirect('home')
+
+
+def cart_detail(request):                                               # функция вывода корзины
+    cart = Cart(request)
+    for item in cart:
+        item['update_quantity_form'] = CartAddForm(initial={'quantity': item['quantity'], 'update': True})
+    return render(request, 'cart/detail.html', {'cart': cart, 'title': 'Корзина', 'block_title': 'Корзина покупок'})

@@ -17,7 +17,7 @@
                             <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
                             <a href="{{ el.get_absolute_url }}" class="btn btn-primary">{{ el.title|truncatechars_html:20 }}</a>
 
-                            <!-- Проверка есть ли данный товар в корзине onclick="checkBasketQuantity()" -->
+                            <!-- Проверка есть ли данный товар в корзине -->
                             {% if el not in products %}
                                 <form hx-post="{% url 'cart:cart_add_one_camera_list' el.id %}"
                                       hx-trigger="click"

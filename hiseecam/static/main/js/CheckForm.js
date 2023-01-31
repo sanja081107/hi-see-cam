@@ -94,8 +94,41 @@ function plusBtnInBasket(id) {
     }
     else {
         select_quantity_form.value = max;
-//        console.log(select_quantity_form.value);
+        // console.log(select_quantity_form.value);
+        var select_quantity_product = Number(document.getElementById("quantity-product-"+id+"").firstChild.nodeValue);      // кол-во выбранного товара на складе
+        var basket_quantity = Number(document.querySelector('.basket-quantity').firstChild.nodeValue);                      // текущее значение корзины
+        var select_form = document.querySelector("#select-form-"+id+"");                                                    // находим форму с измененным товаром
+        var select_quantity_form = Number(select_form.querySelector(".select-quantity").value);                             // находим значение измененного товара
+
+        var col = 0;
+        let select_quantity = document.querySelectorAll(".product-form");                                                   // находим все формы товаров на странице
+        for (let el of select_quantity) {
+            col = col + Number(el.querySelector('.select-quantity').value);
+        };
+
+        // находим измененную сумму цен товара
+        var price_for_piece = Number(document.querySelector("#price-"+id+"").firstChild.nodeValue);
+        var total_price_for_piece = price_for_piece * select_quantity_form
+
+        // если выбранное количество меньше имеющегося то применить изменения
+        if (select_quantity_form <= select_quantity_product) {
+            $(".basket-quantity").empty();
+            $(".basket-quantity").append(col);
+            $("#total_price-"+id+"").empty();
+            $("#total_price-"+id+"").append(total_price_for_piece);
+
+            // находим и меняем общую сумму на все товары
+            var col = 0;
+            let products = document.querySelectorAll(".row"+".border-bottom"+".border-top"+".border-left"+".border-right"+".pb-3"+".pt-3"+".pl-3");
+            for (let el of products) {
+                col = col + Number(el.querySelector('.total_price').firstChild.nodeValue);
+                // console.log(col);
+            };
+            $("#get_total_price").empty();
+            $("#get_total_price").append(col);
+        };
     };
+
 };
 
 function minusBtnInBasket(id) {
@@ -106,8 +139,40 @@ function minusBtnInBasket(id) {
     if (min > 0) {
         $("#alert-quantity-"+id+"").empty();
         select_quantity_form.value = min;
+
+        var select_quantity_product = Number(document.getElementById("quantity-product-"+id+"").firstChild.nodeValue);      // кол-во выбранного товара на складе
+        var basket_quantity = Number(document.querySelector('.basket-quantity').firstChild.nodeValue);                      // текущее значение корзины
+        var select_form = document.querySelector("#select-form-"+id+"");                                                    // находим форму с измененным товаром
+        var select_quantity_form = Number(select_form.querySelector(".select-quantity").value);                             // находим значение измененного товара
+
+        var col = 0;
+        let select_quantity = document.querySelectorAll(".product-form");                                                   // находим все формы товаров на странице
+        for (let el of select_quantity) {
+            col = col + Number(el.querySelector('.select-quantity').value);
+        };
+
+        // находим измененную сумму цен товара
+        var price_for_piece = Number(document.querySelector("#price-"+id+"").firstChild.nodeValue);
+        var total_price_for_piece = price_for_piece * select_quantity_form
+
+        // если выбранное количество меньше имеющегося то применить изменения
+        if (select_quantity_form <= select_quantity_product) {
+            $(".basket-quantity").empty();
+            $(".basket-quantity").append(col);
+            $("#total_price-"+id+"").empty();
+            $("#total_price-"+id+"").append(total_price_for_piece);
+
+            // находим и меняем общую сумму на все товары
+            var col = 0;
+            let products = document.querySelectorAll(".row"+".border-bottom"+".border-top"+".border-left"+".border-right"+".pb-3"+".pt-3"+".pl-3");
+            for (let el of products) {
+                col = col + Number(el.querySelector('.total_price').firstChild.nodeValue);
+                // console.log(col);
+            };
+            $("#get_total_price").empty();
+            $("#get_total_price").append(col);
+        };
     };
-//    console.log(select_quantity_form.value);
 };
 
 function checkOrdering() {

@@ -10,7 +10,7 @@
           <div class="row border-bottom border-top border-left border-right pb-3 pt-3 pl-3">
             <div class="col border-right">
               {% if el.photo %}
-                <p align="center"><img src="{{ el.photo.url }}" alt=""></p>
+                <p align="center"><img src="{{ el.photo.url }}" width="100" height="100"></p>
               {% else %}
                 <p align="center"><img src="{% static 'main/img/no_image.jpg' %}" alt=""></p>
               {% endif %}
@@ -26,19 +26,26 @@
                     {{ item.update_quantity_form.quantity }}
                     {{ item.update_quantity_form.update }}
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    <button
-                      class="btn"
-                      type="submit"
-                      hx-trigger="click"
-                      hx-post="{% url 'cart:check_add_in_basket' el.id %}"
-                      hx-target="#alert-quantity-{{ el.id }}">
-                      <i class="fa-sharp fa-solid fa-arrow-rotate-right" onclick="detailCheckBasket({{ el.id }})"></i>
+                    <br><br>
+                    <button class="btn btn-secondary"
+                            type="button" id="minus-btn-{{ el.id }}"
+                            onclick="minusBtnInBasket({{ el.id }})"
+                            hx-trigger="click"
+                            hx-post="{% url 'cart:check_add_in_basket' el.id %}"
+                            hx-target=".cart-error">
+                            <i class="fa-solid fa-minus"></i>
+                    </button>&nbsp;&nbsp;&nbsp;&nbsp;
+                    <button class="btn btn-success"
+                            type="button" id="plus-btn-{{ el.id }}"
+                            onclick="plusBtnInBasket({{ el.id }})"
+                            hx-trigger="click"
+                            hx-post="{% url 'cart:check_add_in_basket' el.id %}"
+                            hx-target=".cart-error">
+                            <i class="fa-solid fa-plus"></i>
                     </button>
                     <br><br>
-                    <button class="btn btn-secondary" type="button" id="minus-btn-{{ el.id }}" onclick="minusBtnInBasket({{ el.id }})"><i class="fa-solid fa-minus"></i></button>&nbsp;&nbsp;&nbsp;&nbsp;
-                    <button class="btn btn-success" type="button" id="plus-btn-{{ el.id }}" onclick="plusBtnInBasket({{ el.id }})"><i class="fa-solid fa-plus"></i></button>
-                    <br><br>
                     <p class="alert-quantity" id="alert-quantity-{{ el.id }}"></p>
+                    <div class="cart-error"></div>
                   </form>
                 </div>
                 <div class="col"><br>
