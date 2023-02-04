@@ -192,9 +192,7 @@ class UserDetail(LoginRequiredMixin, DataMixin, DetailView):
     slug_url_kwarg = 'slug'
     context_object_name = 'el'
     template_name = 'main/user_detail.html'
-
-    def get_login_url(self):
-        return reverse_lazy('user_login')
+    login_url = reverse_lazy('user_login')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -203,10 +201,11 @@ class UserDetail(LoginRequiredMixin, DataMixin, DetailView):
         return context
 
 
-class UserUpdate(DataMixin, UpdateView):
+class UserUpdate(LoginRequiredMixin, DataMixin, UpdateView):
     model = CustomUser
     form_class = CustomUserChangeForm
     template_name = 'main/user_register.html'
+    login_url = reverse_lazy('user_login')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

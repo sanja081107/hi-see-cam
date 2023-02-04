@@ -6,20 +6,30 @@ from .models import *
 from .forms import *
 
 
+class CamerasPhotosInline(admin.TabularInline):
+    model = CamerasPhotos
+    fk_name = 'post'
+    fields = ('images', 'get_html_photo')
+    readonly_fields = ('get_html_photo',)
+
+    def get_html_photo(self, object):
+        if object.images:
+            return mark_safe(f"<img src='{object.images.url}' width=100>")
+    get_html_photo.short_description = 'Миниатюра'
+
+
 class CamerasAdmin(admin.ModelAdmin):
     list_per_page = 3
     list_display = ('title', 'description', 'quantity', 'get_html_photo', 'price')
     list_editable = ('description', 'quantity', 'price')
     prepopulated_fields = {'slug': ('title',)}
     fields = ('title', 'slug', 'description', 'quantity', 'photo', 'get_html_photo', 'date_release', 'date_published', 'date_edited', 'price')
+    inlines = [CamerasPhotosInline, ]
     readonly_fields = ('get_html_photo', 'date_published', 'date_edited')
 
     def get_html_photo(self, object):
         if object.photo:
             return mark_safe(f"<img src='{object.photo.url}' width=100>")
-        # else:
-        #     return mark_safe("<img src='/static/main/img/no_image.jpg' width=100>")
-
     get_html_photo.short_description = 'Миниатюра'
 
 
@@ -57,9 +67,17 @@ class CustomUserAdmin(UserAdmin):
     get_html_photo.short_description = 'Миниатюра'
 
 
+class FeedbackAdmin(admin.ModelAdmin):
+    list_per_page = 50
+    list_display = ('id', 'user', 'title', 'created')
+    list_display_links = ('id', 'user')
+    readonly_fields = ('created',)
+
+
 admin.site.register(Cameras, CamerasAdmin)
 admin.site.register(Order, OrderAdmin)
 admin.site.register(CustomUser, CustomUserAdmin)
+admin.site.register(Feedback, FeedbackAdmin)
 
 admin.site.site_title = 'Видеонаблюдение'
 admin.site.site_header = 'Видеонаблюдение'

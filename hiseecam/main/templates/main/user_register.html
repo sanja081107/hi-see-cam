@@ -8,8 +8,8 @@
         <form method="post">
             {% csrf_token %}
             {% for el in form %}
-            <p><label for="{{el.id_for_label}}">{{ el.label }}:</label> {{ el }}</p>
-            <div class="form-error"> {{ el.errors }}</div>   <!-- Выдается ошибка по отдельному полю формы -->
+                <p><label for="{{el.id_for_label}}">{{ el.label }}:</label> {{ el }}</p>
+                <div class="form-error"> {{ el.errors }}</div>   <!-- Выдается ошибка по отдельному полю формы -->
             {% endfor %}<br>
             <button class="btn btn-success" type="submit">Подтвердить</button>
         </form><br><br>

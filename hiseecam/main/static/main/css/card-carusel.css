@@ -1,0 +1,15 @@
+.card {
+    margin-left: 10%;
+    height: 110px;
+    width: 80%;
+}
+
+.card {display: -webkit-box}
+
+.card {
+  overflow-x: scroll;
+}
+
+.card::-webkit-scrollbar {
+  // display: none;
+}
