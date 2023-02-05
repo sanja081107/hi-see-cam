@@ -67,17 +67,31 @@ class CustomUserAdmin(UserAdmin):
     get_html_photo.short_description = 'Миниатюра'
 
 
+class FeedbackPhotosInline(admin.TabularInline):
+    model = FeedbackPhotos
+    fk_name = 'post'
+    fields = ('images', 'get_html_photo')
+    readonly_fields = ('get_html_photo',)
+
+    def get_html_photo(self, object):
+        if object.images:
+            return mark_safe(f"<img src='{object.images.url}' width=100>")
+    get_html_photo.short_description = 'Миниатюра'
+
+
 class FeedbackAdmin(admin.ModelAdmin):
     list_per_page = 50
     list_display = ('id', 'user', 'title', 'created')
     list_display_links = ('id', 'user')
     readonly_fields = ('created',)
+    inlines = [FeedbackPhotosInline, ]
 
 
 admin.site.register(Cameras, CamerasAdmin)
 admin.site.register(Order, OrderAdmin)
 admin.site.register(CustomUser, CustomUserAdmin)
 admin.site.register(Feedback, FeedbackAdmin)
+
 
 admin.site.site_title = 'Видеонаблюдение'
 admin.site.site_header = 'Видеонаблюдение'

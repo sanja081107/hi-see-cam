@@ -7,6 +7,7 @@ urlpatterns = [
     path('ordering/', OrderingView.as_view(), name='ordering'),
     path('camera_list/', CameraListView.as_view(), name='camera_list'),
     path('camera_detail/<slug:slug>/', CameraDetailView.as_view(), name='camera_detail'),
+    path('feedback/', FeedbackView.as_view(), name='feedback'),
     path('not_enough_product/', not_enough_product, name='not_enough_product'),
 
     path('user_detail/<slug:slug>/', UserDetail.as_view(), name='user_detail'),

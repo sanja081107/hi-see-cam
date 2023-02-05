@@ -4,7 +4,7 @@ from django.urls import reverse
 
 
 def upload_path_autor(instance, filename):
-    return 'photos/feedback/{0}/{1}/'.format(instance.post.user, filename)
+    return 'photos/feedback/{0}/{1}'.format(instance.post.user.slug, filename)
 
 
 def upload_camera_photos(instance, filename):
@@ -96,9 +96,9 @@ class Feedback(models.Model):
 
 
 class FeedbackPhotos(models.Model):
-    images = models.ImageField(upload_to=upload_path_autor, blank=True)
+    images = models.ImageField(upload_to=upload_path_autor, blank=True, verbose_name='Фотографии')
     post = models.ForeignKey(Feedback, related_name='feedback_images', on_delete=models.CASCADE)
 
     class Meta:
-        verbose_name = 'Фото'
-        verbose_name_plural = 'Все фото'
+        verbose_name = 'Фото отзыва'
+        verbose_name_plural = 'Все фото отзыва'

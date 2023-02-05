@@ -1,0 +1,29 @@
+{% extends 'main/base.html' %}
+
+{% block body %}
+
+<div class="row">
+    <div class="col-sm"></div>
+    <div class="col-sm">
+
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+            {{ image_form.as_p }}
+            <button class="btn btn-success" type="submit">Сохранить</button>
+            <br><br>
+        </form>
+        <br>
+
+        {% for el in comments %}
+            {{ el.title }}<br>
+            {% for e in el.feedback_images.all %}
+                <img src="{{ e.images.url }}" alt="" width="100">
+            {% endfor %}<br><br>
+        {% endfor %}<br><br>
+
+    </div>
+    <div class="col-sm"></div>
+</div>
+
+{% endblock %}

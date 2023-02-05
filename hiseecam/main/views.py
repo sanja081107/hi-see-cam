@@ -8,7 +8,7 @@ from django.urls import reverse_lazy
 
 from .utils import DataMixin
 from cart.forms import CartAddOneProductForm
-from django.views.generic import DetailView, ListView, CreateView, UpdateView
+from django.views.generic import DetailView, ListView, CreateView, UpdateView, FormView
 
 from .models import *
 from .forms import *
@@ -127,6 +127,31 @@ def not_enough_product(request):
         'error': 'Пожалуйста, проверьте наличие товара!'
     }
     return render(request, 'main/errors.html', context)
+
+
+class FeedbackView(DataMixin, CreateView):
+    template_name = 'main/feedback.html'
+    form_class = FeedbackForm
+    success_url = reverse_lazy('feedback')
+
+    def form_valid(self, form):
+        if self.request.user.is_authenticated:
+            form.instance.user = self.request.user
+        else:
+            form.instance.user = None
+
+        post = form.save()
+        for item in self.request.FILES.getlist('images'):
+            FeedbackPhotos.objects.create(images=item, post=post)
+        return super().form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data()
+        context['comments'] = Feedback.objects.all()
+        context['image_form'] = FeedbackPhotosForm()
+        c_def = self.get_user_context(title='Отзывы', block_title='Оставить отзыв')
+        context = dict(list(context.items()) + list(c_def.items()))
+        return context
 
 
 # -----------------------------------htmx-------------------------------------

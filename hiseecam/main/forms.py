@@ -114,3 +114,24 @@ class LoginUserForm(AuthenticationForm):
 
     class Meta:
         model = User
+
+
+class FeedbackForm(ModelForm):
+
+    class Meta:
+        model = Feedback
+        fields = ['title', 'comment']
+        widgets = {
+            'title': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Введите название'}),
+            'comment': forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Напишите отзыв'}),
+        }
+
+
+class FeedbackPhotosForm(ModelForm):
+
+    class Meta:
+        model = FeedbackPhotos
+        fields = ['images']
+        widgets = {
+            'images': forms.FileInput(attrs={'class': 'form-control', 'multiple': 'multiple'}),
+        }
