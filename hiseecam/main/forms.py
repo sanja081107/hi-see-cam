@@ -122,8 +122,12 @@ class FeedbackForm(ModelForm):
         model = Feedback
         fields = ['title', 'comment']
         widgets = {
-            'title': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Введите название'}),
-            'comment': forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Напишите отзыв'}),
+            'title': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Название'}),
+            'comment': forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Напишите отзыв', 'rows': 4}),
+        }
+        labels = {
+            'title': '',
+            'comment': ''
         }
 
 
@@ -134,4 +138,7 @@ class FeedbackPhotosForm(ModelForm):
         fields = ['images']
         widgets = {
             'images': forms.FileInput(attrs={'class': 'form-control', 'multiple': 'multiple'}),
+        }
+        labels = {
+            'images': ''
         }

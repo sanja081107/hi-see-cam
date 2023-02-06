@@ -1,15 +1,15 @@
-.card {
+.camera-list-photo {
     margin-left: 10%;
     height: 110px;
     width: 80%;
 }
 
-.card {display: -webkit-box}
+.camera-list-photo {display: -webkit-box}
 
-.card {
+.camera-list-photo {
   overflow-x: scroll;
 }
 
-.card::-webkit-scrollbar {
+.camera-list-photo::-webkit-scrollbar {
   // display: none;
 }

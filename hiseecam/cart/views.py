@@ -39,7 +39,7 @@ def check_add_in_basket(request, product_id):
     product = get_object_or_404(Cameras, id=product_id)
     quantity = request.POST['quantity']
     col_product = product.quantity
-    if int(quantity) > col_product:
+    if int(quantity) > col_product or int(quantity) <= 0:
         return HttpResponse('Недостаточно товара! Снизьте количество товара!')
     else:
         cart = Cart(request)

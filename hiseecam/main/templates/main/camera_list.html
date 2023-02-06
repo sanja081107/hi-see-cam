@@ -9,14 +9,14 @@
                 <div class="col-sm card-cam">
                     <div class="card" style="width: 18rem;">
                         {% if el.photo %}
-                            <img class="card-img-top" src="{{ el.photo.url }}" alt="Card image cap">
+                            <a href="{{ el.get_absolute_url }}"><img class="card-img-top" src="{{ el.photo.url }}" alt="Card image cap"></a>
                         {% else %}
-                            <img class="card-img-top" src="{% static 'main/img/no_image.jpg' %}" alt="Card image cap">
+                            <a href="{{ el.get_absolute_url }}"><img class="card-img-top" src="{% static 'main/img/no_image.jpg' %}" alt="Card image cap"></a>
                         {% endif %}
                         <div class="card-body">
-                            <h5 class="card-title">Название карточки</h5>
-                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                            <a href="{{ el.get_absolute_url }}" class="btn btn-primary">{{ el.title|truncatechars_html:20 }}</a>
+                            <h5 class="card-title">{{ el.title|truncatechars_html:20 }}</h5>
+                            <p class="card-text">{{ el.description|truncatechars_html:100 }}</p>
+                            <a href="{{ el.get_absolute_url }}" class="btn btn-primary">Смотреть товар</a>
 
                             <!-- Проверка есть ли данный товар в корзине -->
                             {% if el not in products %}

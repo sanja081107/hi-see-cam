@@ -129,27 +129,29 @@ def not_enough_product(request):
     return render(request, 'main/errors.html', context)
 
 
-class FeedbackView(DataMixin, CreateView):
+class FeedbackView(DataMixin, CreateView, ListView):
     template_name = 'main/feedback.html'
     form_class = FeedbackForm
     success_url = reverse_lazy('feedback')
 
+    queryset = Feedback.objects.all()
+    context_object_name = 'comments'
+    paginate_by = 5
+
     def form_valid(self, form):
         if self.request.user.is_authenticated:
             form.instance.user = self.request.user
+            post = form.save()
+            for item in self.request.FILES.getlist('images'):
+                FeedbackPhotos.objects.create(images=item, post=post)
+            return super().form_valid(form)
         else:
-            form.instance.user = None
-
-        post = form.save()
-        for item in self.request.FILES.getlist('images'):
-            FeedbackPhotos.objects.create(images=item, post=post)
-        return super().form_valid(form)
+            return super().form_invalid(form)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data()
-        context['comments'] = Feedback.objects.all()
         context['image_form'] = FeedbackPhotosForm()
-        c_def = self.get_user_context(title='Отзывы', block_title='Оставить отзыв')
+        c_def = self.get_user_context(title='Отзывы', block_title='Отзывы')
         context = dict(list(context.items()) + list(c_def.items()))
         return context
 

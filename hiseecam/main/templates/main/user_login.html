@@ -11,6 +11,7 @@
             <p><label for="{{el.id_for_label}}">{{ el.label }}:</label> {{ el }}</p>
             <div class="form-error"> {{ el.errors }}</div>   <!-- Выдается ошибка по отдельному полю формы -->
             {% endfor %}
+            <a href="{% url 'user_register' %}">Не зарегистрированы?</a><br>
             <a href="{% url 'password_reset' %}">Забыли пароль?</a><br><br>
             <button class="btn btn-success" type="submit">Войти</button>
         </form><br>
