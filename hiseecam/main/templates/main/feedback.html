@@ -10,14 +10,22 @@
                 <h5>Все отзывы:</h5><br>
                 {% for el in comments %}
                     <div class="alert alert-secondary" role="alert">
+
                         <div class="row">
-                            <div class="col-sm"><label>Название:</label><p class="alert alert-light">{{ el.title }}</p></div>
-                            <div class="col-sm">
-                                <label class="feedback-author">Автор:</label>
-                                <a href="{{ el.user.get_absolute_url }}"><p class="alert alert-light">{{ el.user.first_name }}</p></a>
-                            </div>
+                            <div class="col-sm-25">Название:</div>
+                            <div class="col-sm-75">{{ el.title }}</div>
                         </div>
-                        <label>Содержание:</label><p class="alert alert-light">{{ el.comment }}</p>
+                        <div class="row">
+                            <div class="col-sm-25">Автор:</div>
+                            <div class="col-sm-75"><a href="{{ el.user.get_absolute_url }}">{{ el.user.first_name }}</a></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-25">Дата:</div>
+                            <div class="col-sm-75">{{ el.created }}</div>
+                        </div>
+                        <br>
+
+                        <p class="alert alert-light">{{ el.comment }}</p>
                         {% if el.feedback_images.all %}
                             <div class="alert alert-light" role="alert">
                                 {% for e in el.feedback_images.all %}

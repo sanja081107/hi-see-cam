@@ -202,3 +202,17 @@ function checkOrdering() {
     };
 
 };
+
+function sortedCamera() {
+    var btn = document.querySelector('#sorted-camera');
+    btn.click();
+//    var sorted_camera_value = document.querySelector('.sorted-camera-value')
+//    if (sorted_camera_value.clicked == true) {
+//        alert('hello');
+//    };
+};
+
+document.querySelector('#id_filter_camera').onchange = function() {
+    var btn = document.querySelector('#sorted-camera');
+    btn.click();
+}

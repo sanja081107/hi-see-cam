@@ -13,3 +13,11 @@
 .camera-list-photo::-webkit-scrollbar {
   // display: none;
 }
+
+.col-sm-25 {
+    width: 25%;
+}
+
+.col-sm-75 {
+    width: 75%;
+}

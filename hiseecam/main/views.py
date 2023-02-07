@@ -2,6 +2,7 @@ from django.contrib.auth import login, logout
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView, PasswordChangeView, PasswordChangeDoneView, PasswordResetView, \
     PasswordResetDoneView, PasswordResetConfirmView, PasswordResetCompleteView
+from django.core.paginator import Paginator
 from django.http import HttpResponseNotFound, HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy
@@ -49,6 +50,20 @@ class CameraDetailView(DetailView):
         return context
 
 
+# def sorted_camera(request):
+#     if request.method == 'POST':
+#         posts = Cameras.objects.all()
+#     paginator = Paginator(posts, 6)  # Показывает все записи на текущий месяца
+#     page_number = request.GET.get('page')
+#     page_obj = paginator.get_page(page_number)
+#
+#     context = {
+#         'page_obj': page_obj,
+#         'paginator': paginator,
+#     }
+#     return render(request, 'main/camera_list.html', context)
+
+
 class CameraListView(DataMixin, ListView):
     model = Cameras
     template_name = 'main/camera_list.html'
@@ -60,14 +75,32 @@ class CameraListView(DataMixin, ListView):
         context = dict(list(context.items()) + list(c_def.items()))
         context['cart_one_product_form'] = CartAddOneProductForm()
         cart = Cart(self.request)
+
         lst = []
         for el in cart:
             lst.append(el['product'])
         context['products'] = lst
+
+        context['FilterCameraForm'] = FilterCameraForm(self.request.GET)
+        context['filter_camera'] = self.request.GET.get('filter_camera')
+
         return context
 
     def get_queryset(self):
-        return Cameras.objects.filter(quantity__gt=0)
+        a = self.request.GET.get('filter_camera')
+        if a:
+            if a == 'none':
+                return Cameras.objects.filter(quantity__gt=0)
+            elif a == 'price_up':
+                return Cameras.objects.filter(quantity__gt=0).order_by('price')
+            elif a == 'price_down':
+                return Cameras.objects.filter(quantity__gt=0).order_by('-price')
+            elif a == 'popular':
+                return Cameras.objects.filter(quantity__gt=0).order_by('-quantity')
+            else:
+                return Cameras.objects.filter(quantity__gt=0)
+        else:
+            return Cameras.objects.filter(quantity__gt=0)
 
 
 class OrderingView(DataMixin, CreateView):

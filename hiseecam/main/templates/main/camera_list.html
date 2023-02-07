@@ -2,8 +2,21 @@
 {% load static %}
 
 {% block body %}
-
     <div class="camera-list-mobile">
+        <div class="row">
+            <div class="col-sm"></div>
+            <div class="col-sm">
+
+                <form method="get">
+                    Сортировать: &nbsp;
+                    {{ FilterCameraForm.filter_camera }}
+                    <button id="sorted-camera" type="submit" hidden>Сортировать</button>
+                </form>
+
+            </div>
+            <br><br>
+            <div class="col-sm"></div>
+        </div>
         <div class="row">
             {% for el in cams %}
                 <div class="col-sm card-cam">
@@ -15,7 +28,8 @@
                         {% endif %}
                         <div class="card-body">
                             <h5 class="card-title">{{ el.title|truncatechars_html:20 }}</h5>
-                            <p class="card-text">{{ el.description|truncatechars_html:100 }}</p>
+                            <p class="card-text">{{ el.description|truncatechars_html:90 }}</p>
+                            <p>Цена: <strong>{{ el.price }}</strong> p. Продано: <strong>{{ el.count }}</strong> шт.</p>
                             <a href="{{ el.get_absolute_url }}" class="btn btn-primary">Смотреть товар</a>
 
                             <!-- Проверка есть ли данный товар в корзине -->
@@ -45,10 +59,10 @@
             <ul class="pagination">
                 {% if page_obj.has_previous %}
                     <li class="page-item">
-                        <a class="page-link" href="?page=1">Первая</a>
+                        <a class="page-link" href="?page=1&filter_camera={{ filter_camera }}">Первая</a>
                     </li>
                     <li class="page-item">
-                        <a class="page-link" href="?page={{ page_obj.previous_page_number }}">&laquo;&laquo;</a>
+                        <a class="page-link" href="?page={{ page_obj.previous_page_number }}&filter_camera={{ filter_camera }}">&laquo;&laquo;</a>
                     </li>
                 {% else %}
                     <li class="page-item disabled">
@@ -59,12 +73,12 @@
                     {% for p in paginator.page_range %}
                         {% if page_obj.number == p %}
                             <li class="page-item active">
-                                <a class="page-link" href="?page={{ p }}">
+                                <a class="page-link" href="?page={{ p }}&filter_camera={{ filter_camera }}">
                                     {{ p }} <span class="sr-only">(current)</span>
                                 </a>
                             </li>
                         {% elif p >= page_obj.number|add:-2 and p <= page_obj.number|add:2 %}
-                            <li class="page-item"><a class="page-link" href="?page={{ p }}">{{ p }}</a></li>
+                            <li class="page-item"><a class="page-link" href="?page={{ p }}&filter_camera={{ filter_camera }}">{{ p }}</a></li>
                         {% endif %}
                     {% endfor %}
                 {% else %}
@@ -74,10 +88,10 @@
                 {% endif %}
                 {% if page_obj.has_next %}
                     <li class="page-item">
-                        <a class="page-link" href="?page={{ page_obj.next_page_number }}">&raquo;&raquo;</a>
+                        <a class="page-link" href="?page={{ page_obj.next_page_number }}&filter_camera={{ filter_camera }}">&raquo;&raquo;</a>
                     </li>
                     <li class="page-item">
-                        <a class="page-link" href="?page={{ paginator.num_pages }}">Последняя</a>
+                        <a class="page-link" href="?page={{ paginator.num_pages }}&filter_camera={{ filter_camera }}">Последняя</a>
                     </li>
                 {% else %}
                     <li class="page-item disabled">

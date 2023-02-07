@@ -1,6 +1,6 @@
 from django.core.exceptions import ValidationError
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm, AuthenticationForm, ReadOnlyPasswordHashField
-from django.forms import ModelForm
+from django.forms import ModelForm, Form
 from django import forms
 from django.urls import reverse_lazy
 
@@ -142,3 +142,8 @@ class FeedbackPhotosForm(ModelForm):
         labels = {
             'images': ''
         }
+
+
+class FilterCameraForm(Form):
+    filter_camera = forms.TypedChoiceField(choices=(('none', 'Не выбрано'), ('price_up', 'По цене (↑)'), ('price_down', 'По цене (↓)'), ('popular', 'Популярность')), empty_value=None)
+
