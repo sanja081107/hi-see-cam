@@ -146,4 +146,11 @@ class FeedbackPhotosForm(ModelForm):
 
 class FilterCameraForm(Form):
     filter_camera = forms.TypedChoiceField(choices=(('none', 'Не выбрано'), ('price_up', 'По цене (↑)'), ('price_down', 'По цене (↓)'), ('popular', 'Популярность')), empty_value=None)
-
+    min_price = forms.IntegerField(min_value=0, required=False, widget=forms.TextInput(attrs={'class': 'form-control filter-for-price',
+                                                                                              'placeholder': '-',
+                                                                                              'type': 'number',
+                                                                                              'min': '0'}))
+    max_price = forms.IntegerField(min_value=0, required=False, widget=forms.TextInput(attrs={'class': 'form-control filter-for-price',
+                                                                                              'placeholder': '-',
+                                                                                              'type': 'number',
+                                                                                              'min': '0'}))

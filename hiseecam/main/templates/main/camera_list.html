@@ -3,21 +3,39 @@
 
 {% block body %}
     <div class="camera-list-mobile">
-        <div class="row">
-            <div class="col-sm"></div>
-            <div class="col-sm">
+        <div class="row filter-list">
 
-                <form method="get">
-                    Сортировать: &nbsp;
-                    {{ FilterCameraForm.filter_camera }}
-                    <button id="sorted-camera" type="submit" hidden>Сортировать</button>
-                </form>
+            <form method="get"
+                  hx-get="{% url 'filter_check' %}"
+                  hx-trigger="keyup change delay:1s"
+                  hx-target="#filter-check">
+                <div class="row">
 
-            </div>
-            <br><br>
-            <div class="col-sm"></div>
+                    <div class="col-sm">
+                        <br>
+                        Сортировать: &nbsp;
+                        {{ FilterCameraForm.filter_camera }}<br><br>
+                        <button id="sorted-camera" type="submit" hidden>Сортировать</button>
+                    </div>
+
+                    <div class="col-sm">
+                        <div class="row">
+                            <div class="price-form">Min цена {{ FilterCameraForm.min_price }}</div>
+                            <div class="price-form">Max цена {{ FilterCameraForm.max_price }}</div>
+                            <div class="col">
+                                <br><button class="btn">
+                                        <i class="fa-solid fa-arrows-rotate"></i>
+                                    </button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <br>
+            </form>
+
         </div>
-        <div class="row">
+        <div class="row" id="filter-check">
             {% for el in cams %}
                 <div class="col-sm card-cam">
                     <div class="card" style="width: 18rem;">
@@ -29,7 +47,7 @@
                         <div class="card-body">
                             <h5 class="card-title">{{ el.title|truncatechars_html:20 }}</h5>
                             <p class="card-text">{{ el.description|truncatechars_html:90 }}</p>
-                            <p>Цена: <strong>{{ el.price }}</strong> p. Продано: <strong>{{ el.count }}</strong> шт.</p>
+                            <p>Цена: <strong>{{ el.price }}</strong> p. Продано: <strong>{{ el.sold_count }}</strong> шт.</p>
                             <a href="{{ el.get_absolute_url }}" class="btn btn-primary">Смотреть товар</a>
 
                             <!-- Проверка есть ли данный товар в корзине -->
@@ -52,55 +70,55 @@
                     </div>
                 </div>
             {% endfor %}
-        </div><br>
-
-        <!--Пагинация-->
-        <nav aria-label="...">
-            <ul class="pagination">
-                {% if page_obj.has_previous %}
-                    <li class="page-item">
-                        <a class="page-link" href="?page=1&filter_camera={{ filter_camera }}">Первая</a>
-                    </li>
-                    <li class="page-item">
-                        <a class="page-link" href="?page={{ page_obj.previous_page_number }}&filter_camera={{ filter_camera }}">&laquo;&laquo;</a>
-                    </li>
-                {% else %}
-                    <li class="page-item disabled">
-                        <span class="page-link">&laquo;&laquo;</span>
-                    </li>
-                {% endif %}
-                {% if page_obj.has_other_pages %}
-                    {% for p in paginator.page_range %}
-                        {% if page_obj.number == p %}
-                            <li class="page-item active">
-                                <a class="page-link" href="?page={{ p }}&filter_camera={{ filter_camera }}">
-                                    {{ p }} <span class="sr-only">(current)</span>
-                                </a>
-                            </li>
-                        {% elif p >= page_obj.number|add:-2 and p <= page_obj.number|add:2 %}
-                            <li class="page-item"><a class="page-link" href="?page={{ p }}&filter_camera={{ filter_camera }}">{{ p }}</a></li>
-                        {% endif %}
-                    {% endfor %}
-                {% else %}
-                    <li class="page-item disabled">
-                        <span class="page-link">1</span>
-                    </li>
-                {% endif %}
-                {% if page_obj.has_next %}
-                    <li class="page-item">
-                        <a class="page-link" href="?page={{ page_obj.next_page_number }}&filter_camera={{ filter_camera }}">&raquo;&raquo;</a>
-                    </li>
-                    <li class="page-item">
-                        <a class="page-link" href="?page={{ paginator.num_pages }}&filter_camera={{ filter_camera }}">Последняя</a>
-                    </li>
-                {% else %}
-                    <li class="page-item disabled">
-                        <span class="page-link">&raquo;&raquo;</span>
-                    </li>
-                {% endif %}
-            </ul>
-        </nav>
-        <!--Конец пагинации-->
+            <br>
+            <!--Пагинация-->
+            <nav aria-label="...">
+                <ul class="pagination">
+                    {% if page_obj.has_previous %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page=1&filter_camera={{ filter_camera }}&min_price={{ min_price }}&max_price={{ max_price }}">Первая</a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ page_obj.previous_page_number }}&filter_camera={{ filter_camera }}&min_price={{ min_price }}&max_price={{ max_price }}">&laquo;&laquo;</a>
+                        </li>
+                    {% else %}
+                        <li class="page-item disabled">
+                            <span class="page-link">&laquo;&laquo;</span>
+                        </li>
+                    {% endif %}
+                    {% if page_obj.has_other_pages %}
+                        {% for p in paginator.page_range %}
+                            {% if page_obj.number == p %}
+                                <li class="page-item active">
+                                    <a class="page-link" href="?page={{ p }}&filter_camera={{ filter_camera }}&min_price={{ min_price }}&max_price={{ max_price }}">
+                                        {{ p }} <span class="sr-only">(current)</span>
+                                    </a>
+                                </li>
+                            {% elif p >= page_obj.number|add:-2 and p <= page_obj.number|add:2 %}
+                                <li class="page-item"><a class="page-link" href="?page={{ p }}&filter_camera={{ filter_camera }}&min_price={{ min_price }}&max_price={{ max_price }}">{{ p }}</a></li>
+                            {% endif %}
+                        {% endfor %}
+                    {% else %}
+                        <li class="page-item disabled">
+                            <span class="page-link">1</span>
+                        </li>
+                    {% endif %}
+                    {% if page_obj.has_next %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ page_obj.next_page_number }}&filter_camera={{ filter_camera }}&min_price={{ min_price }}&max_price={{ max_price }}">&raquo;&raquo;</a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ paginator.num_pages }}&filter_camera={{ filter_camera }}&min_price={{ min_price }}&max_price={{ max_price }}">Последняя</a>
+                        </li>
+                    {% else %}
+                        <li class="page-item disabled">
+                            <span class="page-link">&raquo;&raquo;</span>
+                        </li>
+                    {% endif %}
+                </ul>
+            </nav>
+            <!--Конец пагинации-->
+        </div>
     <br>
     </div>
 {% endblock %}

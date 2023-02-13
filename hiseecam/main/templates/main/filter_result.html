@@ -1,0 +1,83 @@
+{% load static %}
+
+{% for el in cams %}
+    <div class="col-sm card-cam">
+        <div class="card" style="width: 18rem;">
+            {% if el.photo %}
+                <a href="{{ el.get_absolute_url }}"><img class="card-img-top" src="{{ el.photo.url }}" alt="Card image cap"></a>
+            {% else %}
+                <a href="{{ el.get_absolute_url }}"><img class="card-img-top" src="{% static 'main/img/no_image.jpg' %}" alt="Card image cap"></a>
+            {% endif %}
+            <div class="card-body">
+                <h5 class="card-title">{{ el.title|truncatechars_html:20 }}</h5>
+                <p class="card-text">{{ el.description|truncatechars_html:90 }}</p>
+                <p>Цена: <strong>{{ el.price }}</strong> p. Продано: <strong>{{ el.sold_count }}</strong> шт.</p>
+                <a href="{{ el.get_absolute_url }}" class="btn btn-primary">Смотреть товар</a>
+
+                <!-- Проверка есть ли данный товар в корзине -->
+                {% if el not in products %}
+                    <form hx-post="{% url 'cart:cart_add_one_camera_list' el.id %}"
+                          hx-trigger="click"
+                          hx-swap="outerHTML"
+                          class="card-body-form">
+                        {% csrf_token %}
+                        {{ cart_one_product_form }}
+                        <button type="submit" class="btn" onclick="checkBasketQuantity()">
+                            <i class="fa-solid fa-basket-shopping"></i>
+                        </button>
+                    </form>
+                <!-- Если есть то выводится галочка -->
+                {% else %}
+                    <i class="fa-solid fa-check card-body-form"></i>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endfor %}
+<!--Пагинация-->
+<nav aria-label="...">
+    <ul class="pagination">
+        {% if page_obj.has_previous %}
+            <li class="page-item">
+                <a class="page-link" href="?page=1&filter_camera={{ filter_camera }}&min_price={{ min_price }}&max_price={{ max_price }}">Первая</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.previous_page_number }}&filter_camera={{ filter_camera }}&min_price={{ min_price }}&max_price={{ max_price }}">&laquo;&laquo;</a>
+            </li>
+        {% else %}
+            <li class="page-item disabled">
+                <span class="page-link">&laquo;&laquo;</span>
+            </li>
+        {% endif %}
+        {% if page_obj.has_other_pages %}
+            {% for p in paginator.page_range %}
+                {% if page_obj.number == p %}
+                    <li class="page-item active">
+                        <a class="page-link" href="?page={{ p }}&filter_camera={{ filter_camera }}&min_price={{ min_price }}&max_price={{ max_price }}">
+                            {{ p }} <span class="sr-only">(current)</span>
+                        </a>
+                    </li>
+                {% elif p >= page_obj.number|add:-2 and p <= page_obj.number|add:2 %}
+                    <li class="page-item"><a class="page-link" href="?page={{ p }}&filter_camera={{ filter_camera }}&min_price={{ min_price }}&max_price={{ max_price }}">{{ p }}</a></li>
+                {% endif %}
+            {% endfor %}
+        {% else %}
+            <li class="page-item disabled">
+                <span class="page-link">1</span>
+            </li>
+        {% endif %}
+        {% if page_obj.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.next_page_number }}&filter_camera={{ filter_camera }}&min_price={{ min_price }}&max_price={{ max_price }}">&raquo;&raquo;</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="?page={{ paginator.num_pages }}&filter_camera={{ filter_camera }}&min_price={{ min_price }}&max_price={{ max_price }}">Последняя</a>
+            </li>
+        {% else %}
+            <li class="page-item disabled">
+                <span class="page-link">&raquo;&raquo;</span>
+            </li>
+        {% endif %}
+    </ul>
+</nav>
+<!--Конец пагинации-->

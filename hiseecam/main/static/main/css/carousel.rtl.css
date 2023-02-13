@@ -176,6 +176,19 @@ body {
     color: red;
 }
 
+.filter-for-price {
+    width: 60px;
+}
+
+.filter-list {
+    width: 70%;
+    margin-left: 15%;
+}
+
+.price-form {
+    width: 30%;
+}
+
 /*-------------------------------------------------- */
 
 .btn-outline-success {

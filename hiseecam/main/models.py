@@ -38,6 +38,7 @@ class Cameras(models.Model):
     date_release = models.DateField(verbose_name='Дата выпуска')
     quantity = models.IntegerField(verbose_name='Количество', default=0, null=True)
     price = models.PositiveIntegerField(verbose_name='Цена')
+    sold_count = models.PositiveIntegerField(verbose_name='проданное количество', default=0)
 
     def __str__(self):
         return self.title

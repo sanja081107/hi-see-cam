@@ -50,20 +50,6 @@ class CameraDetailView(DetailView):
         return context
 
 
-# def sorted_camera(request):
-#     if request.method == 'POST':
-#         posts = Cameras.objects.all()
-#     paginator = Paginator(posts, 6)  # Показывает все записи на текущий месяца
-#     page_number = request.GET.get('page')
-#     page_obj = paginator.get_page(page_number)
-#
-#     context = {
-#         'page_obj': page_obj,
-#         'paginator': paginator,
-#     }
-#     return render(request, 'main/camera_list.html', context)
-
-
 class CameraListView(DataMixin, ListView):
     model = Cameras
     template_name = 'main/camera_list.html'
@@ -83,24 +69,68 @@ class CameraListView(DataMixin, ListView):
 
         context['FilterCameraForm'] = FilterCameraForm(self.request.GET)
         context['filter_camera'] = self.request.GET.get('filter_camera')
+        context['min_price'] = self.request.GET.get('min_price')
+        context['max_price'] = self.request.GET.get('max_price')
 
         return context
 
     def get_queryset(self):
-        a = self.request.GET.get('filter_camera')
-        if a:
-            if a == 'none':
-                return Cameras.objects.filter(quantity__gt=0)
-            elif a == 'price_up':
-                return Cameras.objects.filter(quantity__gt=0).order_by('price')
-            elif a == 'price_down':
-                return Cameras.objects.filter(quantity__gt=0).order_by('-price')
-            elif a == 'popular':
-                return Cameras.objects.filter(quantity__gt=0).order_by('-quantity')
+        filter_cams = self.request.GET.get('filter_camera')
+        min_price = self.request.GET.get('min_price')
+        max_price = self.request.GET.get('max_price')
+
+        if max_price == '0' or max_price == '' or max_price is None:
+            max_price = '9999999'
+        if min_price == '0' or min_price == '' or min_price is None:
+            min_price = '0'
+
+        if filter_cams:
+            if filter_cams == 'none':
+                return Cameras.objects.filter(quantity__gt=0, price__gt=min_price, price__lt=max_price)
+            elif filter_cams == 'price_up':
+                return Cameras.objects.filter(quantity__gt=0, price__gt=min_price, price__lt=max_price).order_by('price')
+            elif filter_cams == 'price_down':
+                return Cameras.objects.filter(quantity__gt=0, price__gt=min_price, price__lt=max_price).order_by('-price')
+            elif filter_cams == 'popular':
+                return Cameras.objects.filter(quantity__gt=0, price__gt=min_price, price__lt=max_price).order_by('-sold_count')
             else:
-                return Cameras.objects.filter(quantity__gt=0)
+                return Cameras.objects.filter(quantity__gt=0, price__gt=min_price, price__lt=max_price)
         else:
-            return Cameras.objects.filter(quantity__gt=0)
+            return Cameras.objects.filter(quantity__gt=0, price__gt=min_price, price__lt=max_price)
+
+
+def filter_check(request):
+    min_price = request.GET.get('min_price')
+    max_price = request.GET.get('max_price')
+
+    if max_price == '0' or max_price == '' or max_price is None:
+        max_price = '999999'
+    if min_price == '0' or min_price == '' or min_price is None:
+        min_price = '0'
+
+    cams = Cameras.objects.filter(quantity__gt=0, price__gt=min_price, price__lt=max_price)
+    if not cams:
+        return HttpResponse('Нет результатов. Измените фильтр')
+    else:
+        paginator = Paginator(cams, 6)
+        page_number = request.GET.get('page')
+        page_obj = paginator.get_page(page_number)
+
+        cart = Cart(request)
+        lst = []
+        for el in cart:
+            lst.append(el['product'])
+
+        context = {
+            'products': lst,
+            'cams': page_obj,
+            'cart_one_product_form': CartAddOneProductForm(),
+            'paginator': paginator,
+            'page_obj': page_obj,
+            'min_price': min_price,
+            'max_price': max_price
+            }
+        return render(request, 'main/filter_result.html', context)
 
 
 class OrderingView(DataMixin, CreateView):
@@ -140,8 +170,9 @@ class OrderingView(DataMixin, CreateView):
             cam = Cameras.objects.filter(id=el['product'].id, quantity__gt=0)
             if cam:
                 count = cam[0].quantity
-            if el['quantity'] <= count:
+            if (el['quantity'] <= count) and (count != 0):
                 cam[0].quantity -= el['quantity']
+                cam[0].sold_count += el['quantity']
                 cams.append(cam[0])
             else:
                 errors += 1
