@@ -177,7 +177,7 @@ body {
 }
 
 .filter-for-price {
-    width: 60px;
+    width: 70px;
 }
 
 .filter-list {
@@ -187,6 +187,7 @@ body {
 
 .price-form {
     width: 30%;
+    margin: 0 auto;
 }
 
 /*-------------------------------------------------- */

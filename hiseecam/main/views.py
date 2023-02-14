@@ -67,7 +67,14 @@ class CameraListView(DataMixin, ListView):
             lst.append(el['product'])
         context['products'] = lst
 
-        context['FilterCameraForm'] = FilterCameraForm(self.request.GET)
+        max_price = self.request.GET.get('max_price')
+        min_price = self.request.GET.get('min_price')
+
+        if max_price is None and min_price is None:
+            context['FilterCameraForm'] = FilterCameraForm()
+        else:
+            context['FilterCameraForm'] = FilterCameraForm(self.request.GET)
+
         context['filter_camera'] = self.request.GET.get('filter_camera')
         context['min_price'] = self.request.GET.get('min_price')
         context['max_price'] = self.request.GET.get('max_price')
@@ -79,10 +86,10 @@ class CameraListView(DataMixin, ListView):
         min_price = self.request.GET.get('min_price')
         max_price = self.request.GET.get('max_price')
 
-        if max_price == '0' or max_price == '' or max_price is None:
-            max_price = '9999999'
-        if min_price == '0' or min_price == '' or min_price is None:
-            min_price = '0'
+        if max_price == '0' or max_price == 'None' or max_price == '' or max_price is None:
+            max_price = 9999999
+        if min_price == '0' or min_price == 'None' or min_price == '' or min_price is None:
+            min_price = 0
 
         if filter_cams:
             if filter_cams == 'none':
@@ -100,15 +107,33 @@ class CameraListView(DataMixin, ListView):
 
 
 def filter_check(request):
+    filter_cams = request.GET.get('filter_camera')
     min_price = request.GET.get('min_price')
     max_price = request.GET.get('max_price')
 
-    if max_price == '0' or max_price == '' or max_price is None:
-        max_price = '999999'
-    if min_price == '0' or min_price == '' or min_price is None:
-        min_price = '0'
+    if max_price == '0' or max_price == 'None' or max_price == '' or max_price is None:
+        max_price_new = 9999999
+    else:
+        max_price_new = max_price
+    if min_price == '0' or min_price == 'None' or min_price == '' or min_price is None:
+        min_price_new = 0
+    else:
+        min_price_new = min_price
 
-    cams = Cameras.objects.filter(quantity__gt=0, price__gt=min_price, price__lt=max_price)
+    if filter_cams:
+        if filter_cams == 'none':
+            cams = Cameras.objects.filter(quantity__gt=0, price__gt=min_price_new, price__lt=max_price_new)
+        elif filter_cams == 'price_up':
+            cams = Cameras.objects.filter(quantity__gt=0, price__gt=min_price_new, price__lt=max_price_new).order_by('price')
+        elif filter_cams == 'price_down':
+            cams = Cameras.objects.filter(quantity__gt=0, price__gt=min_price_new, price__lt=max_price_new).order_by('-price')
+        elif filter_cams == 'popular':
+            cams = Cameras.objects.filter(quantity__gt=0, price__gt=min_price_new, price__lt=max_price_new).order_by('-sold_count')
+        else:
+            cams = Cameras.objects.filter(quantity__gt=0, price__gt=min_price_new, price__lt=max_price_new)
+    else:
+        cams = Cameras.objects.filter(quantity__gt=0, price__gt=min_price_new, price__lt=max_price_new)
+
     if not cams:
         return HttpResponse('Нет результатов. Измените фильтр')
     else:
@@ -128,7 +153,8 @@ def filter_check(request):
             'paginator': paginator,
             'page_obj': page_obj,
             'min_price': min_price,
-            'max_price': max_price
+            'max_price': max_price,
+            'filter_camera': filter_cams
             }
         return render(request, 'main/filter_result.html', context)
 
