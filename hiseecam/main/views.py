@@ -3,13 +3,15 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView, PasswordChangeView, PasswordChangeDoneView, PasswordResetView, \
     PasswordResetDoneView, PasswordResetConfirmView, PasswordResetCompleteView
 from django.core.paginator import Paginator
+from django.db.models import Max
 from django.http import HttpResponseNotFound, HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy
+from random import randint as rand
 
 from .utils import DataMixin
 from cart.forms import CartAddOneProductForm
-from django.views.generic import DetailView, ListView, CreateView, UpdateView, FormView
+from django.views.generic import DetailView, ListView, CreateView, UpdateView
 
 from .models import *
 from .forms import *
@@ -17,7 +19,21 @@ from cart.cart import Cart
 
 
 def home(request):
-    return render(request, 'main/index.html', context={'title': 'Главная страница'})
+    max_pk = Cameras.objects.all().aggregate(max_pk=Max("pk"))['max_pk']
+    n = []
+    while True:
+        x = rand(1, max_pk)
+        if x not in n:
+            n.append(x)
+        if len(n) == 3:
+            break
+    cams = Cameras.objects.filter(pk__in=n)
+    print(cams)
+    context = {
+        'title': 'Главная страница',
+        'cams': cams
+    }
+    return render(request, 'main/index.html', context)
 
 
 def pageNotFound(request, exception):
@@ -172,6 +188,15 @@ class OrderingView(DataMixin, CreateView):
         if self.request.user.is_authenticated:
             user = self.request.user
             context['form'] = OrderForm(initial={'address': user.address, 'username': user.first_name, 'phone': user.mobile, 'email': user.email})
+
+        cart = Cart(self.request)
+        s = ''
+        i = 0
+        for el in cart:
+            i += 1
+            s += f'{i}) ' + str(el['product']) + f" - {el['price']}p. " + str(el['quantity']) + 'шт. \n'
+        context['alert_cams'] = s
+        context['alert_price'] = cart.get_total_price()
         context = dict(list(context.items()) + list(c_def.items()))
         return context
 
@@ -180,6 +205,7 @@ class OrderingView(DataMixin, CreateView):
             form.instance.user = self.request.user
         else:
             form.instance.user = None
+
         cart = Cart(self.request)
         s = ''
         i = 0
@@ -187,7 +213,7 @@ class OrderingView(DataMixin, CreateView):
             i += 1
             s += f'{i}) ' + str(el['product']) + f" {el['price']} p. " + str(el['quantity']) + 'шт. \n'
         form.instance.quantity = s
-        form.instance.price = Cart(self.request).get_total_price()
+        form.instance.price = cart.get_total_price()
 
         errors = 0
         cams = []

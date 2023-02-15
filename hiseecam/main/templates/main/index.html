@@ -1,29 +1,41 @@
 {% extends 'main/base.html' %}
+{% load static %}
 
 {% block body %}
-
+<style>
+.round {
+    width: 140px;
+    height: 140px;
+    border-radius: 140px; /* Радиус скругления */
+    border: 3px solid grey; /* Параметры рамки */
+    box-shadow: 0 0 7px #666; /* Параметры тени */
+}
+</style>
 <!-- Three columns of text below the carousel -->
 <div class="row">
     <div class="col-lg-4">
-        <svg class="bd-placeholder-img rounded-circle" width="140" height="140" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 140x140" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#777"/><text x="50%" y="50%" fill="#777" dy=".3em">140x140</text></svg>
-
-        <h2 class="fw-normal">Cam 1</h2>
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Commodi doloremque facere iusto quidem, reprehenderit vero?</p>
-        <p><a class="btn btn-secondary" href="#">read</a></p>
+        {% for el in cams|slice:':1' %}
+            <img src="{{ el.photo.url }}" class="round">
+            <h2 class="fw-normal">{{ el.title|truncatechars_html:20 }}</h2>
+            <p>{{ el.description|truncatechars_html:90 }}...</p>
+            <p><a class="btn btn-secondary" href="{{ el.get_absolute_url }}">подробнее</a></p>
+        {% endfor %}
     </div><!-- /.col-lg-4 -->
     <div class="col-lg-4">
-        <svg class="bd-placeholder-img rounded-circle" width="140" height="140" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 140x140" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#777"/><text x="50%" y="50%" fill="#777" dy=".3em">140x140</text></svg>
-
-        <h2 class="fw-normal">Cam 2</h2>
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid dolore doloremque earum eligendi est exercitationem fuga minus odio sed, tempora.</p>
-        <p><a class="btn btn-secondary" href="#">read</a></p>
+        {% for el in cams|slice:'1:2' %}
+            <img src="{{ el.photo.url }}" class="round">
+            <h2 class="fw-normal">{{ el.title|truncatechars_html:20 }}</h2>
+            <p>{{ el.description|truncatechars_html:90 }}...</p>
+            <p><a class="btn btn-secondary" href="{{ el.get_absolute_url }}">подробнее</a></p>
+        {% endfor %}
     </div><!-- /.col-lg-4 -->
     <div class="col-lg-4">
-        <svg class="bd-placeholder-img rounded-circle" width="140" height="140" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 140x140" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#777"/><text x="50%" y="50%" fill="#777" dy=".3em">140x140</text></svg>
-
-        <h2 class="fw-normal">Cam 3</h2>
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Commodi earum fugit labore neque quae, quis sequi tenetur?</p>
-        <p><a class="btn btn-secondary" href="#">read</a></p>
+        {% for el in cams|slice:'2:3' %}
+            <img src="{{ el.photo.url }}" class="round">
+            <h2 class="fw-normal">{{ el.title|truncatechars_html:20 }}</h2>
+            <p>{{ el.description|truncatechars_html:90 }}...</p>
+            <p><a class="btn btn-secondary" href="{{ el.get_absolute_url }}">подробнее</a></p>
+        {% endfor %}
     </div><!-- /.col-lg-4 -->
 </div><!-- /.row -->
 
@@ -32,36 +44,37 @@
 
 <hr class="featurette-divider">
 
-<div class="row featurette">
-    <div class="col-md-7">
-        <h2 class="featurette-heading fw-normal lh-1">Lorem ipsum dolor <span class="text-muted">Lorem ipsum.</span></h2>
-        <p class="lead">Lorem ipsum dolor sit amet, consectetur adipisicing elit. A consequatur fuga incidunt ipsam iste, natus numquam pariatur placeat quam quia quibusdam recusandae sit velit? Alias facere nisi non praesentium sequi!</p>
-    </div>
-    <div class="col-md-5">
-        <svg class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="500" height="500" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 500x500" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#eee"/><text x="50%" y="50%" fill="#aaa" dy=".3em">500x500</text></svg>
-    </div>
-</div>
-
-<hr class="featurette-divider">
-
-<div class="row featurette">
-    <div class="col-md-7 order-md-2">
-        <h2 class="featurette-heading fw-normal lh-1">Lorem ipsum dolor <span class="text-muted">Lorem ipsum.</span></h2>
-        <p class="lead">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium aspernatur commodi deleniti dicta enim illum magnam nostrum ullam veritatis? Animi assumenda error ex ipsam laborum modi mollitia ratione repellat voluptatibus.</p>
-    </div>
-    <div class="col-md-5 order-md-1">
-        <svg class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="500" height="500" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 500x500" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#eee"/><text x="50%" y="50%" fill="#aaa" dy=".3em">500x500</text></svg>
-    </div>
-</div>
-
-<hr class="featurette-divider">
     <div class="row featurette">
         <div class="col-md-7">
-            <h2 class="featurette-heading fw-normal lh-1">Lorem ipsum dolor <span class="text-muted">Lorem ipsum.</span></h2>
-            <p class="lead">Lorem ipsum dolor sit amet, consectetur adipisicing elit. A accusamus aperiam aspernatur blanditiis corporis debitis doloribus ducimus eum eveniet fugiat impedit, libero molestiae natus quam quas quidem quos repellendus reprehenderit sequi ut, vitae, voluptas voluptates.</p>
+            <h2 class="featurette-heading fw-normal lh-1">Политика компании - <span class="text-muted">Hii-see</span></h2>
+            <p class="lead">Наша главная задача – поддержание репутации производителей мирового уровня, которые ценят экологию, безопасность и гармонию на рабочих местах, социальную ответственность всей компании</p>
         </div>
         <div class="col-md-5">
-            <svg class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="500" height="500" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 500x500" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#eee"/><text x="50%" y="50%" fill="#aaa" dy=".3em">500x500</text></svg>
+            <img src="{% static 'main/img/photos_for_main_page/foto1.jpg' %}" width="340" height="340">
+        </div>
+    </div>
+
+<hr class="featurette-divider">
+
+    <div class="row featurette">
+        <div class="col-md-7 order-md-2">
+            <h2 class="featurette-heading fw-normal lh-1">Ваш комфорт - <span class="text-muted">превыше всего</span></h2>
+            <p class="lead">Мы создаем гармоничную атмосферу для наших клиентов, защищаем их права и заботимся об их интересах.</p>
+        </div>
+        <div class="col-md-5 order-md-1">
+            <img src="{% static 'main/img/photos_for_main_page/foto2.jpg' %}" width="340" height="340">
+        </div>
+    </div>
+
+<hr class="featurette-divider">
+
+    <div class="row featurette">
+        <div class="col-md-7">
+            <h2 class="featurette-heading fw-normal lh-1">Ваша безопасность - <span class="text-muted">наша задача</span></h2>
+            <p class="lead">Мы заботимся о том, чтобы наши клиенты находились в безопасной, благоприятной для здоровья и комфортной обстановке для своей жизни.</p>
+        </div>
+        <div class="col-md-5">
+            <img src="{% static 'main/img/photos_for_main_page/foto3.jpg' %}" width="340" height="340">
         </div>
     </div>
 

@@ -21,6 +21,7 @@ class CamerasPhotosInline(admin.TabularInline):
 class CamerasAdmin(admin.ModelAdmin):
     list_per_page = 3
     list_display = ('title', 'quantity', 'get_html_photo', 'price')
+    search_fields = ('title',)
     list_editable = ('quantity', 'price')
     prepopulated_fields = {'slug': ('title',)}
     fields = ('title', 'slug', 'description', 'quantity', 'sold_count', 'photo', 'get_html_photo', 'date_release', 'date_published', 'date_edited', 'price')
