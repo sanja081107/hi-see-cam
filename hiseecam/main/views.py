@@ -11,7 +11,7 @@ from random import randint as rand
 
 from .utils import DataMixin
 from cart.forms import CartAddOneProductForm
-from django.views.generic import DetailView, ListView, CreateView, UpdateView
+from django.views.generic import DetailView, ListView, CreateView, UpdateView, TemplateView
 
 from .models import *
 from .forms import *
@@ -28,7 +28,6 @@ def home(request):
         if len(n) == 3:
             break
     cams = Cameras.objects.filter(pk__in=n)
-    print(cams)
     context = {
         'title': 'Главная страница',
         'cams': cams
@@ -73,7 +72,7 @@ class CameraListView(DataMixin, ListView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        c_def = self.get_user_context(title='Видеокамеры', block_title='Список видеокамер')
+        c_def = self.get_user_context(title='Видеокамеры', block_title='Каталог видеокамер')
         context = dict(list(context.items()) + list(c_def.items()))
         context['cart_one_product_form'] = CartAddOneProductForm()
         cart = Cart(self.request)
@@ -272,6 +271,36 @@ class FeedbackView(DataMixin, CreateView, ListView):
         return context
 
 
+class GalleryView(TemplateView):
+    template_name = 'main/gallery.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data()
+        context['title'] = 'Галерея'
+        context['block_title'] = 'Фото галерея'
+        return context
+
+
+class ContactsView(TemplateView):
+    template_name = 'main/contacts.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data()
+        context['title'] = 'Контакты'
+        context['block_title'] = 'Контакты'
+        return context
+
+
+class AboutView(TemplateView):
+    template_name = 'main/about.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data()
+        context['title'] = 'О нас'
+        context['block_title'] = 'О нашей компании'
+        return context
+
+
 # -----------------------------------htmx-------------------------------------
 
 
@@ -292,7 +321,9 @@ def check_form_username(request):
 def check_form_phone(request):
     if request.method == 'GET':
         p = request.GET.get('phone')
-    if p == '' or p is None:
+        print(p)
+    if p == '' or p == '%2B375%20(xx)%20xxx-xx-xx' or p is None:
+        print('yes')
         return HttpResponse("""<button type="submit" class="btn btn-primary">Купить товар(ы)</button>""")
 
 

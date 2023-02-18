@@ -4,7 +4,6 @@
 {% block body %}
     <div class="camera-list-mobile">
         <div class="row filter-list">
-
             <form method="get"
                   hx-get="{% url 'filter_check' %}"
                   hx-trigger="keyup change delay:1s"
@@ -29,8 +28,8 @@
                 </div>
                 <br>
             </form>
-
         </div>
+
         <div class="row" id="filter-check">
             {% for el in cams %}
                 <div class="col-sm card-cam">

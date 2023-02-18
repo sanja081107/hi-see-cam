@@ -1,0 +1,50 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block body %}
+
+<style>
+   .director-photo {
+        text-align: center;
+   }
+</style>
+
+<div class="row">
+    <div class="col-sm">
+
+        <div class="card">
+            <div class="card-header">
+                Генеральный директор
+            </div>
+            <div class="card-body">
+                <blockquote class="blockquote mb-0">
+                    <div class="row">
+                        <div class="col-sm director-photo">
+                            <img src="{% static 'main/img/gallery/director.jpg' %}" width="300" data-fancybox="director"><br><br>
+                        </div>
+                        <div class="col-sm">
+                            <p>
+                                Если допустили ошибку, предоставили
+                                некачественную услугу, пообещали, но не сделали или
+                                Ваш вопрос не смог решить отдел качества - я
+                                обязательно помогу Вам!
+                            </p>
+                            <footer class="blockquote-footer">Обращайтесь: <cite title="Source Title">alexander_misyuta@mail.ru</cite></footer>
+                        </div>
+                    </div>
+                </blockquote>
+            </div>
+        </div>
+        <br>
+
+        <div class="row">
+            <div class="col-sm"></div>
+            <div class="col-sm block_title"><h3>&nbsp;&nbsp;Фото работ</h3><br></div>
+            <div class="col-sm"></div>
+        </div>
+
+    </div>
+</div>
+
+
+{% endblock %}

@@ -34,6 +34,25 @@ class CamerasAdmin(admin.ModelAdmin):
     get_html_photo.short_description = 'Миниатюра'
 
 
+class GalleryPhotosInline(admin.TabularInline):
+    model = GalleryPhotos
+    fk_name = 'post'
+    fields = ('images', 'get_html_photo')
+    readonly_fields = ('get_html_photo',)
+
+    def get_html_photo(self, object):
+        if object.images:
+            return mark_safe(f"<img src='{object.images.url}' width=100>")
+    get_html_photo.short_description = 'Миниатюра'
+
+
+class GalleryAdmin(admin.ModelAdmin):
+    list_display = ('title', 'created')
+    fields = ('title', 'created')
+    readonly_fields = ('created',)
+    inlines = [GalleryPhotosInline, ]
+
+
 class OrderAdmin(admin.ModelAdmin):
     list_per_page = 50
     list_display = ('username', 'quantity', 'phone', 'created', 'price')
@@ -92,6 +111,7 @@ admin.site.register(Cameras, CamerasAdmin)
 admin.site.register(Order, OrderAdmin)
 admin.site.register(CustomUser, CustomUserAdmin)
 admin.site.register(Feedback, FeedbackAdmin)
+admin.site.register(Gallery, GalleryAdmin)
 
 
 admin.site.site_title = 'Видеонаблюдение'

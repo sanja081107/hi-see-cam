@@ -102,4 +102,26 @@ class FeedbackPhotos(models.Model):
 
     class Meta:
         verbose_name = 'Фото отзыва'
-        verbose_name_plural = 'Все фото отзыва'
+        verbose_name_plural = 'Все фото отзывов'
+
+
+class Gallery(models.Model):
+    title = models.CharField(max_length=255, verbose_name='Название галереи')
+    created = models.DateTimeField(auto_now_add=True, verbose_name='Дата публикации')
+
+    def __str__(self):
+        return self.title
+
+    class Meta:
+        verbose_name = 'Галереи'
+        verbose_name_plural = 'Галерея'
+        ordering = ['-created']
+
+
+class GalleryPhotos(models.Model):
+    images = models.ImageField(upload_to=upload_path_autor, blank=True, verbose_name='Фотографии')
+    post = models.ForeignKey(Gallery, related_name='gallery_images', on_delete=models.CASCADE)
+
+    class Meta:
+        verbose_name = 'Фото галереи'
+        verbose_name_plural = 'Все фото галерей'

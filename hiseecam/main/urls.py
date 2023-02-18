@@ -10,6 +10,9 @@ urlpatterns = [
     path('feedback/', FeedbackView.as_view(), name='feedback'),
     path('not_enough_product/', not_enough_product, name='not_enough_product'),
     path('filter_check/', filter_check, name='filter_check'),
+    path('gallery/', GalleryView.as_view(), name='gallery'),
+    path('contacts/', ContactsView.as_view(), name='contacts'),
+    path('about/', AboutView.as_view(), name='about'),
 
     path('user_detail/<slug:slug>/', UserDetail.as_view(), name='user_detail'),
     path('user_update/<slug:slug>/', UserUpdate.as_view(), name='user_update'),
