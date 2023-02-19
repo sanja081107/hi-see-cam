@@ -11,6 +11,10 @@ def upload_camera_photos(instance, filename):
     return 'photos/camera/{0}/{1}'.format(instance.post.slug, filename)
 
 
+def upload_gallery_photos(instance, filename):
+    return 'photos/gallery/{0}/{1}'.format(instance.post.title, filename)
+
+
 class CustomUser(AbstractUser):
     slug = models.SlugField(verbose_name='Ваш ID', max_length=50, unique=True, db_index=True, null=True)
     photo = models.ImageField(upload_to='photos/%Y/%m/%d/', verbose_name='Фото', null=True, blank=True)
@@ -107,10 +111,14 @@ class FeedbackPhotos(models.Model):
 
 class Gallery(models.Model):
     title = models.CharField(max_length=255, verbose_name='Название галереи')
+    slug = models.SlugField(max_length=255, unique=True, db_index=True, verbose_name='URL')
     created = models.DateTimeField(auto_now_add=True, verbose_name='Дата публикации')
 
     def __str__(self):
         return self.title
+
+    def get_absolute_url(self):
+        return reverse('gallery_detail', kwargs={'slug': self.slug})
 
     class Meta:
         verbose_name = 'Галереи'
@@ -119,7 +127,7 @@ class Gallery(models.Model):
 
 
 class GalleryPhotos(models.Model):
-    images = models.ImageField(upload_to=upload_path_autor, blank=True, verbose_name='Фотографии')
+    images = models.ImageField(upload_to=upload_gallery_photos, blank=True, verbose_name='Фотографии')
     post = models.ForeignKey(Gallery, related_name='gallery_images', on_delete=models.CASCADE)
 
     class Meta:

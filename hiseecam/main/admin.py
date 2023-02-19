@@ -48,7 +48,8 @@ class GalleryPhotosInline(admin.TabularInline):
 
 class GalleryAdmin(admin.ModelAdmin):
     list_display = ('title', 'created')
-    fields = ('title', 'created')
+    fields = ('title', 'slug', 'created')
+    prepopulated_fields = {'slug': ('title',)}
     readonly_fields = ('created',)
     inlines = [GalleryPhotosInline, ]
 

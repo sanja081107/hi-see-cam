@@ -30,6 +30,7 @@ def home(request):
     cams = Cameras.objects.filter(pk__in=n)
     context = {
         'title': 'Главная страница',
+        'block_title': 'Главная страница',
         'cams': cams
     }
     return render(request, 'main/index.html', context)
@@ -276,8 +277,24 @@ class GalleryView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data()
+        posts = Gallery.objects.all()
         context['title'] = 'Галерея'
         context['block_title'] = 'Фото галерея'
+        context['posts'] = posts
+        return context
+
+
+class GalleryDetailView(DetailView):
+    model = Gallery
+    slug_url_kwarg = 'slug'
+    context_object_name = 'post'
+    template_name = 'main/gallery_detail.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data()
+        el = Gallery.objects.get(slug=self.kwargs['slug'])
+        context['title'] = f"{el.title}"
+        context['block_title'] = f"Фото работ"
         return context
 
 

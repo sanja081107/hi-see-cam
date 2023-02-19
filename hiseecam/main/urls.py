@@ -11,6 +11,7 @@ urlpatterns = [
     path('not_enough_product/', not_enough_product, name='not_enough_product'),
     path('filter_check/', filter_check, name='filter_check'),
     path('gallery/', GalleryView.as_view(), name='gallery'),
+    path('gallery_detail/<slug:slug>/', GalleryDetailView.as_view(), name='gallery_detail'),
     path('contacts/', ContactsView.as_view(), name='contacts'),
     path('about/', AboutView.as_view(), name='about'),
 

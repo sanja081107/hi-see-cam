@@ -4,9 +4,26 @@
 {% block body %}
 
 <style>
-   .director-photo {
+    .director-photo {
         text-align: center;
-   }
+    }
+    .form-folder {
+        width: 300px;
+        height: 310px;
+        border-radius: 20px; /* Радиус скругления */
+        border: 2px solid grey; /* Параметры рамки */
+        box-shadow: 0 0 7px #666; /* Параметры тени */
+        margin: 10px 10px;
+        padding: 0 12px;
+        float: left;
+    }
+    .form-folder a {
+        text-decoration: none;
+        color: black;
+    }
+    .all-form-folder {
+        margin: 0 6%;
+    }
 </style>
 
 <div class="row">
@@ -14,7 +31,7 @@
 
         <div class="card">
             <div class="card-header">
-                Генеральный директор
+                Генеральный директор: Александр Мисюта
             </div>
             <div class="card-body">
                 <blockquote class="blockquote mb-0">
@@ -43,6 +60,32 @@
             <div class="col-sm"></div>
         </div>
 
+        <div class="all-form-folder">
+
+            {% if posts %}
+                {% for el in posts %}
+                    <div class="form-folder">
+                        &nbsp;&nbsp;
+                        <a class="link" href="{{ el.get_absolute_url }}">{{ el.title }}
+                            <div>
+                                <div class="row">
+                                    {% for e in el.gallery_images.all|slice:':2' %}
+                                        <div class="col"><img src="{{ e.images.url }}" width="120" height="120"></div>
+                                    {% endfor %}
+                                </div>
+                                <br>
+                                <div class="row">
+                                    {% for e in el.gallery_images.all|slice:'2:4' %}
+                                        <div class="col"><img src="{{ e.images.url }}" width="120" height="120"></div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                {% endfor %}
+            {% endif %}
+
+        </div>
     </div>
 </div>
 
