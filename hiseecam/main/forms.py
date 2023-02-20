@@ -108,6 +108,15 @@ class CustomUserChangeForm(UserChangeForm):
         model = CustomUser
         fields = ('username', 'slug', 'first_name', 'last_name', 'photo', 'email', 'mobile', 'photo', 'address')
 
+
+class CustomUserChangePhotoForm(ModelForm):
+    photo = forms.ImageField(label='Фото', required=False, widget=forms.ClearableFileInput(attrs={'class': 'form-control', 'type': 'file', 'accept': 'image/*'}))
+
+    class Meta:
+        model = CustomUser
+        fields = ('photo',)
+
+
 class LoginUserForm(AuthenticationForm):
     username = forms.CharField(label='Логин', widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Логин'}))
     password = forms.CharField(label='Пароль', widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Пароль'}))

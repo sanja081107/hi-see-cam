@@ -378,12 +378,19 @@ def search(request):
 # -----------------------------------user-------------------------------------
 
 
-class UserDetail(LoginRequiredMixin, DataMixin, DetailView):
+class UserDetail(LoginRequiredMixin, DataMixin, DetailView, UpdateView):
     model = CustomUser
     slug_url_kwarg = 'slug'
     context_object_name = 'el'
     template_name = 'main/user_detail.html'
+
+    form_class = CustomUserChangePhotoForm
+
     login_url = reverse_lazy('user_login')
+
+    def get_success_url(self):
+        user = CustomUser.objects.get(slug=self.kwargs['slug'])
+        return user.get_absolute_url()
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

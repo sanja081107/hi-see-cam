@@ -2,19 +2,33 @@
 
 {% block body %}
 
+<style>
+    .login-form {
+        padding: 10px;
+    }
+    .border-form {
+        padding: 10px;
+        border-radius: 12px; /* Радиус скругления */
+        border: 2px solid grey; /* Параметры рамки */
+        box-shadow: 0 0 5px #666; /* Параметры тени */
+    }
+</style>
+
 <div class="row">
     <div class="col-sm"></div>
-    <div class="col-sm">
-        <form method="post">
-            {% csrf_token %}
-            {% for el in form %}
-            <p><label for="{{el.id_for_label}}">{{ el.label }}:</label> {{ el }}</p>
-            <div class="form-error"> {{ el.errors }}</div>   <!-- Выдается ошибка по отдельному полю формы -->
-            {% endfor %}
-            <a href="{% url 'user_register' %}">Не зарегистрированы?</a><br>
-            <a href="{% url 'password_reset' %}">Забыли пароль?</a><br><br>
-            <button class="btn btn-success" type="submit">Войти</button>
-        </form><br>
+    <div class="col-sm login-form">
+        <div class="border-form">
+            <form method="post">
+                {% csrf_token %}
+                {% for el in form %}
+                <p><label for="{{el.id_for_label}}">{{ el.label }}:</label> {{ el }}</p>
+                <div class="form-error"> {{ el.errors }}</div>   <!-- Выдается ошибка по отдельному полю формы -->
+                {% endfor %}
+                <a href="{% url 'user_register' %}">Не зарегистрированы?</a><br>
+                <a href="{% url 'password_reset' %}">Забыли пароль?</a><br><br>
+                <button class="btn btn-success" type="submit">Войти</button>
+            </form><br>
+        </div>
         <br>
     </div>
     <div class="col-sm"></div>

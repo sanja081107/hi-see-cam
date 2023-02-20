@@ -3,64 +3,109 @@
 
 {% block body %}
 
-<div class="row">
-    <div class="col-sm"></div>
-    <div class="col-sm">
-        {% if el.photo %}
-            <img id="photo" src="{{ el.photo.url }}" width="70%">
-        {% else %}
-            <img src="{% static 'main/img/no-photo.png' %}" width="70%">
-        {% endif %}
+<style>
+    .user-detail {
+        padding: 20px;
+    }
+    .col-detail {
+        padding: 20px;
+    }
+    .col-detail p {
+        text-align: center;
+    }
+    #photo {
+        border-radius: 15px;
+    }
+    .btn-outline-primary {
+        width: 70%;
+    }
+    .change-photo {
+        display: none;
+    }
+</style>
+
+<div class="card">
+    <div class="card-header">
+        Имя пользователя: {{ el.username }}
     </div>
-    <div class="col-sm">
-        {% if el.first_name %}
-            <p><h4>Имя:</h4> {{ el.first_name }}</p>
-        {% else %}
-            <p><h4>Имя:</h4> Не заполнено</p>
-        {% endif %}
+    <div class="row user-detail">
+        <div class="col-sm col-detail border-bottom border-top border-left border-right">
+            {% if el.photo %}
+                <p><img id="photo" src="{{ el.photo.url }}" width="70%"></p>
+            {% else %}
+                <p><img src="{% static 'main/img/no-photo.png' %}" width="70%"></p>
+            {% endif %}
+            <form class="change-photo" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form.photo }}<br>
+                <button type="submit" class="btn btn-sm btn-success">Изменить</button>
+                <button type="button" class="btn btn-sm btn-danger" onclick="cancelChangePhoto()">Отменить</button>
+            </form>
+            <div id="change-photo-btn"><p><button onclick="changePhoto()" class="btn btn-sm btn-outline-secondary">Изменить фото</button></p></div>
+            <script>
+                function changePhoto() {
+                    var change_photo = document.querySelector('.change-photo');
+                    var change_photo_btn = document.querySelector('#change-photo-btn');
+                    change_photo.style.display = 'block';
+                    change_photo_btn.style.display = 'none';
+                };
+                function cancelChangePhoto() {
+                    var change_photo = document.querySelector('.change-photo');
+                    var change_photo_btn = document.querySelector('#change-photo-btn');
+                    change_photo.style.display = 'none';
+                    change_photo_btn.style.display = 'block';
+                };
+            </script>
+        </div>
+        <div class="col-sm col-detail border-bottom border-top border-left border-right">
+            {% if el.first_name %}
+                <p><h4>Имя:</h4> {{ el.first_name }}</p>
+            {% else %}
+                <p><h4>Имя:</h4> Не заполнено</p>
+            {% endif %}
 
 
-        {% if el.last_name %}
-            <p><h4>Фамилия:</h4> {{ el.last_name }}</p>
-        {% else %}
-            <p><h4>Фамилия:</h4> Не заполнено</p>
-        {% endif %}
+            {% if el.last_name %}
+                <p><h4>Фамилия:</h4> {{ el.last_name }}</p>
+            {% else %}
+                <p><h4>Фамилия:</h4> Не заполнено</p>
+            {% endif %}
 
 
-        {% if el.email %}
-            <p><h4>Почта:</h4> {{ el.email }}</p>
-        {% else %}
-            <p><h4>Почта:</h4> Не заполнено</p>
-        {% endif %}
+            {% if el.email %}
+                <p><h4>Почта:</h4> {{ el.email }}</p>
+            {% else %}
+                <p><h4>Почта:</h4> Не заполнено</p>
+            {% endif %}
 
 
-        {% if el.mobile %}
-            <p><h4>Телефон:</h4> {{ el.mobile }}</p>
-        {% else %}
-            <p><h4>Телефон:</h4> Не заполнено</p>
-        {% endif %}
+            {% if el.mobile %}
+                <p><h4>Телефон:</h4> {{ el.mobile }}</p>
+            {% else %}
+                <p><h4>Телефон:</h4> Не заполнено</p>
+            {% endif %}
 
 
-        {% if el.address %}
-            <p><h4>Адрес:</h4> {{ el.address }}</p>
-        {% else %}
-            <p><h4>Адрес:</h4> Не заполнено</p>
-        {% endif %}
+            {% if el.address %}
+                <p><h4>Адрес:</h4> {{ el.address }}</p>
+            {% else %}
+                <p><h4>Адрес:</h4> Не заполнено</p>
+            {% endif %}
+        </div>
+        <div class="col-sm col-detail border-bottom border-top border-left border-right">
+            {% if request.user == el %}
+            <p><a class="btn mb-2 btn-outline-primary" href="{% url 'user_update' el.slug %}">Изменить данные</a></p>
+            {% endif %}
 
+            {% if request.user == el %}
+            <p><a class="btn mb-2 btn-outline-primary" href="{% url 'change_password' %}">Изменить пароль</a></p>
+            {% endif %}
 
-        {% if request.user == el %}
-            <a class="btn mb-2 btn-outline-primary" href="{% url 'user_update' el.slug %}">Изменить данные</a><br>
-        {% endif %}
-
-        {% if request.user == el %}
-            <a class="btn mb-2 btn-outline-primary" href="{% url 'change_password' %}">Изменить пароль</a><br>
-        {% endif %}
-
-        {% if request.user == el %}
-            <a class="btn mb-2 btn-outline-primary" href="{% url 'user_logout' %}">Выйти из профиля</a><br><br><br>
-        {% endif %}
+            {% if request.user == el %}
+            <p><a class="btn mb-2 btn-outline-primary" href="{% url 'user_logout' %}">Выйти из профиля</a></p>
+            {% endif %}
+        </div>
     </div>
-    <div class="col-sm"></div>
 </div>
 
 {% endblock %}
