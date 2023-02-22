@@ -313,8 +313,8 @@ class AboutView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data()
-        context['title'] = 'О нас'
-        context['block_title'] = 'О нашей компании'
+        context['title'] = 'О компании'
+        context['block_title'] = 'О компании'
         return context
 
 

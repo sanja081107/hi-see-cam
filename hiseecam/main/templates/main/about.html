@@ -1,7 +1,72 @@
 {% extends 'main/base.html' %}
+{% load static %}
 
 {% block body %}
 
+<style>
+    .about {
+        text-align: center;
+    }
+    .about .about-content .col-sm {
+        margin: auto auto;
+    }
+</style>
 
+    <div class="about">
+        <h5>Hii-see - это компания, которая основана в 2017 году.</h5>
+        <h5>Благодаря нашей работе, сейчас 3000 клиентов наблюдают за своими объектами с телефона.</h5>
+        <h5>Являемся официальным дилером и ключевым партнером белорусского представителя Hikvision, делаем высокий годовой оборот по оборудованию Hikvision и HiWatch.</h5>
+        <br>
+        <h5>Мы партнеры/дилеры следующих брендов:</h5><br>
+
+        <div class="about-content">
+            <div class="row">
+                <div class="col-sm"><img src="{% static 'main/img/brands/hiwatch.jpg' %}" width="250"><br><br></div>
+                <div class="col-sm"><img src="{% static 'main/img/brands/Hikvision_logo.png' %}" width="250"><br><br></div>
+                <div class="col-sm"><img src="{% static 'main/img/brands/dahua-logo.jpeg' %}" width="250"><br><br></div>
+                <div class="col-sm"><img src="{% static 'main/img/brands/ezviz.png' %}" width="250"><br><br></div>
+            </div>
+            <div class="row">
+                <div class="col-sm"><img src="{% static 'main/img/brands/Miglior.jpg' %}" width="250"><br><br></div>
+                <div class="col-sm"><img src="{% static 'main/img/brands/western-digital.png' %}" width="250"><br><br></div>
+                <div class="col-sm"><img src="{% static 'main/img/brands/utepo_logo.jpg' %}" width="250"><br><br></div>
+                <div class="col-sm"><img src="{% static 'main/img/brands/ubntlogo.jpg' %}" width="250"><br><br></div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm" style="text-align: left">
+                <h5>Какие вопросы решили наши клиенты?</h5>
+                <h6>Охрана мат. ценностей, имущества.</h6>
+                <h6>Защита от воровства на складе, территории, баре или кассе.</h6>
+                <h6>Контроль строителей, сотрудников, няни.</h6>
+                <h6>Наблюдение за ходом работ и поддержка трудовой дисциплины.</h6>
+                <h6>Прослушивание обращения с клиентами.</h6>
+            </div>
+            <div class="col-sm" style="text-align: justify">
+                <h5>Что нужно знать о нас?</h5>
+                <h6>Мы сделаем то, что оговорили и выполним взятые обязательства*.
+                    Имеем сотни рекомендаций и отзывов во всех городах Беларуси, часть из них уже опубликована здесь: https://7video.by/otzyvy.
+                    Наши цены соответствуют рынку, вы не переплатите ни рубля.
+                    Доступы и пароли к системе видеонаблюдения имеете только Вы.
+                    Оборудование будет работать 5+ лет.
+                </h6>
+            </div>
+        </div>
+        <br><br>
+        <div class="row">
+            <div class="col-sm" style="text-align: left">
+                <h5>Какой продукт компании?</h5>
+                <h6>90% - продажа и установка видеонаблюдения.</h6>
+                <h6>10% - продажа и установка домофонии, GSM сигнализации, спутникового ТВ, интернета 4G за городом и прокладка локальных сетей.</h6>
+            </div>
+            <div class="col-sm" style="text-align: left">
+                <h5>Как работаем?</h5>
+                <h6>Продавцы (помощники клиента) общаются с клиентом и делают КП по результату разговора или замера.</h6>
+                <h6>Ежедневно менеджеры отправляют от 15 КП в день с индивидуально подобранным оборудованием Hikvision под объекты заказчиков.</h6>
+            </div>
+        </div>
+
+    </div>
 
 {% endblock %}
