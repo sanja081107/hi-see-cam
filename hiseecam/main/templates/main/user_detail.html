@@ -35,27 +35,29 @@
             {% else %}
                 <p><img src="{% static 'main/img/no-photo.png' %}" width="70%"></p>
             {% endif %}
-            <form class="change-photo" method="post" enctype="multipart/form-data">
-                {% csrf_token %}
-                {{ form.photo }}<br>
-                <button type="submit" class="btn btn-sm btn-success">Изменить</button>
-                <button type="button" class="btn btn-sm btn-danger" onclick="cancelChangePhoto()">Отменить</button>
-            </form>
-            <div id="change-photo-btn"><p><button onclick="changePhoto()" class="btn btn-sm btn-outline-secondary">Изменить фото</button></p></div>
-            <script>
-                function changePhoto() {
-                    var change_photo = document.querySelector('.change-photo');
-                    var change_photo_btn = document.querySelector('#change-photo-btn');
-                    change_photo.style.display = 'block';
-                    change_photo_btn.style.display = 'none';
-                };
-                function cancelChangePhoto() {
-                    var change_photo = document.querySelector('.change-photo');
-                    var change_photo_btn = document.querySelector('#change-photo-btn');
-                    change_photo.style.display = 'none';
-                    change_photo_btn.style.display = 'block';
-                };
-            </script>
+            {% if request.user == el %}
+                <form class="change-photo" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {{ form.photo }}<br>
+                    <button type="submit" class="btn btn-sm btn-success">Изменить</button>
+                    <button type="button" class="btn btn-sm btn-danger" onclick="cancelChangePhoto()">Отменить</button>
+                </form>
+                <div id="change-photo-btn"><p><button onclick="changePhoto()" class="btn btn-sm btn-outline-secondary">Изменить фото</button></p></div>
+                <script>
+                    function changePhoto() {
+                        var change_photo = document.querySelector('.change-photo');
+                        var change_photo_btn = document.querySelector('#change-photo-btn');
+                        change_photo.style.display = 'block';
+                        change_photo_btn.style.display = 'none';
+                    };
+                    function cancelChangePhoto() {
+                        var change_photo = document.querySelector('.change-photo');
+                        var change_photo_btn = document.querySelector('#change-photo-btn');
+                        change_photo.style.display = 'none';
+                        change_photo_btn.style.display = 'block';
+                    };
+                </script>
+            {% endif %}
         </div>
         <div class="col-sm col-detail border-bottom border-top border-left border-right">
             {% if el.first_name %}
@@ -94,19 +96,43 @@
         </div>
         <div class="col-sm col-detail border-bottom border-top border-left border-right">
             {% if request.user == el %}
-            <p><a class="btn mb-2 btn-outline-primary" href="{% url 'my_shopping' %}">Мои покупки</a></p>
+                <p><a class="btn mb-2 btn-outline-primary" href="{% url 'my_shopping' %}">Мои покупки</a></p>
             {% endif %}
 
             {% if request.user == el %}
-            <p><a class="btn mb-2 btn-outline-primary" href="{% url 'user_update' el.slug %}">Изменить данные</a></p>
+                <p><a class="btn mb-2 btn-outline-primary" href="{% url 'user_update' el.slug %}">Изменить данные</a></p>
             {% endif %}
 
             {% if request.user == el %}
-            <p><a class="btn mb-2 btn-outline-primary" href="{% url 'change_password' %}">Изменить пароль</a></p>
+                <p><a class="btn mb-2 btn-outline-primary" href="{% url 'change_password' %}">Изменить пароль</a></p>
             {% endif %}
 
             {% if request.user == el %}
-            <p><a class="btn mb-2 btn-outline-primary" href="{% url 'user_logout' %}">Выйти из профиля</a></p>
+                <p><a class="btn mb-2 btn-outline-primary" href="{% url 'user_logout' %}">Выйти из профиля</a></p>
+            {% endif %}
+
+            {% if request.user != el %}
+                <style>
+                    .outer:before {
+                      content: '';
+                      display: inline-block;
+                      height: 100%;
+                      vertical-align: middle;
+                    }
+
+                    .inner {
+                      display: inline-block;
+                      vertical-align: middle;
+                    }
+
+                    /* добавим горизонтальное центрирование */
+                    .outer {
+                      text-align: center;
+                    }
+                </style>
+                <div class="outer" style="height:100%; width: 100%;">
+                    <h5 class="inner">Чужой профиль</h5>
+                </div>
             {% endif %}
         </div>
     </div>
