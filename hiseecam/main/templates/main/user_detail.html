@@ -94,6 +94,10 @@
         </div>
         <div class="col-sm col-detail border-bottom border-top border-left border-right">
             {% if request.user == el %}
+            <p><a class="btn mb-2 btn-outline-primary" href="{% url 'my_shopping' %}">Мои покупки</a></p>
+            {% endif %}
+
+            {% if request.user == el %}
             <p><a class="btn mb-2 btn-outline-primary" href="{% url 'user_update' el.slug %}">Изменить данные</a></p>
             {% endif %}
 

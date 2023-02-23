@@ -102,6 +102,21 @@ class CustomUserChangeForm(UserChangeForm):
     email = forms.CharField(label='Электронная почта', widget=forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'Почта'}))
     mobile = forms.CharField(label='Мобильный телефон', widget=forms.TextInput(attrs={'class': 'form-control', 'type': 'tel', 'id': 'tel', 'maxlength': '18', 'placeholder': 'Телефон'}))
     address = forms.CharField(label='Адрес доставки', widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Адрес'}))
+
+    class Meta:
+        model = CustomUser
+        fields = ('username', 'slug', 'first_name', 'last_name', 'photo', 'email', 'mobile', 'photo', 'address')
+
+
+class CustomUserChangeFormWithoutPassword(UserChangeForm):
+    username = forms.CharField(label='Имя пользователя', widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Логин'}))
+    slug = forms.SlugField(label='Ваш ID', widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Ваш ID', 'readonly': False}))
+    first_name = forms.CharField(label='Имя', widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Имя'}))
+    last_name = forms.CharField(label='Фамилия', required=False, widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Фамилия'}))
+    photo = forms.ImageField(label='Фото', required=False, widget=forms.ClearableFileInput(attrs={'class': 'form-control', 'type': 'file', 'accept': 'image/*'}))
+    email = forms.CharField(label='Электронная почта', widget=forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'Почта'}))
+    mobile = forms.CharField(label='Мобильный телефон', widget=forms.TextInput(attrs={'class': 'form-control', 'type': 'tel', 'id': 'tel', 'maxlength': '18', 'placeholder': 'Телефон'}))
+    address = forms.CharField(label='Адрес доставки', widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Адрес'}))
     password = None
 
     class Meta:

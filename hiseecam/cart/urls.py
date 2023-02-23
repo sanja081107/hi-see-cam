@@ -10,5 +10,5 @@ urlpatterns = [
     path('check_add_in_basket/<int:product_id>/', views.check_add_in_basket, name='check_add_in_basket'),
     path('remove/<int:product_id>/', views.cart_remove, name='cart_remove'),
     path('clear/', views.clear, name='clear'),
-    path('print_cart/', views.print_cart, name='print_cart'),
+    # path('print_cart/', views.print_cart, name='print_cart'),
 ]

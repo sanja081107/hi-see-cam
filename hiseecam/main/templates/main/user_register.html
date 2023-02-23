@@ -2,35 +2,49 @@
 
 {% block body %}
 
-<div class="row">
-    <div class="col-sm"></div>
-    <div class="col-sm">
-        <form method="post" enctype="multipart/form-data">
-            {% csrf_token %}
-            {% for el in form %}
-                <p><label for="{{el.id_for_label}}">{{ el.label }}:</label> {{ el }}</p>
-                <div class="form-error"> {{ el.errors }}</div>   <!-- Выдается ошибка по отдельному полю формы -->
-            {% endfor %}<br>
-            <button class="btn btn-success" type="submit">Подтвердить</button>
-        </form><br><br>
+    {% if not error %}
 
-        <script type="text/javascript">
-                $("#tel").mask("+375 (99) 999-99-99",{placeholder:"x"});
-        </script>
+        <div class="row">
+            <div class="col-sm"></div>
+            <div class="col-sm">
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {% for el in form %}
+                        <p><label for="{{el.id_for_label}}">{{ el.label }}:</label> {{ el }}</p>
+                        <div class="form-error"> {{ el.errors }}</div>   <!-- Выдается ошибка по отдельному полю формы -->
+                    {% endfor %}<br>
+                    <button class="btn btn-success" type="submit">Подтвердить</button>
+                </form><br><br>
 
-        <!-- подключение скриптов для автозаполнения поля slug -->
-        <script id="django-admin-form-add-constants"
-            src="/static/admin/js/change_form.js"
-                data-model-name="customuser"
-            async>
-        </script>
-        <script id="django-admin-prepopulated-fields-constants"
-                src="/static/admin/js/prepopulate_init.js"
-                data-prepopulated-fields="[{&quot;id&quot;: &quot;#id_slug&quot;, &quot;username&quot;: &quot;slug&quot;, &quot;dependency_ids&quot;: [&quot;#id_username&quot;], &quot;dependency_list&quot;: [&quot;username&quot;], &quot;maxLength&quot;: 50, &quot;allowUnicode&quot;: false}]">
-        </script>
+                <script type="text/javascript">
+                        $("#tel").mask("+375 (99) 999-99-99",{placeholder:"x"});
+                </script>
 
-    </div>
-    <div class="col-sm"></div>
-</div>
+                <!-- подключение скриптов для автозаполнения поля slug -->
+                <script id="django-admin-form-add-constants"
+                    src="/static/admin/js/change_form.js"
+                        data-model-name="customuser"
+                    async>
+                </script>
+                <script id="django-admin-prepopulated-fields-constants"
+                        src="/static/admin/js/prepopulate_init.js"
+                        data-prepopulated-fields="[{&quot;id&quot;: &quot;#id_slug&quot;, &quot;username&quot;: &quot;slug&quot;, &quot;dependency_ids&quot;: [&quot;#id_username&quot;], &quot;dependency_list&quot;: [&quot;username&quot;], &quot;maxLength&quot;: 50, &quot;allowUnicode&quot;: false}]">
+                </script>
+
+            </div>
+            <div class="col-sm"></div>
+        </div>
+
+    {% else %}
+        <style>
+            .error-center {
+                text-align: center;
+                color: red;
+            }
+        </style>
+        <div class="error-center">
+            <h5>{{ error }}</h5>
+        </div>
+    {% endif %}
 
 {% endblock %}

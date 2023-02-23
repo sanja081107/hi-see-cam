@@ -2,6 +2,7 @@ from django.contrib.auth import login, logout
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView, PasswordChangeView, PasswordChangeDoneView, PasswordResetView, \
     PasswordResetDoneView, PasswordResetConfirmView, PasswordResetCompleteView
+from django.core.mail import send_mail
 from django.core.paginator import Paginator
 from django.db.models import Max
 from django.http import HttpResponseNotFound, HttpResponse
@@ -212,8 +213,9 @@ class OrderingView(DataMixin, CreateView):
         for el in cart:
             i += 1
             s += f'{i}) ' + str(el['product']) + f" {el['price']} p. " + str(el['quantity']) + 'шт. \n'
+        price = cart.get_total_price()
         form.instance.quantity = s
-        form.instance.price = cart.get_total_price()
+        form.instance.price = price
 
         errors = 0
         cams = []
@@ -232,6 +234,13 @@ class OrderingView(DataMixin, CreateView):
             for el in cams:
                 el.save()
             cart.clear()
+
+            subject = 'Оформление заказа'
+            message = s + f'Закакз на общую сумму: {price}р. выполнен!'
+            mail = self.request.POST['email']
+            send_mail(subject, message, 'sanja081107@gmail.com', [mail])
+            send_mail(subject, 'Поступил новый заказ', 'sanja081107@gmail.com', ['alexander_misyuta@mail.ru'])
+
             return super().form_valid(form)
         else:
             return redirect('not_enough_product')
@@ -295,6 +304,21 @@ class GalleryDetailView(DetailView):
         el = Gallery.objects.get(slug=self.kwargs['slug'])
         context['title'] = f"{el.title}"
         context['block_title'] = f"Фото работ"
+        return context
+
+
+class MyShoppingView(LoginRequiredMixin, ListView):
+    template_name = 'main/my_shopping.html'
+    context_object_name = 'posts'
+
+    def get_queryset(self):
+        posts = Order.objects.filter(user=self.request.user)
+        return posts
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data()
+        context['title'] = 'Мои покупки'
+        context['block_title'] = 'Мои покупки'
         return context
 
 
@@ -401,7 +425,7 @@ class UserDetail(LoginRequiredMixin, DataMixin, DetailView, UpdateView):
 
 class UserUpdate(LoginRequiredMixin, DataMixin, UpdateView):
     model = CustomUser
-    form_class = CustomUserChangeForm
+    form_class = CustomUserChangeFormWithoutPassword
     template_name = 'main/user_register.html'
     login_url = reverse_lazy('user_login')
 
@@ -409,7 +433,12 @@ class UserUpdate(LoginRequiredMixin, DataMixin, UpdateView):
         context = super().get_context_data(**kwargs)
         c_def = self.get_user_context(title='Изменение данных', block_title='Изменение данных')
         context = dict(list(context.items()) + list(c_def.items()))
-        return context
+
+        if self.request.user.slug == self.kwargs['slug']:
+            return context
+        else:
+            context['error'] = 'Ошибка доступа'
+            return context
 
     def get_success_url(self):
         user = CustomUser.objects.get(slug=self.kwargs['slug'])
@@ -461,7 +490,7 @@ class ChangePassword(DataMixin, PasswordChangeView):
         context = dict(list(context.items()) + list(c_def.items()))
         return context
 
-class PasswordChangeDone(PasswordChangeDoneView):
+class PasswordChangeDone(DataMixin, PasswordChangeDoneView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data()
         c_def = self.get_user_context(block_title='Пароль изменен успешно')

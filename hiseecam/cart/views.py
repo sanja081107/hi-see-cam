@@ -66,16 +66,16 @@ def clear(request):                                                     # фун
     return redirect('home')
 
 
-def print_cart(request):                                                # функция вывода на консоль всей корзины
-    cart = Cart(request)
-    for item in cart:
-        print(item)
-    print(cart.get_total_price())
-    return redirect('home')
-
-
 def cart_detail(request):                                               # функция вывода корзины
     cart = Cart(request)
     for item in cart:
         item['update_quantity_form'] = CartAddForm(initial={'quantity': item['quantity'], 'update': True})
     return render(request, 'cart/detail.html', {'cart': cart, 'title': 'Корзина', 'block_title': 'Корзина покупок'})
+
+
+# def print_cart(request):                                                # функция вывода на консоль всей корзины
+#     cart = Cart(request)
+#     for item in cart:
+#         print(item)
+#     print(cart.get_total_price())
+#     return redirect('home')

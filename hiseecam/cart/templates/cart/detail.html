@@ -81,10 +81,17 @@
             <div class="col">
               <p align="right"><br><a href="{% url 'ordering' %}" class="btn btn-primary btn-sm">Оформить заказ</a></p>
             </div>
-<!--            <a href="{% url 'cart:print_cart' %}">print_cart</a>-->
+
           </div>
     {% else %}
-      <h4>Корзина пустая</h4>
+        <style>
+            .error-center {
+                text-align: center;
+            }
+        </style>
+        <div class="error-center">
+            <h5>Корзина пустая</h5>
+        </div>
     {% endif %}
   </div>
 

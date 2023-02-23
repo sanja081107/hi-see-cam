@@ -24,11 +24,13 @@
                 <p><label for="{{el.id_for_label}}">{{ el.label }}:</label> {{ el }}</p>
                 <div class="form-error"> {{ el.errors }}</div>   <!-- Выдается ошибка по отдельному полю формы -->
                 {% endfor %}
-                <a href="{% url 'user_register' %}">Не зарегистрированы?</a><br>
-                <a href="{% url 'password_reset' %}">Забыли пароль?</a><br><br>
+                {{ form.non_field_errors }}
                 <button class="btn btn-success" type="submit">Войти</button>
             </form><br>
         </div>
+        <br>
+        &nbsp;&nbsp;&nbsp;&nbsp;<a href="{% url 'user_register' %}">Не зарегистрированы?</a><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;<a href="{% url 'password_reset' %}">Забыли пароль?</a><br><br>
         <br>
     </div>
     <div class="col-sm"></div>
